@@ -1,0 +1,36 @@
+/*noinspection CssUnknownTarget*/
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Nunito';
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+}
+
+
+button {
+    cursor: pointer;
+    user-select: none;
+
+    a {
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
+a {
+    text-decoration: none;
+}
+
+
+.truncatable {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
