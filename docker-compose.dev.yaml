@@ -1,0 +1,76 @@
+volumes:
+    redis:
+    postgres:
+
+services:
+    app:
+        build: ./backend
+        environment:
+            POSTGRESQL_USER: $POSTGRESQL_USER
+            POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
+            POSTGRESQL_DATABASE: $POSTGRESQL_DATABASE
+
+            REDIS_HOST: $REDIS_HOST
+            DOCKER_POSTGRESQL_HOST: $DOCKER_POSTGRESQL_HOST
+            DEFAULT_POSTGRESQL_HOST: $DEFAULT_POSTGRESQL_HOST
+
+            DEBUG: $DEBUG
+            PYTHONUNBUFFERED: 1
+            SQLALCHEMY_WARN_20: 1
+        deploy:
+            replicas: $APP_REPLICAS
+        depends_on:
+            - postgres
+            - redis
+
+    background_workers:
+        build:
+            context: ./backend
+            dockerfile: background_workers.dockerfile
+        environment:
+            POSTGRESQL_USER: $POSTGRESQL_USER
+            POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
+            POSTGRESQL_DATABASE: $POSTGRESQL_DATABASE
+
+            REDIS_HOST: $REDIS_HOST
+            DOCKER_POSTGRESQL_HOST: $DOCKER_POSTGRESQL_HOST
+            DEFAULT_POSTGRESQL_HOST: $DEFAULT_POSTGRESQL_HOST
+
+            DEBUG: $BACKGROUND_WORKERS_DEBUG
+            PYTHONUNBUFFERED: 1
+            SQLALCHEMY_WARN_20: 1
+        volumes:
+            - ~/db_backups:/var/lib/postgres_backups
+        depends_on:
+            - redis
+            - postgres
+
+    postgres:
+        image: postgres:14-alpine
+        ports:
+            - "127.0.0.1:5433:5432"
+        environment:
+            POSTGRES_DB: $POSTGRESQL_DATABASE
+            POSTGRES_PASSWORD: $POSTGRESQL_PASSWORD
+            PGDATA: /var/lib/postgresql/data  # to not lose data on image updates
+            # https://stackoverflow.com/a/62301253
+        volumes:
+            - postgres:/var/lib/postgresql/data
+
+    nginx:
+        image: nginx:1.21-alpine
+        ports:
+            - "80:80"
+        volumes:
+            - /var/log/nginx:/var/log/nginx
+            - ./docker_files/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+        depends_on:
+            - app
+
+    redis:
+        image: redis:7-alpine
+        command: --loglevel warning
+        ports:
+            - "127.0.0.1:6380:6379"
+        volumes:
+            - redis:/data
