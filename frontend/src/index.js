@@ -4,6 +4,7 @@ import {Provider} from 'react-redux';
 
 import App from './App';
 import {store} from './Store';
+import matchMedia from './MatchMedia';
 import './index.scss';
 
 
@@ -13,3 +14,6 @@ root.render(
         <App/>
     </Provider>
 );
+
+matchMedia();
+window.addEventListener('resize', matchMedia);
