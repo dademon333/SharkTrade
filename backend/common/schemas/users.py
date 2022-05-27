@@ -21,19 +21,17 @@ class UserUpdate(BaseModel):
     password: str | None = Field(None, min_length=8, max_length=30)
 
 
-class UserInfoBase(BaseModel):
+
+class UserInfo(BaseModel):
     id: int
     nickname: str
     email: str
     status: UserStatus
+    rubles_balance: int
 
     class Config:
         orm_mode = True
 
 
-class UserInfo(UserInfoBase):
-    pass
-
-
-class UserInfoExtended(UserInfoBase):
+class UserInfoExtended(UserInfo):
     created_at: datetime
