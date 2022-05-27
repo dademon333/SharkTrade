@@ -3,8 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from common.db import User
 from common.schemas.users import UserCreate, UserUpdate
+from common.security.users import hash_password
 from .base import CRUDBase
-from ..security.users import hash_password
 
 
 class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
@@ -13,6 +13,25 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
         user = await db.scalars(
             select(User)
             .where(User.email == func.lower(email))
+        )
+        return user.first()
+
+    @staticmethod
+    async def get_by_nickname(db: AsyncSession, nickname: str) -> User | None:
+        user = await db.scalars(
+            select(User)
+            .where(User.nickname == func.lower(nickname))
+        )
+        return user.first()
+
+    @staticmethod
+    async def get_by_nickname_or_email(db: AsyncSession, nickname: str) -> User | None:
+        user = await db.scalars(
+            select(User)
+            .where(
+                (User.nickname == func.lower(nickname))
+                | (User.email == func.lower(nickname))
+            )
         )
         return user.first()
 

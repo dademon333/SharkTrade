@@ -28,9 +28,9 @@ class User(Base):
     status = Column(
         Enum(UserStatus, name='user_status', values_callable=get_enum_values),
         nullable=False,
-        default=UserStatus.USER
+        server_default=UserStatus.USER
     )
-    rubles_balance = Column(Integer, nullable=False, default=0)
+    rubles_balance = Column(Integer, nullable=False, server_default='0')
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 
     __table_args__ = (

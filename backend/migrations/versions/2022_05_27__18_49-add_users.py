@@ -26,8 +26,8 @@ def upgrade():
         sa.Column('nickname', sa.String(), nullable=False),
         sa.Column('email', sa.String(), nullable=False),
         sa.Column('password', sa.String(), nullable=False),
-        sa.Column('status', sa.Enum('user', 'admin', name='user_status'), nullable=False),
-        sa.Column('rubles_balance', sa.Integer(), nullable=False),
+        sa.Column('status', sa.Enum('user', 'admin', name='user_status'), nullable=False, server_default='user'),
+        sa.Column('rubles_balance', sa.Integer(), nullable=False, server_default='0'),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
         sa.PrimaryKeyConstraint('id', name=op.f('pk_users'))
     )
