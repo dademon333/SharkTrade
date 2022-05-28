@@ -78,8 +78,7 @@ async def get_user_info(
         401: {'model': UnauthorizedResponse},
         403: {'model': AdminStatusRequiredResponse},
         409: {'model': NicknameAlreadyExistsResponse | EmailAlreadyExistsResponse}
-    },
-    dependencies=[Depends(UserStatusChecker(min_status=UserStatus.ADMIN))]
+    }
 )
 async def create_user(
         create_form: UserCreate,

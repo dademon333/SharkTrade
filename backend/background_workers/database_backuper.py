@@ -27,7 +27,7 @@ class DatabaseBackuper:
     @classmethod
     def create_backup(cls) -> None:
         today = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-        dump_location = Path(Config.BACKUPS_FOLDER, f'{Tokens.POSTGRESQL_DATABASE}_{today}.sql')
+        dump_location = Path(Config.BACKUPS_ROOT, f'{Tokens.POSTGRESQL_DATABASE}_{today}.sql')
         subprocess.call(
             f'pg_dump'
             f' {Tokens.DB_BACKUPER_POSTGRESQL_URL}'
@@ -39,11 +39,11 @@ class DatabaseBackuper:
     def remove_old_backups(cls) -> None:
         to_remove = cls._get_old_backups()
         for backup_name in to_remove:
-            os.remove(Path(Config.BACKUPS_FOLDER, backup_name))
+            os.remove(Path(Config.BACKUPS_ROOT, backup_name))
 
     @staticmethod
     def _get_old_backups() -> list[str]:
-        backups = os.listdir(Config.BACKUPS_FOLDER)
+        backups = os.listdir(Config.BACKUPS_ROOT)
         to_remove = []
 
         for file_name in backups:

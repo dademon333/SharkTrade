@@ -1,6 +1,7 @@
 volumes:
     redis:
     postgres:
+    media:
 
 services:
     app:
@@ -17,6 +18,8 @@ services:
             DEBUG: $DEBUG
             PYTHONUNBUFFERED: 1
             SQLALCHEMY_WARN_20: 1
+        volumes:
+            - media:/media
         deploy:
             replicas: $APP_REPLICAS
         depends_on:
@@ -64,6 +67,7 @@ services:
         volumes:
             - /var/log/nginx:/var/log/nginx
             - ./docker_files/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+            - media:/media
         depends_on:
             - app
 

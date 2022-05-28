@@ -2,7 +2,9 @@ FROM python:3.10-alpine
 
 WORKDIR /usr/src/app
 
-RUN apk add --no-cache build-base postgresql-client
+RUN apk add --no-cache \
+    build-base jpeg-dev zlib-dev \
+    postgresql-client
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
