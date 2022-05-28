@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from auth.handlers import auth_router
 from media.handlers import media_router
+from profile_photos.handlers import profile_photos_router
 from stuff_handlers.handlers import stuff_router
 from users.handlers import users_router
 
@@ -19,4 +20,10 @@ root_router.include_router(
     media_router,
     prefix='/api/media',
     tags=['Media']
+)
+
+root_router.include_router(
+    profile_photos_router,
+    prefix='/api/profile_photos',
+    tags=['Profile photos']
 )

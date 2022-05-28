@@ -3,7 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 from common.db import UserStatus
-
+from .profile_photos import ProfilePhotoInfo
 
 nickname_pattern = r'\A[a-zA-Z0-9]{4,30}\Z'
 email_pattern = r'\A[a-zA-Z0-9]+@[a-zA-Z0-9.]+\.[a-zA-Z0-9]+\Z'
@@ -21,13 +21,13 @@ class UserUpdate(BaseModel):
     password: str | None = Field(None, min_length=8, max_length=30)
 
 
-
 class UserInfo(BaseModel):
     id: int
     nickname: str
     email: str
     status: UserStatus
     rubles_balance: int
+    profile_photos: list[ProfilePhotoInfo]
 
     class Config:
         orm_mode = True

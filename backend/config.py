@@ -11,3 +11,5 @@ class Config:
 
     MEDIA_ROOT = '/media'
     BACKUPS_ROOT = '/var/lib/postgres_backups'
+
+    SERVER_URL = os.getenv('SERVER_URL')

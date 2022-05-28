@@ -11,3 +11,7 @@ class UnauthorizedResponse(BaseModel):
 
 class AdminStatusRequiredResponse(BaseModel):
     detail: str = 'This operation requires minimum admin status'
+
+
+class NotEnoughRightsResponse(BaseModel):
+    detail: str = 'Not enough rights'
