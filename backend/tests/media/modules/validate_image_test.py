@@ -39,7 +39,7 @@ def test_corrupted_jpg():
     assert result is False
 
 
-def test_py():
+def test_py_file():
     # Lmao let's try to feed it py file
     data = _read_file('hello_world.py')
     result = validate_image(data)
