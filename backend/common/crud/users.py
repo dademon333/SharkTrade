@@ -17,20 +17,20 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
         return user.first()
 
     @staticmethod
-    async def get_by_nickname(db: AsyncSession, nickname: str) -> User | None:
+    async def get_by_username(db: AsyncSession, username: str) -> User | None:
         user = await db.scalars(
             select(User)
-            .where(User.nickname == func.lower(nickname))
+            .where(User.username == func.lower(username))
         )
         return user.first()
 
     @staticmethod
-    async def get_by_nickname_or_email(db: AsyncSession, nickname: str) -> User | None:
+    async def get_by_username_or_email(db: AsyncSession, username: str) -> User | None:
         user = await db.scalars(
             select(User)
             .where(
-                (User.nickname == func.lower(nickname))
-                | (User.email == func.lower(nickname))
+                (User.username == func.lower(username))
+                | (User.email == func.lower(username))
             )
         )
         return user.first()

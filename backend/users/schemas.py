@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 
-class NicknameAlreadyExistsResponse(BaseModel):
-    detail: str = 'Nickname already exists'
+class UsernameAlreadyExistsResponse(BaseModel):
+    detail: str = 'Username already exists'
 
 
 class EmailAlreadyExistsResponse(BaseModel):

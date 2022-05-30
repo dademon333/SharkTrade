@@ -30,7 +30,7 @@ async def login(
     Срок жизни токена - 30 дней.
 
     """
-    user = await crud.users.get_by_nickname_or_email(db, form_data.username)
+    user = await crud.users.get_by_username_or_email(db, form_data.username)
     if user is None \
             or hash_password(user.id, form_data.password) != user.password:
         raise HTTPException(

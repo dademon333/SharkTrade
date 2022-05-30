@@ -11,7 +11,7 @@ from common.security.auth import get_user_id, check_auth, UserStatusChecker
 from common.db import get_db, UserStatus
 from common.schemas.users import UserCreate, UserUpdate, UserInfo, UserInfoExtended
 from common.sqlalchemy_exceptions import get_constraint_name
-from .schemas import UserNotFoundResponse, EmailAlreadyExistsResponse, NicknameAlreadyExistsResponse
+from .schemas import UserNotFoundResponse, EmailAlreadyExistsResponse, UsernameAlreadyExistsResponse
 
 users_router = APIRouter()
 
@@ -78,7 +78,7 @@ async def get_user_info(
     '',
     response_model=AccessTokenResponse,
     responses={
-        409: {'model': NicknameAlreadyExistsResponse | EmailAlreadyExistsResponse}
+        409: {'model': UsernameAlreadyExistsResponse | EmailAlreadyExistsResponse}
     }
 )
 async def create_user(
@@ -99,7 +99,7 @@ async def create_user(
         elif 'name' in constraint_name:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail=NicknameAlreadyExistsResponse().detail
+                detail=UsernameAlreadyExistsResponse().detail
             )
         else:
             raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')
@@ -113,7 +113,7 @@ async def create_user(
     response_model=OkResponse,
     responses={
         401: {'model': UnauthorizedResponse},
-        409: {'model': NicknameAlreadyExistsResponse | EmailAlreadyExistsResponse}
+        409: {'model': UsernameAlreadyExistsResponse | EmailAlreadyExistsResponse}
     },
     dependencies=[Depends(check_auth)]
 )
@@ -139,7 +139,7 @@ async def update_self(
         elif 'name' in constraint_name:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail=NicknameAlreadyExistsResponse().detail
+                detail=UsernameAlreadyExistsResponse().detail
             )
         else:
             raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')
@@ -187,7 +187,7 @@ async def update_user(
         elif 'name' in constraint_name:
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
-                detail=NicknameAlreadyExistsResponse().detail
+                detail=UsernameAlreadyExistsResponse().detail
             )
         else:
             raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')

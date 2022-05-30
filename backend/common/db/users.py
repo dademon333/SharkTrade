@@ -23,7 +23,7 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    nickname = Column(String, nullable=False)
+    username = Column(String, nullable=False)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
     status = Column(
@@ -38,5 +38,5 @@ class User(Base):
 
     __table_args__ = (
         Index('ix_users_email', text('LOWER(email)'), unique=True),
-        Index('ix_users_nickname', text('LOWER(nickname)'), unique=True)
+        Index('ix_users_username', text('LOWER(username)'), unique=True)
     )
