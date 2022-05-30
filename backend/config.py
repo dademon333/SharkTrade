@@ -13,3 +13,5 @@ class Config:
     BACKUPS_ROOT = '/var/lib/postgres_backups'
 
     SERVER_URL = os.getenv('SERVER_URL')
+
+    CORS_ALLOWED_ORIGINS_REGEX = r'https?://localhost:[0-9]{1,5}'

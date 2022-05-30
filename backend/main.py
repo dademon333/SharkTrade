@@ -5,21 +5,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.util import greenlet_spawn
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from config import Config
+from exceptions_handlers import cors_handler
 from middlewares.html_page import html_page_middleware
 from middlewares.response_validation import response_validation_middleware, parse_raw
 from middlewares.server_timing import ServerTimingMiddleware
 from root_router import root_router
 
-app = FastAPI()
+app = FastAPI(exception_handlers={500: cors_handler})
 app.include_router(root_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origin_regex=r'https?://localhost:[0-9]{1,5}',
-    allow_methods=['*'],
-    allow_headers=['*'],
-)
 
 app.add_middleware(
     BaseHTTPMiddleware,
@@ -44,3 +39,11 @@ app.add_middleware(ServerTimingMiddleware, calls_to_track={
     'redis_requests': (Redis.execute_command,),
     'total': (response_validation_middleware,)
 })
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origin_regex=Config.CORS_ALLOWED_ORIGINS_REGEX,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
