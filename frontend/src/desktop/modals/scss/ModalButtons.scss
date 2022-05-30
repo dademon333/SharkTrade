@@ -1,0 +1,33 @@
+.desktop .rs-modal-content {
+    .modal__buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+    }
+
+    .modal__button {
+        height: 40px;
+        width: 48.5%;
+        border-radius: 8px;
+        font-size: 15px;
+        line-height: 16px;
+        font-weight: 500;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal__success-button {
+        background-color: var(--primary-green);
+        border: none;
+        color: var(--dark-primary);
+    }
+
+    .modal__cancel-button {
+        background-color: transparent;
+        border: 2px solid var(--dark-quaternary);
+        color: var(--bright-secondary);
+    }
+}

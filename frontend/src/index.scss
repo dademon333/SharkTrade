@@ -1,8 +1,25 @@
-/*noinspection CssUnknownTarget*/
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 body {
-    font-family: 'Nunito';
+    --bright-primary: #F0F2F4;
+    --bright-secondary: #D3D8DF;
+    --bright-tertiary: #C7CBD1;
+    --bright-quaternary: #A1A4AA;
+
+    --dark-primary: #16181D;
+    --dark-secondary: #23262A;
+    --dark-tertiary: #2E3238;
+    --dark-quaternary: #394046;
+
+    --primary-blue: #34c3ff;
+    --primary-green: #33cb9a;
+    --primary-red: #EE2B4B;
+
+    --box-shadow-transition: 180ms;
+
+    font-family: 'Inter';
+    color: var(--bright-secondary);
+    background-color: var(--dark-primary);
 }
 
 * {
@@ -12,10 +29,18 @@ body {
     box-sizing: border-box;
 }
 
+html, body, #root, .template {
+    width: 100%;
+    height: 100%;
+}
+
 
 button {
     cursor: pointer;
     user-select: none;
+    outline: none;
+    border: 0;
+    font-family: 'Inter';
 
     a {
         width: 100%;
@@ -33,4 +58,15 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+
+// Override default browser autofill stiles by setting up transition time
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition:
+    background-color 600000s 0s,
+    color 600000s 0s,
+    box-shadow var(--box-shadow-transition) 0s
+    !important;
 }
