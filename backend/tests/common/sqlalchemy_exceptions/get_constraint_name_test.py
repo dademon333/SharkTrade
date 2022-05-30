@@ -5,7 +5,7 @@ from common.sqlalchemy_exceptions import get_constraint_name
 
 
 def test_simple_exception():
-    text = ' (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) ' \
+    text = '(sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) ' \
            '<class \'asyncpg.exceptions.UniqueViolationError\'>: ' \
            'duplicate key value violates unique constraint "ix_users_nickname"'
     exc = DBAPIError(None, None, text)

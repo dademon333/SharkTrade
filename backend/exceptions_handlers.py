@@ -5,7 +5,7 @@ from fastapi import Response
 from config import Config
 
 
-_COMPILLED_ORIGIN_REGEX = re.compile(Config.CORS_ALLOWED_ORIGINS_REGEX)
+_COMPILED_ORIGIN_REGEX = re.compile(Config.CORS_ALLOWED_ORIGINS_REGEX)
 
 
 async def cors_handler(request, exception):  # noqa
@@ -19,7 +19,7 @@ async def cors_handler(request, exception):  # noqa
     origin = request.headers.get('origin')
     if origin:
         response.headers["Access-Control-Allow-Credentials"] = 'true'
-        if _COMPILLED_ORIGIN_REGEX.fullmatch(origin):
+        if _COMPILED_ORIGIN_REGEX.fullmatch(origin):
             response.headers["Access-Control-Allow-Origin"] = origin
             response.headers.add_vary_header("Origin")
 

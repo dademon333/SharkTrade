@@ -1,8 +1,11 @@
 import sqlalchemy.exc
+from aioredis import Redis
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from auth.schemas import AccessTokenResponse
 from common import crud
+from common.redis import get_redis_cursor
 from common.responses import OkResponse, UnauthorizedResponse, AdminStatusRequiredResponse
 from common.security.auth import get_user_id, check_auth, UserStatusChecker
 from common.db import get_db, UserStatus
@@ -73,18 +76,17 @@ async def get_user_info(
 
 @users_router.post(
     '',
-    response_model=UserInfo,
+    response_model=AccessTokenResponse,
     responses={
-        401: {'model': UnauthorizedResponse},
-        403: {'model': AdminStatusRequiredResponse},
         409: {'model': NicknameAlreadyExistsResponse | EmailAlreadyExistsResponse}
     }
 )
 async def create_user(
         create_form: UserCreate,
-        db: AsyncSession = Depends(get_db)
+        db: AsyncSession = Depends(get_db),
+        redis_cursor: Redis = Depends(get_redis_cursor)
 ):
-    """Создает нового пользователя. Требует статус admin."""
+    """Создает нового пользователя."""
     try:
         user = await crud.users.create(db, create_form)
     except sqlalchemy.exc.IntegrityError as exc:
@@ -101,7 +103,9 @@ async def create_user(
             )
         else:
             raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')
-    return UserInfo.from_orm(user)
+
+    access_token = await crud.user_tokens.create(user.id, redis_cursor)
+    return {'access_token': access_token, 'token_type': 'bearer'}
 
 
 @users_router.put(

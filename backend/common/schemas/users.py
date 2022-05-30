@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 from common.db import UserStatus
 from .profile_photos import ProfilePhotoInfo
 
-nickname_pattern = r'\A[a-zA-Z0-9]{4,30}\Z'
+nickname_pattern = r'\A[a-zA-Z0-9_]{4,30}\Z'
 email_pattern = r'\A[a-zA-Z0-9]+@[a-zA-Z0-9.]+\.[a-zA-Z0-9]+\Z'
 
 

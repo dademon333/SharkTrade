@@ -5,6 +5,6 @@ class LoginErrorResponse(BaseModel):
     detail: str = 'Invalid email or password'
 
 
-class LoginResponse(BaseModel):
+class AccessTokenResponse(BaseModel):
     access_token: str
     token_type: str = 'bearer'

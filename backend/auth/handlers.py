@@ -9,14 +9,14 @@ from common.redis import get_redis_cursor
 from common.responses import OkResponse, UnauthorizedResponse
 from common.security.auth import check_auth, oauth2_scheme
 from common.security.users import hash_password
-from .schemas import LoginErrorResponse, LoginResponse
+from .schemas import LoginErrorResponse, AccessTokenResponse
 
 auth_router = APIRouter()
 
 
 @auth_router.post(
     '/login',
-    response_model=LoginResponse,
+    response_model=AccessTokenResponse,
     responses={403: {'model': LoginErrorResponse}}
 )
 async def login(
