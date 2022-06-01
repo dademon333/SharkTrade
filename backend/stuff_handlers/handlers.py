@@ -1,11 +1,14 @@
 import socket
 
+from aioredis import Redis
 from fastapi import APIRouter, Depends
 
+from common.current_online import get_current_online
 from common.db import UserStatus
+from common.redis import get_redis_cursor
 from common.responses import UnauthorizedResponse, AdminStatusRequiredResponse
 from common.security.auth import UserStatusChecker
-from .schemas import HostnameResponse
+from .schemas import HostnameResponse, CurrentOnlineResponse
 
 stuff_router = APIRouter()
 
@@ -27,3 +30,14 @@ async def get_hostname():
 
     """
     return HostnameResponse(hostname=socket.gethostname())
+
+
+@stuff_router.get(
+    '/current_online',
+    response_model=CurrentOnlineResponse
+)
+async def _get_current_online(
+        redis_cursor: Redis = Depends(get_redis_cursor),
+):
+    current_online = await get_current_online(redis_cursor)
+    return CurrentOnlineResponse(current_online=current_online)
