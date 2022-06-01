@@ -17,3 +17,5 @@ python-multipart==0.0.5
 uuid==1.30
 Pillow==9.0.1
 aiofiles==0.8.0
+aio-pika==7.1.2
+websockets==10.2

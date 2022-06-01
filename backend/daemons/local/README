@@ -1,0 +1,6 @@
+These are application's daemon workers.
+They work in every application container and their main job
+is communication with other containers.
+E.g. delivering websockets messages, online counting and similar.
+Entrypoint is backend_pre_start.py -> on_startup()
+and calling hook is FastAPI's on_startup in main.py.

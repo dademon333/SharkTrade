@@ -7,12 +7,14 @@ import Modals from '../../../constants/Modals';
 import LocalStorage from '../../../LocalStorage';
 import RestAPI from '../../../RestAPI';
 import {userDataChanged} from '../../../slices/User';
+import SystemFunctions from '../../../SystemFunctions';
 
 
 class AuthPanel extends Component {
     onLogOut = async () => {
         LocalStorage.removeAccessToken();
         await RestAPI.logout();
+        await SystemFunctions.connectBackend();
         this.props.userDataChanged(null);
         this.props.accessTokenChanged(undefined);
     }
@@ -52,11 +54,9 @@ class AuthPanel extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.user
-    }
-}
+const mapStateToProps = (state) => ({
+    user: state.user
+})
 
 const mapDispatchToProps = {
     modalChanged,

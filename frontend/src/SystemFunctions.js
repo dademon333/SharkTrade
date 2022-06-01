@@ -6,6 +6,7 @@ import {store} from './Store';
 import {accessTokenChanged} from './slices/Global';
 import {userDataChanged} from './slices/User';
 import LocalStorage from './LocalStorage';
+import WebSocketManager from './Websocket';
 
 
 class SystemFunctions {
@@ -16,6 +17,15 @@ class SystemFunctions {
         },
         store.dispatch
     );
+
+    static async connectBackend() {
+        const accessToken = LocalStorage.getAccessToken();
+        await WebSocketManager.init(accessToken);
+        if (accessToken == null) {
+            return undefined;
+        }
+        await this.fetchUser(accessToken);
+    }
 
     static async fetchUser(accessToken) {
         this._actions.accessTokenChanged(accessToken);

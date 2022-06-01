@@ -11,13 +11,13 @@ from common.redis import get_redis_cursor
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'/login')
 
 
-async def get_user_id(
+async def get_user_id_soft(
         redis_cursor: Redis = Depends(get_redis_cursor),
         access_token: str = Depends(oauth2_scheme)
 ) -> int | None:
     """Returns user id by 'Authorization' header.
 
-    If access_token passed, but invalid, returns response with 403 status.
+    If access_token passed, but invalid, raises 401 UNAUTHORIZED.
     """
     if access_token is None:
         return None
@@ -28,9 +28,18 @@ async def get_user_id(
     return user_id
 
 
+async def get_user_id(
+        user_id: int | None = Depends(get_user_id_soft),
+) -> int:
+    """Strict version of get_user_id. Raises 401, if user not authenticated."""
+    if user_id is None:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    return user_id
+
+
 async def get_user_status(
         db: AsyncSession = Depends(get_db),
-        user_id: int | None = Depends(get_user_id)
+        user_id: int | None = Depends(get_user_id_soft)
 ) -> UserStatus | None:
     if user_id is None:
         return None
@@ -49,12 +58,13 @@ def can_access(
     return user_status_weights[user_status] >= user_status_weights[min_status]
 
 
+# noinspection PyUnusedLocal
 async def check_auth(
-        user_id: int | None = Depends(get_user_id)
-):
-    """Ensured that user is authorized.
+        user_id: int = Depends(get_user_id)
+) -> None:
+    """Ensures that user is authenticated.
 
-    If not, returns 401 UNAUTHORIZED.
+    If not, raises 401 UNAUTHORIZED.
     Usage example:
     @router.get(
         '/test_endpoint',
@@ -64,8 +74,7 @@ async def check_auth(
         ...
 
     """
-    if user_id is None:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    pass
 
 
 class UserStatusChecker:

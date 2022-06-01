@@ -1,0 +1,3 @@
+These are global daemon workers.
+They cache data, collect metrics, create db backups and doing other similar work.
+Should exist in single copy and actually works in daemons container.

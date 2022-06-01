@@ -5,7 +5,7 @@ from common import crud
 from common.db import get_db
 from common.responses import OkResponse, UnauthorizedResponse, NotEnoughRightsResponse
 from common.schemas.profile_photos import ProfilePhotoCreate
-from common.security.auth import check_auth, get_user_id
+from common.security.auth import get_user_id
 from .schemas import MediaNotFoundResponse, PhotoNotFoundResponse
 
 profile_photos_router = APIRouter()
@@ -17,8 +17,7 @@ profile_photos_router = APIRouter()
     responses={
         401: {'model': UnauthorizedResponse},
         404: {'model': MediaNotFoundResponse}
-    },
-    dependencies=[Depends(check_auth)]
+    }
 )
 async def set_profile_photo(
         media_uuid: str = Body(..., embed=True),
@@ -57,8 +56,7 @@ async def set_profile_photo(
         401: {'model': UnauthorizedResponse},
         403: {'model': NotEnoughRightsResponse},
         404: {'model': PhotoNotFoundResponse}
-    },
-    dependencies=[Depends(check_auth)]
+    }
 )
 async def delete_profile_photo(
         photo_id: int,

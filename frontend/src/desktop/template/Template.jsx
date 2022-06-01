@@ -64,10 +64,8 @@ Template.propTypes = {
     navigation: PropTypes.bool
 }
 
-const mapStateToProps = (state) => {
-    return {
-        global: state.global
-    }
-}
+const mapStateToProps = (state) => ({
+    global: state.global
+})
 
 export default connect(mapStateToProps)(Template);

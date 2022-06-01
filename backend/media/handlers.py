@@ -5,7 +5,7 @@ from common import crud
 from common.db import get_db
 from common.responses import UnauthorizedResponse
 from common.schemas.media import MediaCreate
-from common.security.auth import get_user_id, check_auth
+from common.security.auth import get_user_id
 from .modules import validate_image
 from .schemas import NotAnImageResponse, MediaUUIDResponse
 
@@ -18,8 +18,7 @@ media_router = APIRouter()
     responses={
         400: {'model': NotAnImageResponse},
         401: {'model': UnauthorizedResponse}
-    },
-    dependencies=[Depends(check_auth)]
+    }
 )
 async def upload_image(
         db: AsyncSession = Depends(get_db),

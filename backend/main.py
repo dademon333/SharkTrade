@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.util import greenlet_spawn
 from starlette.middleware.base import BaseHTTPMiddleware
 
+from backend_pre_start import on_startup
 from config import Config
 from exceptions_handlers import cors_handler
 from middlewares.html_page import html_page_middleware
@@ -12,7 +13,10 @@ from middlewares.response_validation import response_validation_middleware, pars
 from middlewares.server_timing import ServerTimingMiddleware
 from root_router import root_router
 
-app = FastAPI(exception_handlers={500: cors_handler})
+app = FastAPI(
+    on_startup=[on_startup],
+    exception_handlers={500: cors_handler}
+)
 app.include_router(root_router)
 
 

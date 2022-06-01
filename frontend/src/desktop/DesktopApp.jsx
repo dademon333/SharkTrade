@@ -15,11 +15,8 @@ class DesktopApp extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
+const mapStateToProps = (state) => ({
+})
 
 const mapDispatchToProps = {
 

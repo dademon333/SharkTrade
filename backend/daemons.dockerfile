@@ -6,8 +6,8 @@ RUN apk add --no-cache build-base jpeg-dev zlib-dev
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+RUN apk add --no-cache postgresql-client
+
 COPY . .
 
-EXPOSE 8080
-ENTRYPOINT ["gunicorn", "main:app"]
-CMD ["-c", "gunicorn_config.py"]
+ENTRYPOINT ["python3", "-m", "daemons.global.run_workers"]

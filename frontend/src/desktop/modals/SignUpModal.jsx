@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import DefaultModal from './DefaultModal';
 import ModalErrorField from './components/ErrorField';
-import {modalChanged} from '../../slices/Global';
+import {modalChanged, screenSpinnerChanged} from '../../slices/Global';
 import ModalInput from './components/ModalInput';
 import RestAPI from '../../RestAPI';
 import SystemFunctions from '../../SystemFunctions';
@@ -42,13 +42,14 @@ class SignUpModal extends Component {
             return undefined;
         }
 
+        this.props.screenSpinnerChanged(true);
         const response = await RestAPI.signUp(email, username, password);
         if (!response.detail) {
             // noinspection JSUnresolvedVariable
             const accessToken = response.access_token;
-            await SystemFunctions.fetchUser(accessToken);
-            this.props.modalChanged(null);
             LocalStorage.setAccessToken(accessToken);
+            await SystemFunctions.connectBackend(accessToken);
+            this.props.modalChanged(null);
         } else {
             let errorDescription;
             if (RestAPIErrors.TRANSLATIONS[response.detail]) {
@@ -70,6 +71,7 @@ class SignUpModal extends Component {
             }
             errorField.textContent = RestAPIErrors.TRANSLATIONS[errorDescription];
         }
+        this.props.screenSpinnerChanged(false);
     }
 
     render = () => {
@@ -106,7 +108,8 @@ SignUpModal.propTypes = {
 }
 
 const mapDispatchToProps = {
-    modalChanged
+    modalChanged,
+    screenSpinnerChanged
 }
 
 export default connect(null, mapDispatchToProps)(SignUpModal);

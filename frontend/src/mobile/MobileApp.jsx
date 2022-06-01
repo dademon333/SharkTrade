@@ -11,11 +11,8 @@ class MobileApp extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-
-    }
-}
+const mapStateToProps = (state) => ({
+})
 
 const mapDispatchToProps = {
 

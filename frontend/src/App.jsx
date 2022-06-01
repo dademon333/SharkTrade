@@ -7,22 +7,13 @@ import {screenSpinnerChanged} from './slices/Global';
 
 import 'rsuite/dist/rsuite.min.css';
 import SystemFunctions from './SystemFunctions';
-import LocalStorage from './LocalStorage';
 
 
 class App extends Component {
     componentDidMount = async () => {
         this.props.screenSpinnerChanged(true);
-        await this.connectBackend();
+        await SystemFunctions.connectBackend();
         this.props.screenSpinnerChanged(false);
-    }
-
-    connectBackend = async () => {
-        const accessToken = LocalStorage.getAccessToken();
-        if (accessToken == null) {
-            return undefined;
-        }
-        await SystemFunctions.fetchUser(accessToken);
     }
 
     render = () => {
@@ -34,12 +25,10 @@ class App extends Component {
 }
 
 
-const mapStateToProps = (state) => {
-    return {
-        global: state.global,
-        user: state.user
-    }
-}
+const mapStateToProps = (state) => ({
+    global: state.global,
+    user: state.user
+})
 
 const mapDispatchToProps = {
     screenSpinnerChanged,

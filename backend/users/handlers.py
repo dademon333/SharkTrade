@@ -7,7 +7,7 @@ from auth.schemas import AccessTokenResponse
 from common import crud
 from common.redis import get_redis_cursor
 from common.responses import OkResponse, UnauthorizedResponse, AdminStatusRequiredResponse
-from common.security.auth import get_user_id, check_auth, UserStatusChecker
+from common.security.auth import get_user_id, UserStatusChecker
 from common.db import get_db, UserStatus
 from common.schemas.users import UserCreate, UserUpdate, UserInfo, UserInfoExtended
 from common.sqlalchemy_exceptions import get_constraint_name
@@ -38,8 +38,7 @@ async def list_users(
 @users_router.get(
     '/me',
     response_model=UserInfo,
-    responses={401: {'model': UnauthorizedResponse}},
-    dependencies=[Depends(check_auth)]
+    responses={401: {'model': UnauthorizedResponse}}
 )
 async def get_self_info(
         db: AsyncSession = Depends(get_db),
@@ -114,8 +113,7 @@ async def create_user(
     responses={
         401: {'model': UnauthorizedResponse},
         409: {'model': UsernameAlreadyExistsResponse | EmailAlreadyExistsResponse}
-    },
-    dependencies=[Depends(check_auth)]
+    }
 )
 async def update_self(
         update_form: UserUpdate,

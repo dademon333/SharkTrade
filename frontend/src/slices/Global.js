@@ -5,6 +5,7 @@ const globalSlice = createSlice({
     initialState: {
         accessToken: undefined,
         isMobile: false,
+        online: 0,
 
         screenSpinner: false,
         modal: null
@@ -15,6 +16,9 @@ const globalSlice = createSlice({
         },
         isMobileChanged(state, action) {
             state.isMobile = action.payload;
+        },
+        onlineChanged(state, action) {
+            state.online = action.payload;
         },
 
         screenSpinnerChanged(state, action) {
@@ -30,6 +34,8 @@ export default globalSlice.reducer;
 export const {
     accessTokenChanged,
     isMobileChanged,
+    onlineChanged,
+
     screenSpinnerChanged,
     modalChanged
 } = globalSlice.actions;
