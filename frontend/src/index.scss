@@ -49,7 +49,8 @@ button {
 
 }
 
-a {
+a, a:hover {
+    color: unset;
     text-decoration: none;
 }
 
@@ -58,6 +59,23 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+
+.link-button {
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    min-width: 87.5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--bright-primary);
+    border: 2px solid var(--primary-green);
+    border-radius: 8px;
+    font-weight: 500;
 }
 
 

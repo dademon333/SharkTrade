@@ -5,7 +5,7 @@ import {store} from './Store';
 import {onlineChanged} from './slices/Global';
 
 
-class Websocket {
+class WebsocketManager {
     static _socket;
     static _accessToken;
 
@@ -79,4 +79,4 @@ class Websocket {
     }
 }
 
-export default Websocket;
+export default WebsocketManager;

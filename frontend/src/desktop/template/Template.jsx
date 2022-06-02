@@ -42,7 +42,7 @@ class Template extends Component {
 
     render = () => {
         return (
-            <div className="template">
+            <div className={`template ${this.props.className}`}>
                 <Header />
                 <main>
                     {this.renderMain()}

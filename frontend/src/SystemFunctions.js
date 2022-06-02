@@ -3,10 +3,10 @@ import {bindActionCreators} from 'redux';
 import RestAPI from './RestAPI';
 import RestAPIErrors from './constants/RestAPIErrors';
 import {store} from './Store';
-import {accessTokenChanged} from './slices/Global';
+import {accessTokenChanged, onlineChanged} from './slices/Global';
 import {userDataChanged} from './slices/User';
 import LocalStorage from './LocalStorage';
-import WebSocketManager from './Websocket';
+import WebSocketManager from './WebsocketManager';
 
 
 class SystemFunctions {
@@ -14,6 +14,7 @@ class SystemFunctions {
         {
             accessTokenChanged,
             userDataChanged,
+            onlineChanged,
         },
         store.dispatch
     );
@@ -21,6 +22,13 @@ class SystemFunctions {
     static async connectBackend() {
         const accessToken = LocalStorage.getAccessToken();
         await WebSocketManager.init(accessToken);
+
+        const currentOnline = await RestAPI.getCurrentOnline();
+        // noinspection JSUnresolvedVariable
+        if (currentOnline.current_online) {
+            this._actions.onlineChanged(currentOnline.current_online);
+        }
+
         if (accessToken == null) {
             return undefined;
         }

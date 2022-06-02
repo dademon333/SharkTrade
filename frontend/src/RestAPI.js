@@ -79,6 +79,13 @@ class RestAPI {
     }
 
 
+    static async getCurrentOnline() {
+        return await this._makeRequest(
+            Config.SERVER_URL + '/current_online',
+            {method: 'GET'}
+        )
+    }
+
     static async getSelfInfo() {
         return await this._makeRequest(
             Config.SERVER_URL + '/api/users/me',
