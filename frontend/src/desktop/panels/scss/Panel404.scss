@@ -1,0 +1,13 @@
+.desktop .page-404 main {
+    .content-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        row-gap: 16px;
+    }
+
+    .caption {
+        line-height: 18px;
+    }
+}

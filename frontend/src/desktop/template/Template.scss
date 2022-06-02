@@ -1,0 +1,32 @@
+.desktop .template {
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    font-size: 18px;
+
+    header, main {
+        display: flex;
+        justify-content: center;
+    }
+
+    .content-container {
+        width: 100%;
+        max-width: 1152px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .content-container--split {
+        display: grid;
+        grid-template-columns: 165px 1fr;
+
+        width: 100%;
+        max-width: 1152px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    main {
+        padding-top: 16px;
+    }
+}

@@ -1,0 +1,29 @@
+.desktop .rs-modal-content {
+    padding: 16px;
+    background-color: var(--dark-secondary);
+
+    .rs-modal-title {
+        text-align: center;
+        font-size: 24px;
+        padding-left: 10px;
+        font-weight: 500;
+        color: var(--bright-primary);
+    }
+
+    .rs-icon {
+        color: var(--bright-quaternary);
+    }
+
+    .modal__body {
+        display: flex;
+        justify-content: center;
+        margin-top: 12px;
+    }
+
+    .modal__form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
