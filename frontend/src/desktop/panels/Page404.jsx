@@ -1,7 +1,8 @@
 import {Component} from 'react';
 
 import Template from '../template/Template';
-import persik from '../../icons/persik_woner.png';
+// import persik from '../../img/persik_wonder.png';
+import persik from '../../img/persik_resent.png';
 
 import './scss/Panel404.scss';
 import {Link} from 'react-router-dom';

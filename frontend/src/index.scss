@@ -49,11 +49,6 @@ button {
 
 }
 
-a, a:hover {
-    color: unset;
-    text-decoration: none;
-}
-
 
 .truncatable {
     overflow: hidden;
@@ -76,6 +71,13 @@ a, a:hover {
     border: 2px solid var(--primary-green);
     border-radius: 8px;
     font-weight: 500;
+}
+
+
+// override rsuite styles
+a, a:hover, a:focus, a:active {
+    color: unset;
+    text-decoration: none;
 }
 
 

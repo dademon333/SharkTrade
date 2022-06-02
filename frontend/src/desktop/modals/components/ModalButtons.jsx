@@ -15,7 +15,7 @@ class ModalButtons extends Component {
                     className='modal__button modal__cancel-button'
                     onClick={() => this.props.modalChanged(null)}
                 >
-                    Отмена
+                    Назад
                 </button>
                 <button
                     type='submit'
