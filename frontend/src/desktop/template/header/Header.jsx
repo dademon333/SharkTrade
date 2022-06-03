@@ -11,7 +11,9 @@ class Header extends Component {
         return (
             <header>
                 <div className="content-container--split">
-                    <Link to="/" className="logo"><Logo className="logo" /></Link>
+                    <Link to="/" className="logo">
+                        <Logo className="logo" />
+                    </Link>
                     <div className="header-content">
                         <AuthPanel />
                     </div>
