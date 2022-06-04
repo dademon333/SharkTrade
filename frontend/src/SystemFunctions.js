@@ -23,11 +23,11 @@ class SystemFunctions {
         const accessToken = LocalStorage.getAccessToken();
         await WebSocketManager.init(accessToken);
 
-        const currentOnline = await RestAPI.getCurrentOnline();
-        // noinspection JSUnresolvedVariable
-        if (currentOnline.current_online) {
-            this._actions.onlineChanged(currentOnline.current_online);
+        const {detail, current_online: currentOnline} = await RestAPI.getCurrentOnline();
+        if (detail === RestAPIErrors.CONNECTION_ERROR) {
+            return undefined;
         }
+        this._actions.onlineChanged(currentOnline);
 
         if (accessToken == null) {
             return undefined;

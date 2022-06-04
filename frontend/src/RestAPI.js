@@ -20,7 +20,9 @@ class RestAPI {
     }
 
     static async _makeRequest(url, args) {
+        args.signal = this._timeout(5000).signal;
         args.credentials = 'include'
+
         if(!args.headers) {
             args.headers = {}
         }
@@ -46,6 +48,11 @@ class RestAPI {
             .catch(() => ({detail: RestAPIErrors.CONNECTION_ERROR}))
     }
 
+    static _timeout (time) {
+        let controller = new AbortController();
+        setTimeout(() => controller.abort(), time);
+        return controller;
+    };
 
     static async login(username, password) {
         let formData = new FormData();

@@ -17,6 +17,7 @@ class LinkButton extends Component {
     }
 }
 
+
 LinkButton.propTypes = {
     to: PropTypes.string.isRequired
 }

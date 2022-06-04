@@ -1,10 +1,10 @@
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.db import User
-from common.schemas.users import UserCreate, UserUpdate
-from common.security.users import hash_password
 from .base import CRUDBase
+from ..db import User
+from ..schemas.users import UserCreate, UserUpdate
+from ..security.users import hash_password
 
 
 class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):

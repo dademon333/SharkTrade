@@ -24,7 +24,7 @@ def upgrade():
         sa.Column('uuid', postgresql.UUID(), nullable=False),
         sa.Column('owner_id', sa.Integer(), nullable=True),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
-        sa.ForeignKeyConstraint(['owner_id'], ['users.id'], name=op.f('fk_media_owner_id_users'), onupdate='CASCADE', ondelete='SET NULL'),
+        sa.ForeignKeyConstraint(('owner_id',), ['users.id'], name=op.f('fk_media_owner_id_users'), onupdate='CASCADE', ondelete='SET NULL'),
         sa.PrimaryKeyConstraint('id', name=op.f('pk_media')),
         sa.UniqueConstraint('uuid', name=op.f('uq_media_uuid'))
     )

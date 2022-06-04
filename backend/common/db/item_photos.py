@@ -1,17 +1,17 @@
-from sqlalchemy import Integer, Column, ForeignKey, DateTime, func
+from sqlalchemy import Column, Integer, DateTime, func, ForeignKey
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
-from ..db import Base
+from .base import Base
 
 
-class ProfilePhoto(Base):
-    __tablename__ = 'profile_photos'
+class ItemPhoto(Base):
+    __tablename__ = 'item_photos'
 
     id = Column(Integer, primary_key=True)
-    owner_id = Column(
+    item_id = Column(
         Integer,
-        ForeignKey('users.id', onupdate='CASCADE', ondelete='CASCADE'),
+        ForeignKey('items.id', onupdate='CASCADE', ondelete='CASCADE'),
         nullable=False,
         index=True
     )

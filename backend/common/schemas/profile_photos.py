@@ -3,8 +3,8 @@ from datetime import datetime
 from pydantic import BaseModel
 from pydantic.utils import GetterDict
 
-from common.db import ProfilePhoto
 from config import Config
+from ..db import ProfilePhoto
 
 
 class ProfilePhotoCreate(BaseModel):
@@ -26,7 +26,7 @@ class ProfilePhotoInfo(BaseModel):
         orm_mode = True
 
         @classmethod
-        def getter_dict(cls, profile_photo: {ProfilePhoto}):
+        def getter_dict(cls, profile_photo: ProfilePhoto):
             return {
                 **GetterDict(profile_photo),
                 'url': f'{Config.SERVER_URL}/media/{profile_photo.media_uuid}.png'

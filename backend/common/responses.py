@@ -15,3 +15,7 @@ class AdminStatusRequiredResponse(BaseModel):
 
 class NotEnoughRightsResponse(BaseModel):
     detail: str = 'Not enough rights'
+
+
+FOUND_NOT_ALLOWED_SYMBOLS = 'Found not allowed symbols: '
+WHITESPACE_ONLY_FORBIDDEN = 'Whitespace only forbidden'

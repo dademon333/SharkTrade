@@ -10,7 +10,7 @@ from common.responses import OkResponse, UnauthorizedResponse, AdminStatusRequir
 from common.security.auth import get_user_id, UserStatusChecker
 from common.db import get_db, UserStatus
 from common.schemas.users import UserCreate, UserUpdate, UserInfo, UserInfoExtended
-from common.sqlalchemy_exceptions import get_constraint_name
+from .modules import raise_if_user_not_exist, handle_user_constraint_conflict
 from .schemas import UserNotFoundResponse, EmailAlreadyExistsResponse, UsernameAlreadyExistsResponse
 
 users_router = APIRouter()
@@ -37,7 +37,7 @@ async def list_users(
 
 @users_router.get(
     '/me',
-    response_model=UserInfo,
+    response_model=UserInfoExtended,
     responses={401: {'model': UnauthorizedResponse}}
 )
 async def get_self_info(
@@ -46,18 +46,13 @@ async def get_self_info(
 ):
     """Возвращает информацию о текущем пользователе."""
     user = await crud.users.get_by_id(db, user_id)
-    return UserInfo.from_orm(user)
+    return UserInfoExtended.from_orm(user)
 
 
 @users_router.get(
     '/{user_id}',
     response_model=UserInfo,
-    responses={
-        401: {'model': UnauthorizedResponse},
-        403: {'model': AdminStatusRequiredResponse},
-        404: {'model': UserNotFoundResponse}
-    },
-    dependencies=[Depends(UserStatusChecker(min_status=UserStatus.ADMIN))]
+    responses={404: {'model': UserNotFoundResponse}}
 )
 async def get_user_info(
         user_id: int,
@@ -65,11 +60,7 @@ async def get_user_info(
 ):
     """Возвращает информацию о пользователе по его id. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=UserNotFoundResponse().detail
-        )
+    raise_if_user_not_exist(user)
     return UserInfo.from_orm(user)
 
 
@@ -89,19 +80,8 @@ async def create_user(
     try:
         user = await crud.users.create(db, create_form)
     except sqlalchemy.exc.IntegrityError as exc:
-        constraint_name = get_constraint_name(exc)
-        if 'email' in constraint_name:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=EmailAlreadyExistsResponse().detail
-            )
-        elif 'name' in constraint_name:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=UsernameAlreadyExistsResponse().detail
-            )
-        else:
-            raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')
+        handle_user_constraint_conflict(exc)
+        return
 
     access_token = await crud.user_tokens.create(user.id, redis_cursor)
     return {'access_token': access_token, 'token_type': 'bearer'}
@@ -120,27 +100,11 @@ async def update_self(
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
-    """Обновляет данные о текущем пользователе.
-
-    Все поля в теле запроса являются необязательными, передавать нужно только необходимые дня обновления.
-
-    """
+    """Обновляет данные о текущем пользователе."""
     try:
         await crud.users.update(db, user_id, update_form)
     except sqlalchemy.exc.IntegrityError as exc:
-        constraint_name = get_constraint_name(exc)
-        if 'email' in constraint_name:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=EmailAlreadyExistsResponse().detail
-            )
-        elif 'name' in constraint_name:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=UsernameAlreadyExistsResponse().detail
-            )
-        else:
-            raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')
+        handle_user_constraint_conflict(exc)
     return OkResponse()
 
 
@@ -160,12 +124,7 @@ async def update_user(
         update_form: UserUpdate,
         db: AsyncSession = Depends(get_db)
 ):
-    """Обновляет данные о пользователе.
-
-    Все поля в теле запроса являются необязательными, передавать нужно только необходимые дня обновления.
-    Требует статус admin.
-
-    """
+    """Обновляет данные о пользователе. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
     if user is None:
         raise HTTPException(
@@ -176,19 +135,7 @@ async def update_user(
     try:
         await crud.users.update(db, user_id, update_form)
     except sqlalchemy.exc.IntegrityError as exc:
-        constraint_name = get_constraint_name(exc)
-        if 'email' in constraint_name:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=EmailAlreadyExistsResponse().detail
-            )
-        elif 'name' in constraint_name:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail=UsernameAlreadyExistsResponse().detail
-            )
-        else:
-            raise NotImplementedError(f'Not implemented handling of {constraint_name} constraint conflict')
+        handle_user_constraint_conflict(exc)
     return OkResponse()
 
 
@@ -208,11 +155,6 @@ async def delete_user(
 ):
     """Удаляет пользователя. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=UserNotFoundResponse().detail
-        )
-
+    raise_if_user_not_exist(user)
     await crud.users.delete(db, user_id)
     return OkResponse()
