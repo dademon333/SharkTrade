@@ -10,7 +10,7 @@ from common.responses import UnauthorizedResponse, OkResponse, \
 from common.schemas.items import ItemInfo, ItemCreateForm, ItemCreate, \
     ItemUpdateForm, ItemInfoExtended
 from common.security.auth import get_user_id, get_user_status, get_user_id_soft
-from .modules import raise_if_item_not_exist, raise_if_no_access_to_edit_item
+from .modules import raise_if_item_not_exists, raise_if_no_access_to_edit_item
 from .schemas import ItemsListResponse, ItemNotFoundResponse
 
 items_router = APIRouter()
@@ -22,8 +22,8 @@ items_router = APIRouter()
     responses={401: {'model': UnauthorizedResponse}}
 )
 async def get_own_items(
-        limit: int = Query(25, le=1000),
-        offset: int = Query(0),
+        limit: int = Query(25, ge=1, le=1000),
+        offset: int = Query(0, ge=0),
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
@@ -31,7 +31,7 @@ async def get_own_items(
     items = await crud.items.get_by_owner_id(db, user_id, limit, offset)
     count = await crud.items.get_user_items_count(db, user_id)
     return ItemsListResponse(
-        total_amount=count,
+        total_count=count,
         items=[ItemInfoExtended.from_orm(x) for x in items]
     )
 
@@ -48,7 +48,7 @@ async def get_item(
 ):
     """Возвращает информацию о предмете по идентификатору."""
     item = await crud.items.get_by_id(db, item_id)
-    raise_if_item_not_exist(item)
+    raise_if_item_not_exists(item)
 
     if user_id != item.owner_id:
         return ItemInfo.from_orm(item)
@@ -92,7 +92,7 @@ async def update_item(
 ):
     """Обновляет информацию о предмете."""
     item = await crud.items.get_by_id(db, item_id)
-    raise_if_item_not_exist(item)
+    raise_if_item_not_exists(item)
     raise_if_no_access_to_edit_item(item, user_id, user_status)
     await crud.items.update(db, item_id, update_form)
     return OkResponse()
@@ -115,7 +115,7 @@ async def delete_item(
 ):
     """Удаляет предмет."""
     item = await crud.items.get_by_id(db, item_id)
-    raise_if_item_not_exist(item)
+    raise_if_item_not_exists(item)
     raise_if_no_access_to_edit_item(item, user_id, user_status)
     await crud.items.delete(db, item_id)
     return OkResponse()

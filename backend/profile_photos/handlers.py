@@ -7,7 +7,7 @@ from common.responses import OkResponse, UnauthorizedResponse, \
     NotEnoughRightsResponse
 from common.schemas.profile_photos import ProfilePhotoCreate, ProfilePhotoInfo, ProfilePhotoCreateForm
 from common.security.auth import get_user_id
-from media.modules import raise_if_media_not_exist, raise_if_photo_not_exist
+from media.modules import raise_if_media_not_exists, raise_if_photo_not_exists
 from media.schemas import MediaNotFoundResponse, PhotoNotFoundResponse
 from .modules import raise_if_no_access_to_edit_photo
 
@@ -32,7 +32,7 @@ async def set_profile_photo(
         media = await crud.media.get_by_uuid(db, create_form.media_uuid)
     except ValueError:
         media = None
-    raise_if_media_not_exist(media)
+    raise_if_media_not_exists(media)
 
     user = await crud.users.get_by_id(db, user_id)
     already_have_this_photo = [
@@ -66,7 +66,7 @@ async def delete_profile_photo(
 ):
     """Удаляет фотографию профиля по её идентификатору."""
     photo = await crud.profile_photos.get_by_id(db, photo_id)
-    raise_if_photo_not_exist(photo)
+    raise_if_photo_not_exists(photo)
     raise_if_no_access_to_edit_photo(photo, user_id)
     await crud.profile_photos.delete(db, photo.id)
     return OkResponse()

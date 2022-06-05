@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Boolean, DateTime, func
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 from .base import Base
 
@@ -24,7 +24,11 @@ class Lot(Base):
     created_at = Column(DateTime, nullable=False, server_default=func.now())
     end_time = Column(DateTime, nullable=False)
 
-    bids = relationship('Bid', lazy='joined', backref='lot')
+    bids = relationship(
+        'Bid',
+        lazy='joined',
+        backref=backref('lot', lazy='joined', uselist=False)
+    )
 
     @hybrid_property
     def win_bid(self):

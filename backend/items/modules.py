@@ -5,7 +5,7 @@ from common.responses import NotEnoughRightsResponse
 from .schemas import ItemNotFoundResponse, ItemIsLockedResponse
 
 
-def raise_if_item_not_exist(item: Item | None) -> None:
+def raise_if_item_not_exists(item: Item | None) -> None:
     if item is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

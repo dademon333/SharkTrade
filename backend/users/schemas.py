@@ -15,3 +15,7 @@ class UserNotFoundResponse(BaseModel):
 
 class NewBalanceResponse(BaseModel):
     new_balance: int
+
+
+class NotEnoughMoneyResponse(BaseModel):
+    detail: str = 'not enough money'

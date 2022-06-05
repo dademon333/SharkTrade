@@ -10,10 +10,10 @@ from common.schemas.lots import LotInfo, LotInfoExtended, LotCreateForm, \
     LotCreate, LotUpdate
 from common.security.auth import get_user_id, get_user_id_soft, \
     get_user_status
-from items.modules import raise_if_item_not_exist, \
+from items.modules import raise_if_item_not_exists, \
     raise_if_no_access_to_edit_item, raise_item_is_locked
 from items.schemas import ItemNotFoundResponse, ItemIsLockedResponse
-from .modules import raise_if_lot_not_exist, raise_if_no_access_to_edit_lot, raise_if_lot_is_canceled
+from .modules import raise_if_lot_not_exists, raise_if_no_access_to_edit_lot, raise_if_lot_is_canceled
 from .schemas import LotsListResponse, LotNotFoundResponse, LotIsCanceledResponse
 
 lots_router = APIRouter()
@@ -24,15 +24,15 @@ lots_router = APIRouter()
     response_model=LotsListResponse
 )
 async def get_active_lots(
-        limit: int = Query(25, le=1000),
-        offset: int = Query(0),
+        limit: int = Query(25, ge=1, le=1000),
+        offset: int = Query(0, ge=0),
         db: AsyncSession = Depends(get_db)
 ):
     """Возвращает активные лоты."""
     lots = await crud.lots.get_active(db, limit, offset)
     active_count = await crud.lots.get_active_count(db)
     return LotsListResponse(
-        total_amount=active_count,
+        total_count=active_count,
         lots=[LotInfo.from_orm(x) for x in lots]
     )
 
@@ -43,8 +43,8 @@ async def get_active_lots(
     responses={401: {'model': UnauthorizedResponse}}
 )
 async def get_own_lots(
-        limit: int = Query(25, le=1000),
-        offset: int = Query(0),
+        limit: int = Query(25, ge=1, le=1000),
+        offset: int = Query(0, ge=0),
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
@@ -52,7 +52,7 @@ async def get_own_lots(
     lots = await crud.lots.get_by_owner_id(db, user_id, limit, offset)
     active_count = await crud.lots.get_active_count(db)
     return LotsListResponse(
-        total_amount=active_count,
+        total_count=active_count,
         lots=[LotInfoExtended.from_orm(x) for x in lots]
     )
 
@@ -69,7 +69,7 @@ async def get_lot(
 ):
     """Возвращает информацию о лоте по идентификатору."""
     lot = await crud.lots.get_by_id(db, lot_id)
-    raise_if_lot_not_exist(lot)
+    raise_if_lot_not_exists(lot)
 
     if user_id != lot.owner_id:
         return LotInfo.from_orm(lot)
@@ -95,7 +95,7 @@ async def create_lot(
 ):
     """Создает лот."""
     item = await crud.items.get_by_id(db, create_form.item_id)
-    raise_if_item_not_exist(item)
+    raise_if_item_not_exists(item)
     raise_if_no_access_to_edit_item(item, user_id, user_status)
 
     try:
@@ -128,7 +128,7 @@ async def remove_lot(
 ):
     """Удаляет лот."""
     lot = await crud.lots.get_by_id(db, lot_id)
-    raise_if_lot_not_exist(lot)
+    raise_if_lot_not_exists(lot)
     raise_if_no_access_to_edit_lot(lot, user_id, user_status)
     raise_if_lot_is_canceled(lot)
 

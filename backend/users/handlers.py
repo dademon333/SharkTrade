@@ -12,7 +12,7 @@ from common.security.auth import get_user_id, UserStatusChecker
 from common.db import get_db, UserStatus
 from common.schemas.users import UserCreateForm, UserUpdateForm, UserInfo, \
     UserInfoExtended
-from .modules import raise_if_user_not_exist, handle_user_constraint_conflict
+from .modules import raise_if_user_not_exists, handle_user_constraint_conflict
 from .schemas import UserNotFoundResponse, EmailAlreadyExistsResponse, \
     UsernameAlreadyExistsResponse
 
@@ -29,8 +29,8 @@ users_router = APIRouter()
     dependencies=[Depends(UserStatusChecker(min_status=UserStatus.ADMIN))]
 )
 async def list_users(
-        limit: int = Query(250, le=1000),
-        offset: int = 0,
+        limit: int = Query(250, ge=1, le=1000),
+        offset: int = Query(0, ge=0),
         db: AsyncSession = Depends(get_db)
 ):
     """Возвращает информацию о всех пользователях. Требует статус admin."""
@@ -63,7 +63,7 @@ async def get_user_info(
 ):
     """Возвращает информацию о пользователе по его id. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
-    raise_if_user_not_exist(user)
+    raise_if_user_not_exists(user)
     return UserInfo.from_orm(user)
 
 
@@ -129,7 +129,7 @@ async def update_user(
 ):
     """Обновляет данные о пользователе. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
-    raise_if_user_not_exist(user)
+    raise_if_user_not_exists(user)
 
     try:
         await crud.users.update(db, user_id, update_form)
@@ -154,6 +154,6 @@ async def delete_user(
 ):
     """Удаляет пользователя. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
-    raise_if_user_not_exist(user)
+    raise_if_user_not_exists(user)
     await crud.users.delete(db, user_id)
     return OkResponse()

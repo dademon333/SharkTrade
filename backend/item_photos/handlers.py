@@ -8,9 +8,9 @@ from common.responses import UnauthorizedResponse, NotEnoughRightsResponse, \
     OkResponse
 from common.schemas.item_photos import ItemPhotoCreate, ItemPhotoInfo, ItemPhotoCreateForm
 from common.security.auth import get_user_id, get_user_status
-from items.modules import raise_if_item_not_exist, raise_if_no_access_to_edit_item
+from items.modules import raise_if_item_not_exists, raise_if_no_access_to_edit_item
 from items.schemas import ItemNotFoundResponse
-from media.modules import raise_if_media_not_exist, raise_if_photo_not_exist
+from media.modules import raise_if_media_not_exists, raise_if_photo_not_exists
 from media.schemas import MediaNotFoundResponse, PhotoNotFoundResponse
 from .schemas import ReachedItemPhotosLimitResponse
 
@@ -38,10 +38,10 @@ async def add_item_photo(
         media = await crud.media.get_by_uuid(db, add_form.media_uuid)
     except ValueError:
         media = None
-    raise_if_media_not_exist(media)
+    raise_if_media_not_exists(media)
 
     item = await crud.items.get_by_id(db, add_form.item_id)
-    raise_if_item_not_exist(item)
+    raise_if_item_not_exists(item)
     raise_if_no_access_to_edit_item(item, user_id, user_status)
 
     try:
@@ -75,7 +75,7 @@ async def delete_item_photo(
 ):
     """Удаляет фотографию предмета."""
     photo = await crud.item_photos.get_by_id(db, photo_id)
-    raise_if_photo_not_exist(photo)
+    raise_if_photo_not_exists(photo)
     raise_if_no_access_to_edit_item(photo.item, user_id, user_status)
     await crud.item_photos.delete(db, photo.id)
     return OkResponse()

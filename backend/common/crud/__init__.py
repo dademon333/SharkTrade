@@ -6,5 +6,6 @@ from .items import items
 from .item_photos import item_photos
 
 from .lots import lots
+from .bids import bids
 
 from .media import media

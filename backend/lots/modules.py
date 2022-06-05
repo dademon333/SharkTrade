@@ -5,7 +5,7 @@ from common.responses import NotEnoughRightsResponse
 from .schemas import LotNotFoundResponse, LotIsCanceledResponse
 
 
-def raise_if_lot_not_exist(lot: Lot):
+def raise_if_lot_not_exists(lot: Lot):
     if lot is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

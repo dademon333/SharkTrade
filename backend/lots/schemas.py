@@ -4,7 +4,7 @@ from common.schemas.lots import LotInfo, LotInfoExtended
 
 
 class LotsListResponse(BaseModel):
-    total_amount: int
+    total_count: int
     lots: list[LotInfo | LotInfoExtended]
 
 

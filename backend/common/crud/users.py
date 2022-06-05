@@ -70,5 +70,17 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
             .values(rubles_balance=User.rubles_balance + increment)
         )
 
+    @staticmethod
+    async def decrement_balance(
+            db: AsyncSession,
+            user_id: int,
+            decrement: int
+    ) -> None:
+        await db.execute(
+            update(User)
+            .where(User.id == user_id)
+            .values(rubles_balance=User.rubles_balance - decrement)
+        )
+
 
 users = CRUDUsers(User)
