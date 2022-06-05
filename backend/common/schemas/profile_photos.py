@@ -7,9 +7,17 @@ from config import Config
 from ..db import ProfilePhoto
 
 
+class ProfilePhotoCreateForm(BaseModel):
+    media_uuid: str
+
+
 class ProfilePhotoCreate(BaseModel):
     owner_id: int
     media_id: int
+
+
+class ProfilePhotoUpdateForm(BaseModel):
+    pass
 
 
 class ProfilePhotoUpdate(BaseModel):

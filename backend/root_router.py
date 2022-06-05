@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from auth.handlers import auth_router
 from item_photos.handlers import item_photos_router
 from items.handlers import items_router
+from lots.handlers import lots_router
 from media.handlers import media_router
 from profile_photos.handlers import profile_photos_router
 from stuff_handlers.handlers import stuff_router
@@ -38,6 +39,12 @@ root_router.include_router(
     item_photos_router,
     prefix='/api/item_photos',
     tags=['Item photos']
+)
+
+root_router.include_router(
+    lots_router,
+    prefix='/api/lots',
+    tags=['Lots']
 )
 
 

@@ -10,3 +10,7 @@ class ItemsListResponse(BaseModel):
 
 class ItemNotFoundResponse(BaseModel):
     detail: str = 'Item not found'
+
+
+class ItemIsLockedResponse(BaseModel):
+    detail: str = 'Item is locked'

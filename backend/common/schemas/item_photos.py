@@ -7,9 +7,18 @@ from config import Config
 from ..db import ItemPhoto
 
 
+class ItemPhotoCreateForm(BaseModel):
+    item_id: int
+    media_uuid: str
+
+
 class ItemPhotoCreate(BaseModel):
     item_id: int
     media_id: int
+
+
+class ItemPhotoUpdateForm(BaseModel):
+    pass
 
 
 class ItemPhotoUpdate(BaseModel):

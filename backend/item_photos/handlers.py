@@ -6,19 +6,19 @@ from common import crud
 from common.db import get_db, UserStatus
 from common.responses import UnauthorizedResponse, NotEnoughRightsResponse, \
     OkResponse
-from common.schemas.item_photos import ItemPhotoCreate, ItemPhotoInfo
+from common.schemas.item_photos import ItemPhotoCreate, ItemPhotoInfo, ItemPhotoCreateForm
 from common.security.auth import get_user_id, get_user_status
 from items.modules import raise_if_item_not_exist, raise_if_no_access_to_edit_item
 from items.schemas import ItemNotFoundResponse
 from media.modules import raise_if_media_not_exist, raise_if_photo_not_exist
 from media.schemas import MediaNotFoundResponse, PhotoNotFoundResponse
-from .schemas import ItemPhotoAddForm, ReachedItemPhotosLimitResponse
+from .schemas import ReachedItemPhotosLimitResponse
 
 item_photos_router = APIRouter()
 
 
 @item_photos_router.post(
-    '',
+    '/',
     response_model=ItemPhotoInfo,
     responses={
         401: {'model': UnauthorizedResponse},
@@ -28,7 +28,7 @@ item_photos_router = APIRouter()
     }
 )
 async def add_item_photo(
-        add_form: ItemPhotoAddForm,
+        add_form: ItemPhotoCreateForm,
         user_id: int = Depends(get_user_id),
         user_status: UserStatus = Depends(get_user_status),
         db: AsyncSession = Depends(get_db)

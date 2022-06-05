@@ -1,17 +1,20 @@
 import sqlalchemy.exc
 from aioredis import Redis
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from auth.schemas import AccessTokenResponse
 from common import crud
 from common.redis import get_redis_cursor
-from common.responses import OkResponse, UnauthorizedResponse, AdminStatusRequiredResponse
+from common.responses import OkResponse, UnauthorizedResponse, \
+    AdminStatusRequiredResponse
 from common.security.auth import get_user_id, UserStatusChecker
 from common.db import get_db, UserStatus
-from common.schemas.users import UserCreate, UserUpdate, UserInfo, UserInfoExtended
+from common.schemas.users import UserCreateForm, UserUpdateForm, UserInfo, \
+    UserInfoExtended
 from .modules import raise_if_user_not_exist, handle_user_constraint_conflict
-from .schemas import UserNotFoundResponse, EmailAlreadyExistsResponse, UsernameAlreadyExistsResponse
+from .schemas import UserNotFoundResponse, EmailAlreadyExistsResponse, \
+    UsernameAlreadyExistsResponse
 
 users_router = APIRouter()
 
@@ -65,14 +68,14 @@ async def get_user_info(
 
 
 @users_router.post(
-    '',
+    '/',
     response_model=AccessTokenResponse,
     responses={
         409: {'model': UsernameAlreadyExistsResponse | EmailAlreadyExistsResponse}
     }
 )
 async def create_user(
-        create_form: UserCreate,
+        create_form: UserCreateForm,
         db: AsyncSession = Depends(get_db),
         redis_cursor: Redis = Depends(get_redis_cursor)
 ):
@@ -96,7 +99,7 @@ async def create_user(
     }
 )
 async def update_self(
-        update_form: UserUpdate,
+        update_form: UserUpdateForm,
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
@@ -121,16 +124,12 @@ async def update_self(
 )
 async def update_user(
         user_id: int,
-        update_form: UserUpdate,
+        update_form: UserUpdateForm,
         db: AsyncSession = Depends(get_db)
 ):
     """Обновляет данные о пользователе. Требует статус admin."""
     user = await crud.users.get_by_id(db, user_id)
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=UserNotFoundResponse().detail
-        )
+    raise_if_user_not_exist(user)
 
     try:
         await crud.users.update(db, user_id, update_form)

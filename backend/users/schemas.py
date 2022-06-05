@@ -11,3 +11,7 @@ class EmailAlreadyExistsResponse(BaseModel):
 
 class UserNotFoundResponse(BaseModel):
     detail: str = 'User not found'
+
+
+class NewBalanceResponse(BaseModel):
+    new_balance: int

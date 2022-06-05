@@ -14,10 +14,14 @@ class CRUDItemPhotos(CRUDBase[ItemPhoto, ItemPhotoCreate, ItemPhotoUpdate]):
             db: AsyncSession,
             create_instance: ItemPhotoCreate
     ) -> ItemPhoto:
-        await set_transaction_isolation_level(db, IsolationLevel.READ_UNCOMMITTED)
+        await set_transaction_isolation_level(
+            db, IsolationLevel.READ_UNCOMMITTED
+        )
 
         item_photo = await super().create(db, create_instance)
-        photos_count = await self.get_item_photos_count(db, create_instance.item_id)
+        photos_count = await self.get_item_photos_count(
+            db, create_instance.item_id
+        )
         if photos_count > 10:
             raise sqlalchemy.exc.IntegrityError(None, None, None)
 

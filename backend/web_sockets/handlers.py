@@ -11,7 +11,7 @@ from web_sockets.manager import WebsocketsManager
 websockets_router = APIRouter()
 
 
-@websockets_router.websocket('')
+@websockets_router.websocket('/')
 async def connect_websocket(
         websocket: WebSocket,
         access_token: str | None = Query(None),

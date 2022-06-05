@@ -37,8 +37,12 @@ class ItemCreate(ItemBase):
     owner_id: int
 
 
-class ItemUpdate(ItemBase):
+class ItemUpdateForm(ItemBase):
     name: str | None = Field(None, min_length=3, max_length=40)
+
+
+class ItemUpdate(ItemUpdateForm):
+    is_locked: bool | None = None
 
 
 class ItemInfo(BaseModel):

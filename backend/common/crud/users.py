@@ -1,4 +1,4 @@
-from sqlalchemy import select, func
+from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .base import CRUDBase
@@ -56,6 +56,18 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
             db,
             result.id,
             UserUpdate(password=create_instance.password)
+        )
+
+    @staticmethod
+    async def increment_balance(
+            db: AsyncSession,
+            user_id: int,
+            increment: int
+    ) -> None:
+        await db.execute(
+            update(User)
+            .where(User.id == user_id)
+            .values(rubles_balance=User.rubles_balance + increment)
         )
 
 
