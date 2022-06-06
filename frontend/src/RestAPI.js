@@ -99,6 +99,13 @@ class RestAPI {
             {method: 'GET'}
         )
     }
+
+    static async getLots(offset) {
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/lots/list?offset=${offset}`,
+            {method: 'GET'}
+        )
+    }
 }
 
 export default RestAPI;

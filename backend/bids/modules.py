@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 
 from common.db import Bid, Lot, UserStatus
 from common.responses import NotEnoughRightsResponse
+from users.schemas import CantBidOnOwnLotResponse
 from .schemas import ExistsBiggerBidResponse, BidNotFoundResponse, CantWithdrawBidResponse, BidAlreadyWithdrawnResponse
 
 
@@ -44,6 +45,14 @@ def raise_if_exists_bigger_bid(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=ExistsBiggerBidResponse().detail
+        )
+
+
+def raise_if_bidder_equals_lot_owner(lot: Lot, user_id: int) -> None:
+    if user_id == lot.owner_id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=CantBidOnOwnLotResponse().detail
         )
 
 

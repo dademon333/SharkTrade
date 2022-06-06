@@ -1,14 +1,21 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, validator
 
 from .bids import BidInfo
 from .items import ItemInfo
+from ..responses import END_TIME_MUST_BE_GREATER_NOW
 
 
 class LotCreateForm(BaseModel):
     item_id: int
-    lifetime_in_minutes: int = Field(..., ge=1)
+    end_time: datetime
+
+    @validator('end_time')
+    def end_time_greater_now(cls, value):
+        if value <= datetime.now():
+            raise ValueError(END_TIME_MUST_BE_GREATER_NOW)
+        return value
 
 
 class LotCreate(LotCreateForm):

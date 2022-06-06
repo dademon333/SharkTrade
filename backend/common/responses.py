@@ -19,3 +19,4 @@ class NotEnoughRightsResponse(BaseModel):
 
 FOUND_NOT_ALLOWED_SYMBOLS = 'Found not allowed symbols: '
 WHITESPACE_ONLY_FORBIDDEN = 'Whitespace only forbidden'
+END_TIME_MUST_BE_GREATER_NOW = 'End time must be greater now'

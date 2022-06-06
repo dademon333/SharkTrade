@@ -35,4 +35,4 @@ const mapDispatchToProps = {
     modalChanged
 }
 
-export default connect(undefined, mapDispatchToProps)(ModalButtons)
+export default connect(null, mapDispatchToProps)(ModalButtons)

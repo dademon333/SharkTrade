@@ -1,7 +1,5 @@
-from sqlalchemy import select, func, insert
-from sqlalchemy.dialects.postgresql import INTERVAL
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.sql.functions import concat
 
 from .items import items
 from .base import CRUDBase
@@ -66,24 +64,11 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
             db: AsyncSession,
             create_instance: LotCreate
     ) -> Lot:
-        item_id = create_instance.item_id
-        owner_id = create_instance.owner_id
-        lifetime = create_instance.lifetime_in_minutes
-
         await set_transaction_isolation_level(
             db, IsolationLevel.READ_UNCOMMITTED
         )
-
-        await items.lock(db, item_id, owner_id)
-        lot = await db.execute(
-            insert(Lot)
-            .values(
-                owner_id=create_instance.owner_id,
-                item_id=create_instance.item_id,
-                end_time=func.now() + func.cast(concat(lifetime, ' MINUTES'), INTERVAL)
-            )
-        )
-        return await self.get_by_id(db, lot.inserted_primary_key)
+        await items.lock(db, create_instance.item_id, create_instance.owner_id)
+        return await super().create(db, create_instance)
 
 
 lots = CRUDLots(Lot)

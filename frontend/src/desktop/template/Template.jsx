@@ -2,7 +2,7 @@ import {Component} from 'react';
 import Header from './header/Header';
 import {Backdrop, CircularProgress} from '@mui/material';
 
-import AsideMenu from './aside/Aside';
+import Sidenav from './sidenav/Sidenav';
 import Modals from '../../constants/Modals';
 import LogInModal from '../modals/LogInModal';
 import PropTypes from 'prop-types';
@@ -28,8 +28,10 @@ class Template extends Component {
         if (this.props.navigation) {
             return (
                 <div className="content-container--split">
-                    {<AsideMenu/>}
-                    {this.props.children}
+                    {<Sidenav/>}
+                    <div className="main-content--splitted">
+                        {this.props.children}
+                    </div>
                 </div>
             )
         }

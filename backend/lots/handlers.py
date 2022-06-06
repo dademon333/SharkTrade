@@ -13,7 +13,8 @@ from common.security.auth import get_user_id, get_user_id_soft, \
 from items.modules import raise_if_item_not_exists, \
     raise_if_no_access_to_edit_item, raise_item_is_locked
 from items.schemas import ItemNotFoundResponse, ItemIsLockedResponse
-from .modules import raise_if_lot_not_exists, raise_if_no_access_to_edit_lot, raise_if_lot_is_canceled
+from .modules import raise_if_lot_not_exists, raise_if_no_access_to_edit_lot, \
+    raise_if_lot_is_canceled
 from .schemas import LotsListResponse, LotNotFoundResponse, LotIsCanceledResponse
 
 lots_router = APIRouter()

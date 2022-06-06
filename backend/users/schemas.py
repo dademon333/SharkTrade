@@ -19,3 +19,7 @@ class NewBalanceResponse(BaseModel):
 
 class NotEnoughMoneyResponse(BaseModel):
     detail: str = 'not enough money'
+
+
+class CantBidOnOwnLotResponse(BaseModel):
+    detail: str = 'Can\'t bid on own lot'
