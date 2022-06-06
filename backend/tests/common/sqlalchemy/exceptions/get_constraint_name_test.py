@@ -1,7 +1,7 @@
 import pytest
 from sqlalchemy.exc import DBAPIError
 
-from common.sqlalchemy_exceptions import get_constraint_name
+from common.sqlalchemy.exceptions import get_constraint_name
 
 
 def test_simple_exception():

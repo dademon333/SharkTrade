@@ -2,7 +2,7 @@ from sqlalchemy import Integer, Column, ForeignKey, DateTime, func
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import relationship
 
-from common.db import Base
+from ..db import Base
 
 
 class ProfilePhoto(Base):
@@ -18,7 +18,8 @@ class ProfilePhoto(Base):
     media_id = Column(
         Integer,
         ForeignKey('media.id', onupdate='CASCADE', ondelete='CASCADE'),
-        nullable=False
+        nullable=False,
+        index=True
     )
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 

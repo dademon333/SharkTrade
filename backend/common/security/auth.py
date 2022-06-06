@@ -3,10 +3,10 @@ from fastapi import Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common import crud
-from common.db import get_db, UserStatus
-from common.db.users import user_status_weights
-from common.redis import get_redis_cursor
+from .. import crud
+from ..db import get_db, UserStatus
+from ..db.users import user_status_weights
+from ..redis import get_redis_cursor
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'/login')
 

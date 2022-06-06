@@ -29,6 +29,7 @@ def upgrade():
         sa.Column('status', sa.Enum('user', 'admin', name='user_status'), nullable=False, server_default='user'),
         sa.Column('rubles_balance', sa.Integer(), nullable=False, server_default='0'),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+        sa.CheckConstraint('rubles_balance >= 0', name=op.f('ck_users_rubles_balance')),
         sa.PrimaryKeyConstraint('id', name=op.f('pk_users'))
     )
     # ### end Alembic commands ###

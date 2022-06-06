@@ -39,5 +39,6 @@ async def get_hostname():
 async def _get_current_online(
         redis_cursor: Redis = Depends(get_redis_cursor),
 ):
+    """Возвращает текущий онлайн."""
     current_online = await get_current_online(redis_cursor)
     return CurrentOnlineResponse(current_online=current_online)

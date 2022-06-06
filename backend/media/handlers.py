@@ -13,7 +13,7 @@ media_router = APIRouter()
 
 
 @media_router.post(
-    '',
+    '/',
     response_model=MediaUUIDResponse,
     responses={
         400: {'model': NotAnImageResponse},

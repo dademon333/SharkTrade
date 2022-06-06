@@ -1,7 +1,7 @@
 import enum
 
 from sqlalchemy import Column, Integer, DateTime, func, \
-    Index, text, String, Enum
+    Index, text, String, Enum, CheckConstraint
 from sqlalchemy.orm import relationship
 
 from .base import Base, get_enum_values
@@ -37,6 +37,7 @@ class User(Base):
     profile_photos = relationship('ProfilePhoto', lazy='joined')
 
     __table_args__ = (
+        CheckConstraint('rubles_balance >= 0'),
         Index('ix_users_email', text('LOWER(email)'), unique=True),
         Index('ix_users_username', text('LOWER(username)'), unique=True)
     )

@@ -1,9 +1,9 @@
 from sqlalchemy import update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.db import ProfilePhoto
-from common.schemas.profile_photos import ProfilePhotoCreate, ProfilePhotoUpdate
 from .base import CRUDBase
+from ..db import ProfilePhoto
+from ..schemas.profile_photos import ProfilePhotoCreate, ProfilePhotoUpdate
 
 
 class CRUDProfilePhotos(CRUDBase[ProfilePhoto, ProfilePhotoCreate, ProfilePhotoUpdate]):
@@ -12,7 +12,7 @@ class CRUDProfilePhotos(CRUDBase[ProfilePhoto, ProfilePhotoCreate, ProfilePhotoU
             self,
             db: AsyncSession,
             id: int
-    ) -> None:
+    ) -> ProfilePhoto:
         """Update profile photo id to next autoincrement value."""
         # Bind next autoincrement id
         photo = await self.get_by_id(db, id)
@@ -25,6 +25,7 @@ class CRUDProfilePhotos(CRUDBase[ProfilePhoto, ProfilePhotoCreate, ProfilePhotoU
             .where(ProfilePhoto.id == id)
             .values({'id': temp.id})
         )
+        return photo
 
 
 profile_photos = CRUDProfilePhotos(ProfilePhoto)

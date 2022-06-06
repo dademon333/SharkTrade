@@ -6,10 +6,10 @@ from pathlib import Path
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.db import Media
-from common.schemas.media import MediaCreate, MediaUpdate
 from config import Config
 from .base import CRUDBase
+from ..db import Media
+from ..schemas.media import MediaCreate, MediaUpdate
 
 
 class CRUDMedia(CRUDBase[Media, MediaCreate, MediaUpdate]):

@@ -8,6 +8,10 @@ class MediaCreate(BaseModel):
     owner_id: int
 
 
+class MediaUpdateForm(BaseModel):
+    pass
+
+
 class MediaUpdate(BaseModel):
     pass
 

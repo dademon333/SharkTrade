@@ -40,9 +40,9 @@ class WebsocketManager {
     static _connectSocket = async () => {
         let serverUrl;
         if (Config.SERVER_URL.startsWith('https')) {
-            serverUrl = Config.SERVER_URL.replace(/https/, 'wss') + '/ws';
+            serverUrl = Config.SERVER_URL.replace(/https/, 'wss') + '/ws/';
         } else {
-            serverUrl = Config.SERVER_URL.replace(/http/, 'ws') + '/ws';
+            serverUrl = Config.SERVER_URL.replace(/http/, 'ws') + '/ws/';
         }
 
         if (this._accessToken) {

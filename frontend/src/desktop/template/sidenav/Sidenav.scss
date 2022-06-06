@@ -1,0 +1,30 @@
+.desktop .sidenav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 14px;
+
+    .sidenav__button {
+        width: 170px;
+        height: 40px;
+        border-radius: 9999px;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        color: var(--bright-primary);
+        font-weight: 400;
+
+        .Icon {
+            margin-left: 14px;
+            margin-right: 10px;
+        }
+    }
+
+    .sidenav__button--active {
+        color: var(--dark-primary);
+        background-color: var(--primary-green);
+        font-weight: 500;
+    }
+}

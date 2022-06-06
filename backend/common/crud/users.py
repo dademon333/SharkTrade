@@ -1,10 +1,10 @@
-from sqlalchemy import select, func
+from sqlalchemy import select, func, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from common.db import User
-from common.schemas.users import UserCreate, UserUpdate
-from common.security.users import hash_password
 from .base import CRUDBase
+from ..db import User
+from ..schemas.users import UserCreate, UserUpdate
+from ..security.users import hash_password
 
 
 class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
@@ -56,6 +56,30 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
             db,
             result.id,
             UserUpdate(password=create_instance.password)
+        )
+
+    @staticmethod
+    async def increment_balance(
+            db: AsyncSession,
+            user_id: int,
+            increment: int
+    ) -> None:
+        await db.execute(
+            update(User)
+            .where(User.id == user_id)
+            .values(rubles_balance=User.rubles_balance + increment)
+        )
+
+    @staticmethod
+    async def decrement_balance(
+            db: AsyncSession,
+            user_id: int,
+            decrement: int
+    ) -> None:
+        await db.execute(
+            update(User)
+            .where(User.id == user_id)
+            .values(rubles_balance=User.rubles_balance - decrement)
         )
 
 

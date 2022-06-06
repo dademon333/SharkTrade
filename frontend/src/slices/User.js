@@ -3,12 +3,12 @@ import {createSlice} from '@reduxjs/toolkit';
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        id: undefined,
-        username: undefined,
-        email: undefined,
-        status: undefined,
-        rubles_balance: undefined,
-        profile_photos: undefined,
+        id: null,
+        username: null,
+        email: null,
+        status: null,
+        rubles_balance: null,
+        profile_photos: null,
     },
     reducers: {
         userDataChanged(state, action) {
@@ -20,12 +20,12 @@ const userSlice = createSlice({
                 state.rubles_balance = action.payload.rubles_balance;
                 state.profile_photos = action.payload.profile_photos;
             } else {
-                state.id = undefined;
-                state.username = undefined;
-                state.email = undefined;
-                state.status = undefined;
-                state.rubles_balance = undefined;
-                state.profile_photos = undefined;
+                state.id = null;
+                state.username = null;
+                state.email = null;
+                state.status = null;
+                state.rubles_balance = null;
+                state.profile_photos = null;
             }
         }
     }

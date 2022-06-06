@@ -16,7 +16,7 @@ class AuthPanel extends Component {
         await RestAPI.logout();
         await SystemFunctions.connectBackend();
         this.props.userDataChanged(null);
-        this.props.accessTokenChanged(undefined);
+        this.props.accessTokenChanged(null);
     }
 
     render = () => {

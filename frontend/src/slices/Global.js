@@ -3,7 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const globalSlice = createSlice({
     name: 'global',
     initialState: {
-        accessToken: undefined,
+        accessToken: null,
         isMobile: false,
         online: 0,
 
