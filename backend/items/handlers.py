@@ -10,6 +10,8 @@ from common.responses import UnauthorizedResponse, OkResponse, \
 from common.schemas.items import ItemInfo, ItemCreateForm, ItemCreate, \
     ItemUpdateForm, ItemInfoExtended
 from common.security.auth import get_user_id, get_user_status, get_user_id_soft
+from media.modules import raise_if_media_not_exists
+from media.schemas import MediaNotFoundResponse
 from .modules import raise_if_item_not_exists, raise_if_no_access_to_edit_item
 from .schemas import ItemsListResponse, ItemNotFoundResponse
 
@@ -59,7 +61,10 @@ async def get_item(
 @items_router.post(
     '/',
     response_model=ItemInfoExtended,
-    responses={401: {'model': UnauthorizedResponse}}
+    responses={
+        401: {'model': UnauthorizedResponse},
+        404: {'model': MediaNotFoundResponse}
+    }
 )
 async def create_item(
         item: ItemCreateForm,
@@ -67,6 +72,8 @@ async def create_item(
         db: AsyncSession = Depends(get_db)
 ):
     """Создает предмет."""
+    media = await crud.media.get_by_uuid(db, item.media_uuid)
+    raise_if_media_not_exists(media)
     item = await crud.items.create(
         db,
         ItemCreate(**item.dict(), owner_id=user_id)

@@ -38,10 +38,13 @@ class BidInfoExtended(BidInfo):
     can_withdraw: bool
     created_at: datetime
 
-    @classmethod
-    def getter_dict(cls, bid: Bid):
-        from bids.modules import can_withdraw_bid
-        return {
-            **GetterDict(bid),
-            'can_withdraw': can_withdraw_bid(bid)
-        }
+    class Config:
+        orm_mode = True
+
+        @classmethod
+        def getter_dict(cls, bid: Bid):
+            from bids.modules import can_withdraw_bid
+            return {
+                **GetterDict(bid),
+                'can_withdraw': can_withdraw_bid(bid)
+            }

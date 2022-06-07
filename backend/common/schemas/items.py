@@ -1,8 +1,10 @@
 from datetime import datetime
 
 from pydantic import BaseModel, Field, validator
+from pydantic.utils import GetterDict
 
-from .item_photos import ItemPhotoInfo
+from config import Config
+from ..db import Item
 from ..responses import FOUND_NOT_ALLOWED_SYMBOLS, WHITESPACE_ONLY_FORBIDDEN
 from ..security.text import find_not_allowed_symbols
 
@@ -30,11 +32,12 @@ class ItemBase(BaseModel):
 
 
 class ItemCreateForm(ItemBase):
-    pass
+    media_uuid: str
 
 
 class ItemCreate(ItemBase):
     owner_id: int
+    media_id: str
 
 
 class ItemUpdateForm(ItemBase):
@@ -50,10 +53,17 @@ class ItemInfo(BaseModel):
     owner_id: int | None
     name: str
     description: str | None
-    photos: list[ItemPhotoInfo]
+    photo_url: str
 
     class Config:
         orm_mode = True
+
+        @classmethod
+        def getter_dict(cls, item: Item):
+            return {
+                **GetterDict(item),
+                'photo_url': f'{Config.SERVER_URL}/media/{item.media_uuid}.png'
+            }
 
 
 class ItemInfoExtended(ItemInfo):

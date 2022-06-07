@@ -29,6 +29,7 @@ class Lot(Base):
         lazy='joined',
         backref=backref('lot', lazy='joined', uselist=False)
     )
+    item = relationship('Item', lazy='joined', uselist=False)
 
     @hybrid_property
     def win_bid(self):
