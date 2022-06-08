@@ -15,7 +15,7 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
             limit: int = 25,
             before_id: int | None = None
     ) -> list[Lot]:
-        where_clause = Lot.is_canceled == False  # noqa
+        where_clause = Lot.is_cancelled == False  # noqa
         if before_id is not None:
             where_clause &= (Lot.id < before_id)
 
@@ -31,7 +31,7 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
     async def get_active_count(db: AsyncSession) -> int:
         count = await db.scalars(
             select(func.count(Lot.id))
-            .where(Lot.is_canceled == False)  # noqa
+            .where(Lot.is_cancelled == False)  # noqa
         )
         return count.first()
 

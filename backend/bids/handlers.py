@@ -7,7 +7,7 @@ from common.db import get_db, UserStatus
 from common.responses import UnauthorizedResponse, NotEnoughRightsResponse
 from common.schemas.bids import BidInfoExtended, BidCreateForm, BidCreate
 from common.security.auth import get_user_id, get_user_status
-from lots.modules import raise_if_lot_not_exists, raise_if_lot_is_canceled
+from lots.modules import raise_if_lot_not_exists, raise_if_lot_is_cancelled
 from lots.schemas import LotNotFoundResponse, LotIsCanceledResponse
 from users.modules import raise_not_enough_money
 from users.schemas import NotEnoughMoneyResponse, NewBalanceResponse, CantBidOnOwnLotResponse
@@ -63,7 +63,7 @@ async def create_bid(
 
     lot = await crud.lots.get_by_id(db, lot_id)
     raise_if_lot_not_exists(lot)
-    raise_if_lot_is_canceled(lot)
+    raise_if_lot_is_cancelled(lot)
     raise_if_exists_bigger_bid(lot, amount)
     raise_if_bidder_equals_lot_owner(lot, user_id)
 

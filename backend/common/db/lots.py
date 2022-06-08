@@ -19,7 +19,7 @@ class Lot(Base):
         ForeignKey('items.id', onupdate='CASCADE', ondelete='SET NULL'),
         index=True
     )
-    is_canceled = Column(Boolean, nullable=False, index=True, server_default='false')
+    is_cancelled = Column(Boolean, nullable=False, index=True, server_default='false')
     win_bid_id = Column(Integer, index=True)
     created_at = Column(DateTime, nullable=False, server_default=func.now())
     end_time = Column(DateTime, nullable=False)

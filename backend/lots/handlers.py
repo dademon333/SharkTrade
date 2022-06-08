@@ -14,7 +14,7 @@ from items.modules import raise_if_item_not_exists, \
     raise_if_no_access_to_edit_item, raise_item_is_locked
 from items.schemas import ItemNotFoundResponse, ItemIsLockedResponse
 from .modules import raise_if_lot_not_exists, raise_if_no_access_to_edit_lot, \
-    raise_if_lot_is_canceled
+    raise_if_lot_is_cancelled
 from .schemas import LotsListResponse, LotNotFoundResponse, LotIsCanceledResponse
 
 lots_router = APIRouter()
@@ -131,9 +131,9 @@ async def remove_lot(
     lot = await crud.lots.get_by_id(db, lot_id)
     raise_if_lot_not_exists(lot)
     raise_if_no_access_to_edit_lot(lot, user_id, user_status)
-    raise_if_lot_is_canceled(lot)
+    raise_if_lot_is_cancelled(lot)
 
-    await crud.lots.update(db, lot.id, LotUpdate(is_canceled=True))
+    await crud.lots.update(db, lot.id, LotUpdate(is_cancelled=True))
     await crud.items.unlock(db, lot.item_id)
 
     return OkResponse()

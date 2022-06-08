@@ -10,9 +10,9 @@ def can_withdraw_bid(bid: Bid) -> bool:
     lot = bid.lot
     if bid.is_withdrawn:
         return False
-    if lot.is_canceled and bid.id == lot.win_bid_id:
+    if lot.is_cancelled and bid.id == lot.win_bid_id:
         return False
-    if not lot.is_canceled and lot.max_bid == bid.amount:
+    if not lot.is_cancelled and lot.max_bid == bid.amount:
         return False
     return True
 

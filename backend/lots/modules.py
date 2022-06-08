@@ -25,8 +25,8 @@ def raise_if_no_access_to_edit_lot(
         )
 
 
-def raise_if_lot_is_canceled(lot: Lot) -> None:
-    if lot.is_canceled:
+def raise_if_lot_is_cancelled(lot: Lot) -> None:
+    if lot.is_cancelled:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=LotIsCanceledResponse().detail

@@ -23,7 +23,7 @@ def upgrade():
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('owner_id', sa.Integer(), nullable=True),
         sa.Column('item_id', sa.Integer(), nullable=True),
-        sa.Column('is_canceled', sa.Boolean(), server_default='false', nullable=False),
+        sa.Column('is_cancelled', sa.Boolean(), server_default='false', nullable=False),
         sa.Column('win_bid_id', sa.Integer(), nullable=True),
         sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
         sa.Column('end_time', sa.DateTime(), nullable=False),
@@ -33,7 +33,7 @@ def upgrade():
     )
     op.create_index(op.f('ix_lots_owner_id'), 'lots', ['owner_id'], unique=False)
     op.create_index(op.f('ix_lots_item_id'), 'lots', ['item_id'], unique=False)
-    op.create_index(op.f('ix_lots_is_canceled'), 'lots', ['is_canceled'], unique=False)
+    op.create_index(op.f('ix_lots_is_cancelled'), 'lots', ['is_cancelled'], unique=False)
     op.create_index(op.f('ix_lots_win_bid_id'), 'lots', ['win_bid_id'], unique=False)
 
     op.create_table(
@@ -60,7 +60,7 @@ def downgrade():
     op.drop_table('bids')
 
     op.drop_index(op.f('ix_lots_win_bid_id'), table_name='lots')
-    op.drop_index(op.f('ix_lots_is_canceled'), table_name='lots')
+    op.drop_index(op.f('ix_lots_is_cancelled'), table_name='lots')
     op.drop_index(op.f('ix_lots_item_id'), table_name='lots')
     op.drop_index(op.f('ix_lots_owner_id'), table_name='lots')
     op.drop_table('lots')
