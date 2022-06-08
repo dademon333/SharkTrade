@@ -2,8 +2,8 @@ import {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import '../scss/LotCard.scss';
-import {Link} from 'react-router-dom';
 import TextFunctions from '../../../../TextFunctions';
+import ItemCard from '../../../components/ItemCard';
 
 
 class LotCard extends Component {
@@ -13,34 +13,32 @@ class LotCard extends Component {
             end_time: endTime,
             max_bid: maxBid,
             is_cancelled: isCancelled,
-            item: {name, description, photo_url: photoUrl}
+            item,
+            item: {name, description}
         } = this.props.lot;
         return (
-            <Link to={`/lot/${id}`} className="lot-card">
-                <div className="lot-card">
-                    <img src={photoUrl} alt="img"/>
-                    <div className={'lot-card__footer' + (isCancelled ? '' : ' lot-card__footer--separated')}>
-                        <div className="lot-card__information">
-                            <div className="lot-card__name truncatable">
-                                {name}
-                            </div>
-                            <div className="lot-card__description">
-                                {description}
-                            </div>
-                        </div>
-                        {!isCancelled && (
-                            <div className="lot-card__pricing">
-                                <div className="lot-card__price">
-                                    {TextFunctions.reduceNumber(maxBid)}
-                                </div>
-                                <div className="lot-card__remaining">
-                                    {TextFunctions.getRemainingTime(endTime)}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </Link>
+            <ItemCard item={item} link={`/lot/${id}`} className="lot-card">
+                 <div className={'lot-card__footer' + (isCancelled ? '' : ' lot-card__footer--separated')}>
+                     <div className="lot-card__information">
+                         <div className="lot-card__name truncatable">
+                             {name}
+                         </div>
+                         <div className="lot-card__description">
+                             {description}
+                         </div>
+                     </div>
+                     {!isCancelled && (
+                         <div className="lot-card__pricing">
+                             <div className="lot-card__price">
+                                 {TextFunctions.reduceNumber(maxBid)}
+                             </div>
+                             <div className="lot-card__remaining">
+                                 {TextFunctions.getRemainingTime(endTime)}
+                             </div>
+                         </div>
+                     )}
+                 </div>
+            </ItemCard>
         )
     }
 }
