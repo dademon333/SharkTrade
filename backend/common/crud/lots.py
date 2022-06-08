@@ -13,14 +13,17 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
     async def get_active(
             db: AsyncSession,
             limit: int = 25,
-            offset: int = 0
+            before_id: int | None = None
     ) -> list[Lot]:
+        where_clause = Lot.is_canceled == False  # noqa
+        if before_id is not None:
+            where_clause &= (Lot.id < before_id)
+
         lots = await db.scalars(
             select(Lot)
-            .where(Lot.is_canceled == False)  # noqa
-            .order_by(Lot.id)
+            .where(where_clause)
+            .order_by(Lot.id.desc())  # noqa
             .limit(limit)
-            .offset(offset)
         )
         return lots.unique().all()
 

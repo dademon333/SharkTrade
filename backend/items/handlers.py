@@ -31,9 +31,9 @@ async def get_own_items(
 ):
     """Возвращает предметы, принадлежащие пользователю."""
     items = await crud.items.get_by_owner_id(db, user_id, limit, offset)
-    count = await crud.items.get_user_items_count(db, user_id)
+    amount = await crud.items.get_user_items_count(db, user_id)
     return ItemsListResponse(
-        total_count=count,
+        total_amount=amount,
         items=[ItemInfoExtended.from_orm(x) for x in items]
     )
 

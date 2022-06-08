@@ -26,14 +26,14 @@ lots_router = APIRouter()
 )
 async def get_active_lots(
         limit: int = Query(25, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        before_id: int | None = Query(None, ge=0),
         db: AsyncSession = Depends(get_db)
 ):
     """Возвращает активные лоты."""
-    lots = await crud.lots.get_active(db, limit, offset)
-    active_count = await crud.lots.get_active_count(db)
+    lots = await crud.lots.get_active(db, limit, before_id)
+    active_amount = await crud.lots.get_active_count(db)
     return LotsListResponse(
-        total_count=active_count,
+        total_amount=active_amount,
         lots=[LotInfo.from_orm(x) for x in lots]
     )
 
@@ -53,7 +53,7 @@ async def get_own_lots(
     lots = await crud.lots.get_by_owner_id(db, user_id, limit, offset)
     active_count = await crud.lots.get_active_count(db)
     return LotsListResponse(
-        total_count=active_count,
+        total_amount=active_count,
         lots=[LotInfoExtended.from_orm(x) for x in lots]
     )
 

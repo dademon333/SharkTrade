@@ -30,9 +30,9 @@ async def get_own_bids(
 ):
     """Возвращает ставки текущего пользователя."""
     bids = await crud.bids.get_by_owner_id(db, user_id, limit, offset)
-    count = await crud.bids.get_user_bids_count(db, user_id)
+    amount = await crud.bids.get_user_bids_count(db, user_id)
     return BidsListResponse(
-        total_count=count,
+        total_amount=amount,
         bids=[BidInfoExtended.from_orm(x) for x in bids]
     )
 

@@ -1,10 +1,10 @@
 import {Component} from 'react';
 
-import Template from '../template/Template';
-import persik from '../../img/persik_shy.png';
+import Template from '../../template/Template';
+import persik from '../../../img/persik_shy.png';
 
-import './scss/IndexPage.scss';
-import LinkButton from '../components/LinkButton';
+import './IndexPage.scss';
+import LinkButton from '../../components/LinkButton';
 
 
 class IndexPage extends Component {

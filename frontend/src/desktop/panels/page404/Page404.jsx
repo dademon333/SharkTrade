@@ -1,11 +1,11 @@
 import {Component} from 'react';
 
-import Template from '../template/Template';
+import Template from '../../template/Template';
 // import persik from '../../img/persik_wonder.png';
-import persik from '../../img/persik_resent.png';
+import persik from '../../../img/persik_resent.png';
 
-import './scss/Panel404.scss';
-import LinkButton from '../components/LinkButton';
+import './Panel404.scss';
+import LinkButton from '../../components/LinkButton';
 
 
 class Page404 extends Component {

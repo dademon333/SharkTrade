@@ -1,0 +1,15 @@
+.desktop {
+    .infinite-scroll__wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        overflow: auto;
+
+    }
+
+    .infinite-scroll__wrapper::-webkit-scrollbar,
+    .ptr__children::-webkit-scrollbar {
+        display: none;
+    }
+}

@@ -100,9 +100,11 @@ class RestAPI {
         )
     }
 
-    static async getLots(offset) {
+    static async getLots(beforeId) {
+        beforeId = beforeId ? `before_id=${beforeId}` : '';
+
         return await this._makeRequest(
-            Config.SERVER_URL + `/api/lots/list?offset=${offset}`,
+            Config.SERVER_URL + `/api/lots/list?${beforeId}&limit=16`,
             {method: 'GET'}
         )
     }
