@@ -10,14 +10,16 @@ class InfiniteScroll extends Component {
         const {loadMore, hasMore, children} = this.props;
 
         return (
-            <div className="infinite-scroll__wrapper">
-                <OriginalInfiniteScroll
-                    useWindow={false}
-                    loadMore={loadMore}
-                    hasMore={hasMore}
-                >
-                    {children}
-                </OriginalInfiniteScroll>
+            <div className="infinite-scroll__relative-wrapper">
+                <div className="infinite-scroll__absolute-wrapper">
+                    <OriginalInfiniteScroll
+                        useWindow={false}
+                        loadMore={loadMore}
+                        hasMore={hasMore}
+                    >
+                        {children}
+                    </OriginalInfiniteScroll>
+                </div>
             </div>
         )
     }

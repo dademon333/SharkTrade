@@ -100,7 +100,7 @@ class RestAPI {
         )
     }
 
-    static async getLots(beforeId) {
+    static async getAllLots(beforeId) {
         beforeId = beforeId ? `before_id=${beforeId}` : '';
 
         return await this._makeRequest(

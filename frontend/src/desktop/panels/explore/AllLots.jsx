@@ -13,7 +13,7 @@ import InfiniteScroll from '../../components/InfiniteScroll';
 
 class AllLots extends Component {
     loadLots = async (beforeId) => {
-        let {lots, detail} = await RestAPI.getLots(beforeId);
+        let {lots, detail} = await RestAPI.getAllLots(beforeId);
         if (detail) {
             lots = []
         }
