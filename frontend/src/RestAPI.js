@@ -108,6 +108,15 @@ class RestAPI {
             {method: 'GET'}
         )
     }
+
+    static async getOwnLots(beforeId) {
+        beforeId = beforeId ? `before_id=${beforeId}` : '';
+
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/lots/my?${beforeId}&limit=16`,
+            {method: 'GET'}
+        )
+    }
 }
 
 export default RestAPI;

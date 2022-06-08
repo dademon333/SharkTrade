@@ -12,13 +12,14 @@ class LotCard extends Component {
             id,
             end_time: endTime,
             max_bid: maxBid,
+            is_cancelled: isCancelled,
             item: {name, description, photo_url: photoUrl}
         } = this.props.lot;
         return (
             <Link to={`/lot/${id}`} className="lot-card">
                 <div className="lot-card">
                     <img src={photoUrl} alt="img"/>
-                    <div className="lot-card__footer">
+                    <div className={'lot-card__footer' + (isCancelled ? '' : ' lot-card__footer--separated')}>
                         <div className="lot-card__information">
                             <div className="lot-card__name truncatable">
                                 {name}
@@ -27,14 +28,16 @@ class LotCard extends Component {
                                 {description}
                             </div>
                         </div>
-                        <div className="lot-card__pricing">
-                            <div className="lot-card__price">
-                                {TextFunctions.reduceNumber(maxBid)}
+                        {!isCancelled && (
+                            <div className="lot-card__pricing">
+                                <div className="lot-card__price">
+                                    {TextFunctions.reduceNumber(maxBid)}
+                                </div>
+                                <div className="lot-card__remaining">
+                                    {TextFunctions.getRemainingTime(endTime)}
+                                </div>
                             </div>
-                            <div className="lot-card__remaining">
-                                {TextFunctions.getRemainingTime(endTime)}
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </Link>

@@ -4,7 +4,10 @@ const contentSlice = createSlice({
     name: 'content',
     initialState: {
         allLots: null,
-        allLotsLastFetchedAmount: null
+        allLotsLastFetchedAmount: null,
+
+        ownLots: null,
+        ownLotsLastFetchedAmount: null
     },
     reducers: {
         allLotsUpdated(state, action) {
@@ -16,6 +19,17 @@ const contentSlice = createSlice({
             const {lots} = action.payload;
             state.allLots = (state.allLots || []).concat(lots);
             state.allLotsLastFetchedAmount = lots.length;
+        },
+
+        ownLotsUpdated(state, action) {
+            const {lots} = action.payload;
+            state.ownLots = lots;
+            state.ownLotsLastFetchedAmount = lots.length;
+        },
+        ownLotsExtended(state, action) {
+            const {lots} = action.payload;
+            state.ownLots = (state.ownLots || []).concat(lots);
+            state.ownLotsLastFetchedAmount = lots.length;
         }
     }
 });
@@ -23,5 +37,7 @@ const contentSlice = createSlice({
 export default contentSlice.reducer;
 export const {
     allLotsUpdated,
-    allLotsExtended
+    allLotsExtended,
+    ownLotsUpdated,
+    ownLotsExtended
 } = contentSlice.actions;
