@@ -43,9 +43,7 @@ class AllLots extends Component {
         const {allLots, allLotsLastFetchedAmount} = this.props.content;
 
         if (allLots === null) {
-            return (
-                <LoadingSpinnerPage />
-            )
+            return <LoadingSpinnerPage />
         }
 
         if (allLots.length === 0) {

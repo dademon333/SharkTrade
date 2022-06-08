@@ -9,14 +9,21 @@ import InfiniteScroll from '../../components/InfiniteScroll';
 import LotsContainer from './components/LotsContainer';
 import LotCard from './components/LotCard';
 import RestAPI from '../../../RestAPI';
+import AuthRequiredPage from '../../components/AuthRequiredPage';
+import RestAPIErrors from '../../../constants/RestAPIErrors';
 
 
 class OwnLots extends Component {
     loadLots = async (beforeId) => {
         let {lots, detail} = await RestAPI.getOwnLots(beforeId);
+
+        if (detail === RestAPIErrors.UNAUTHORIZED) {
+            return undefined;
+        }
         if (detail) {
             lots = []
         }
+
         if (beforeId) {
             this.props.ownLotsExtended({lots});
         } else {
@@ -39,13 +46,22 @@ class OwnLots extends Component {
         }
     }
 
+    componentDidUpdate = async () => {
+        if (this.props.content.ownLots === null) {
+            await this.loadLots(null);
+        }
+    }
+
     render = () => {
         const {ownLots, ownLotsLastFetchedAmount} = this.props.content;
+        const {id} = this.props.user;
+
+        if (!id) {
+            return <AuthRequiredPage />
+        }
 
         if (ownLots === null) {
-            return (
-                <LoadingSpinnerPage />
-            )
+            return <LoadingSpinnerPage />
         }
 
         if (ownLots.length === 0) {
@@ -81,6 +97,7 @@ class OwnLots extends Component {
 
 
 const mapStateToProps = (state) => ({
+    user: state.user,
     content: state.content
 })
 

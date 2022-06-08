@@ -22,9 +22,14 @@ const contentSlice = createSlice({
         },
 
         ownLotsUpdated(state, action) {
-            const {lots} = action.payload;
-            state.ownLots = lots;
-            state.ownLotsLastFetchedAmount = lots.length;
+            if (action.payload) {
+                const {lots} = action.payload;
+                state.ownLots = lots;
+                state.ownLotsLastFetchedAmount = lots.length;
+            } else {
+                state.ownLots = null;
+                state.ownLotsLastFetchedAmount = null;
+            }
         },
         ownLotsExtended(state, action) {
             const {lots} = action.payload;
