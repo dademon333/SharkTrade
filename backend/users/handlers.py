@@ -30,11 +30,11 @@ users_router = APIRouter()
 )
 async def list_users(
         limit: int = Query(250, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        after_id: int | None = Query(None, ge=0),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает информацию о всех пользователях. Требует статус admin."""
-    users = await crud.users.get_many(db, limit, offset)
+    """Возвращает информацию о всех пользователях в хронологическом порядке. Требует статус admin."""
+    users = await crud.users.get_many(db, limit, after_id)
     return [UserInfoExtended.from_orm(x) for x in users]
 
 

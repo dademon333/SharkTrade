@@ -24,12 +24,12 @@ bids_router = APIRouter()
 )
 async def get_own_bids(
         limit: int = Query(25, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        before_id: int | None = Query(None, ge=0),
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает ставки текущего пользователя."""
-    bids = await crud.bids.get_by_owner_id(db, user_id, limit, offset)
+    """Возвращает ставки текущего пользователя в антихронологическом порядке."""
+    bids = await crud.bids.get_by_owner_id(db, user_id, limit, before_id)
     amount = await crud.bids.get_user_bids_count(db, user_id)
     return BidsListResponse(
         total_amount=amount,

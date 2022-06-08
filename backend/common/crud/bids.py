@@ -12,14 +12,17 @@ class CRUDBids(CRUDBase[Bid, BidCreate, BidUpdate]):
             db: AsyncSession,
             user_id: int,
             limit: int = 25,
-            offset: int = 0
+            before_id: int | None = None
     ) -> list[Bid]:
+        where_clause = Bid.owner_id == user_id
+        if before_id is not None:
+            where_clause &= (Bid.id < before_id)
+
         bids = await db.scalars(
             select(Bid)
-            .where(Bid.owner_id == user_id)
-            .order_by(Bid.id)
+            .where(where_clause)
+            .order_by(Bid.id.desc())  # noqa
             .limit(limit)
-            .offset(offset)
         )
         return bids.unique().all()
 

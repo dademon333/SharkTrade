@@ -25,12 +25,12 @@ items_router = APIRouter()
 )
 async def get_own_items(
         limit: int = Query(25, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        before_id: int | None = Query(None, ge=0),
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает предметы, принадлежащие пользователю."""
-    items = await crud.items.get_by_owner_id(db, user_id, limit, offset)
+    """Возвращает предметы, принадлежащие пользователю, в антихронологическом порядке."""
+    items = await crud.items.get_by_owner_id(db, user_id, limit, before_id)
     amount = await crud.items.get_user_items_count(db, user_id)
     return ItemsListResponse(
         total_amount=amount,

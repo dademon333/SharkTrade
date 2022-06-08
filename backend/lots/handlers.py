@@ -29,7 +29,7 @@ async def get_active_lots(
         before_id: int | None = Query(None, ge=0),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает активные лоты."""
+    """Возвращает активные лоты в антихронологическом порядке."""
     lots = await crud.lots.get_active(db, limit, before_id)
     active_amount = await crud.lots.get_active_count(db)
     return LotsListResponse(
@@ -45,13 +45,13 @@ async def get_active_lots(
 )
 async def get_own_lots(
         limit: int = Query(25, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        before_id: int | None = Query(None, ge=0),
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает лоты текущего пользователя."""
-    lots = await crud.lots.get_by_owner_id(db, user_id, limit, offset)
-    active_count = await crud.lots.get_active_count(db)
+    """Возвращает лоты текущего пользователя в антихронологическом порядке."""
+    lots = await crud.lots.get_by_owner_id(db, user_id, limit, before_id)
+    active_count = await crud.lots.get_user_lots_count(db, user_id)
     return LotsListResponse(
         total_amount=active_count,
         lots=[LotInfoExtended.from_orm(x) for x in lots]
