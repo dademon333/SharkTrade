@@ -11,7 +11,7 @@ from common.redis import get_redis_cursor
 from rabbitmq.globals import RabbitMQGlobals
 from rabbitmq.modules import get_rabbitmq_connection, get_rabbitmq_channel, \
     declare_broadcast_exchange, declare_global_daemons_exchange
-from web_sockets.schemas import WorkerOnlineReport, WSBroadcastMessage, WSBroadcastMessageType
+from web_sockets.schemas import WorkerOnlineReport, WSOutcomeMessageType, WSOutcomeMessage
 
 
 class OnlineUpdater:
@@ -88,8 +88,8 @@ class OnlineUpdater:
             await message_.ack()  # type: ignore
 
     async def _broadcast_new_online(self, new_online: int) -> None:
-        message = WSBroadcastMessage(
-            type=WSBroadcastMessageType.ONLINE_UPDATE,
+        message = WSOutcomeMessage(
+            type=WSOutcomeMessageType.ONLINE_UPDATE,
             data={'new_online': new_online}
         )
         await self._broadcast_exchange.publish(

@@ -128,6 +128,7 @@ class RestAPI {
             {method: 'GET'}
         )
     }
+
     static async withdrawBid(bidId) {
         return await this._makeRequest(
             Config.SERVER_URL + `/api/bids/withdraw/${bidId}`,

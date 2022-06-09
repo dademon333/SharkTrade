@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import Config from './Config';
 import {store} from './Store';
 import {onlineChanged} from './slices/Global';
+import WSMessageType from './constants/WSMessageType';
 
 
 class WebsocketManager {
@@ -24,6 +25,10 @@ class WebsocketManager {
         this._socket = await this._connectSocket();
     }
 
+    static sendMessage = async (message) => {
+        await this._socket.send(JSON.stringify(message));
+    }
+
     static _handleMessage = (message) => {
         message = JSON.parse(message);
 
@@ -31,6 +36,8 @@ class WebsocketManager {
             case 'online_update':
                 // noinspection JSUnresolvedVariable
                 this._actions.onlineChanged(message.data.new_online);
+                break;
+            case 'auth_result':
                 break;
             default:
                 console.log('Unknown message type:', message);
@@ -45,10 +52,6 @@ class WebsocketManager {
             serverUrl = Config.SERVER_URL.replace(/http/, 'ws') + '/ws/';
         }
 
-        if (this._accessToken) {
-            serverUrl += `?access_token=${this._accessToken}`;
-        }
-
         const socket = new WebSocket(serverUrl);
         socket.addEventListener('message', (event) => this._handleMessage(event.data));
         socket.onopen = this._onOpen;
@@ -59,6 +62,13 @@ class WebsocketManager {
 
     static _onOpen = async () => {
         console.log('Socket connected');
+
+        if (this._accessToken) {
+            await this.sendMessage({
+                type: WSMessageType.AUTH,
+                access_token: this._accessToken
+            })
+        }
     }
 
     static _onClose = async (event) => {

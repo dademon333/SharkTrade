@@ -3,7 +3,7 @@ import json
 
 from rabbitmq.modules import get_rabbitmq_connection, get_rabbitmq_channel, declare_ws_message_queue
 from web_sockets.manager import WebsocketsManager
-from web_sockets.schemas import WSDirectMessage, WSBroadcastMessage
+from web_sockets.schemas import WSOutcomeMessage
 
 
 async def websockets_synchronizer():
@@ -13,13 +13,12 @@ async def websockets_synchronizer():
 
     async for message_ in queue:
         message = json.loads(message_.body.decode())  # type: ignore
-        if message['message_type'] == 'direct':
-            message = WSDirectMessage.parse_obj(message)
+        message = WSOutcomeMessage.parse_obj(message)
+        if message.user_id is not None:
             asyncio.create_task(
                 WebsocketsManager.send_direct_message_to_local_connections(message)
             )
         else:
-            message = WSBroadcastMessage.parse_obj(message)
             asyncio.create_task(
                 WebsocketsManager.broadcast_local_connection(message)
             )
