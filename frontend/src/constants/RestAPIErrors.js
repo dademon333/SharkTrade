@@ -3,6 +3,7 @@ export default class RestAPIErrors {
     static CONNECTION_ERROR = 'Cant connect to server';
     static UNAUTHORIZED = 'Not authenticated';
     static UNKNOWN_ERROR = 'Unknown error';
+    static NOT_ENOUGH_RIGHTS = 'Not enough rights';
 
     static LOGIN_ERROR = 'Invalid email or password';
     static USERNAME_ALREADY_EXISTS = 'Username already exists';
@@ -11,11 +12,17 @@ export default class RestAPIErrors {
     static INVALID_USERNAME = 'Invalid username';
     static INVALID_PASSWORD = 'Invalid password';
 
+    static CANT_WITHDRAW_BID = 'Can\'t withdraw bid';
+    static BID_ALREADY_WITHDRAWN = 'Bid already withdrawn';
+    static BID_NOT_FOUND = 'Bid not found';
+
+
     static TRANSLATIONS = {
         [this.SERVER_ERROR]: 'Произошла ошибка на стороне сервера',
         [this.CONNECTION_ERROR]: 'Ошибка соединения с сервером',
         [this.UNAUTHORIZED]: 'Вы не авторизованы',
         [this.UNKNOWN_ERROR]: 'Произошла неизвестная ошибка',
+        [this.NOT_ENOUGH_RIGHTS]: 'Недостаточно прав',
 
         [this.LOGIN_ERROR]: 'Неправильный логин или пароль',
         [this.USERNAME_ALREADY_EXISTS]: 'Этот никнейм уже занят',
@@ -24,6 +31,10 @@ export default class RestAPIErrors {
         [this.INVALID_USERNAME]: 'Никнейм должен быть от 4 до 30 символов ' +
         'и может состоять только из букв латинского алфавита, ' +
         'цифр и нижних подчеркиваний',
-        [this.INVALID_PASSWORD]: 'Пароль должен быть от 8 до 30 символов'
+        [this.INVALID_PASSWORD]: 'Пароль должен быть от 8 до 30 символов',
+
+        [this.CANT_WITHDRAW_BID]: 'Невозможно вернуть эту ставку',
+        [this.BID_ALREADY_WITHDRAWN]: 'Вы уже вернули эту ставку',
+        [this.BID_NOT_FOUND]: 'Ставка не найдена'
     }
 }

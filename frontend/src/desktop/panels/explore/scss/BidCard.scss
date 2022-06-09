@@ -1,0 +1,64 @@
+.desktop .explore .bid-card {
+    position: relative;
+    z-index: 10;
+
+    .bid-card__footer {
+        height: calc(100% - 216px);
+        width: 100%;
+        padding: 10px;
+
+        display: grid;
+        grid-template-columns: 9fr 4fr;
+    }
+
+    .bid-card__name {
+        font-size: 15px;
+        color: var(--bright-primary);
+    }
+
+    .bid-card__item-information {
+        overflow: hidden;
+    }
+
+    .bid-card__rate {
+        font-size: 15px;
+        color: var(--bright-primary);
+    }
+
+    .bid-card__rate-information {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .bid-card__result {
+        height: 16px;
+        width: auto;
+        margin-top: 12px;
+    }
+    .bid-card__result--win {
+        color: var(--primary-green);
+    }
+    .bid-card__result--highest {
+        height: 18px;
+        color: var(--bright-quaternary);
+    }
+    .bid-card__result--lose {
+        color: var(--primary-red);
+    }
+}
+
+.desktop .explore .bid-card__wrapper {
+    position: relative;
+
+    .outline-button {
+        height: 30px;
+        font-size: 14px;
+
+        position: absolute;
+        top: 252px;
+        left: 8px;
+        z-index: 100;
+    }
+}

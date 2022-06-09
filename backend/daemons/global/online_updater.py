@@ -63,7 +63,7 @@ class OnlineUpdater:
             routing_key=RabbitMQGlobals.ONLINE_UPDATER_ROUTING_KEY
         )
 
-        self._redis_cursor = await get_redis_cursor()
+        self._redis_cursor = await anext(get_redis_cursor())
 
     async def _handle_messages(self) -> None:
         last_update = time.time()

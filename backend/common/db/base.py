@@ -1,4 +1,5 @@
 import json
+from typing import AsyncIterator
 
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
@@ -53,7 +54,7 @@ def get_enum_values(enum):
     return [x.value for x in enum]
 
 
-async def get_db() -> AsyncSession:
+async def get_db() -> AsyncIterator[AsyncSession]:
     session = session_factory()
     try:
         yield session

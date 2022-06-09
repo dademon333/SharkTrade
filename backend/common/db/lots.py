@@ -27,6 +27,7 @@ class Lot(Base):
     bids = relationship(
         'Bid',
         lazy='joined',
+        join_depth=2,
         backref=backref('lot', lazy='joined', uselist=False)
     )
     item = relationship('Item', lazy='joined', uselist=False)

@@ -54,6 +54,7 @@ class RestAPI {
         return controller;
     };
 
+
     static async login(username, password) {
         let formData = new FormData();
         formData.append('username', username);
@@ -100,6 +101,7 @@ class RestAPI {
         )
     }
 
+
     static async getAllLots(beforeId) {
         beforeId = beforeId ? `before_id=${beforeId}` : '';
 
@@ -115,6 +117,21 @@ class RestAPI {
         return await this._makeRequest(
             Config.SERVER_URL + `/api/lots/my?${beforeId}&limit=16`,
             {method: 'GET'}
+        )
+    }
+
+    static async getOwnBids(beforeId) {
+        beforeId = beforeId ? `before_id=${beforeId}` : '';
+
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/bids/my?${beforeId}&limit=16`,
+            {method: 'GET'}
+        )
+    }
+    static async withdrawBid(bidId) {
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/bids/withdraw/${bidId}`,
+            {method: 'POST'}
         )
     }
 }

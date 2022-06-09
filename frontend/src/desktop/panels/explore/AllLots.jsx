@@ -7,7 +7,7 @@ import WonderPersikPage from '../../components/WonderPersikPage';
 import RestAPI from '../../../RestAPI';
 import {allLotsExtended, allLotsUpdated} from '../../../slices/Content';
 import LotCard from './components/LotCard';
-import LotsContainer from './components/LotsContainer';
+import ItemsContainer from '../../components/ItemsContainer';
 import InfiniteScroll from '../../components/InfiniteScroll';
 
 
@@ -68,9 +68,9 @@ class AllLots extends Component {
                     onRefresh={this.onRefresh}
                     pullingContent={null}
                 >
-                    <LotsContainer>
+                    <ItemsContainer>
                         {allLots.map((x, index) => <LotCard lot={x} key={index} />)}
-                    </LotsContainer>
+                    </ItemsContainer>
                 </PullToRefresh>
             </InfiniteScroll>
         )

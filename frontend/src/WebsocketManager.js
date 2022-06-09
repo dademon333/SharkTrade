@@ -68,7 +68,7 @@ class WebsocketManager {
         }
         if (event.code === 1005) {
             // Call close from frontend
-            return undefined;
+            return;
         }
         await new Promise(r => setTimeout(r, 3000));
         await this._tryReconnect();

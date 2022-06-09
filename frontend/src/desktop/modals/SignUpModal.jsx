@@ -31,15 +31,15 @@ class SignUpModal extends Component {
 
         if (!email) {
             errorField.textContent = 'Введите почту';
-            return undefined;
+            return;
         }
         if (!username) {
             errorField.textContent = 'Введите никнейм';
-            return undefined;
+            return;
         }
         if (!password) {
             errorField.textContent = 'Введите пароль';
-            return undefined;
+            return;
         }
 
         this.props.screenSpinnerChanged(true);

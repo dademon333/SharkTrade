@@ -7,7 +7,10 @@ const contentSlice = createSlice({
         allLotsLastFetchedAmount: null,
 
         ownLots: null,
-        ownLotsLastFetchedAmount: null
+        ownLotsLastFetchedAmount: null,
+
+        ownBids: null,
+        ownBidsLastFetchedAmount: null
     },
     reducers: {
         allLotsUpdated(state, action) {
@@ -35,6 +38,26 @@ const contentSlice = createSlice({
             const {lots} = action.payload;
             state.ownLots = (state.ownLots || []).concat(lots);
             state.ownLotsLastFetchedAmount = lots.length;
+        },
+
+        ownBidsUpdated(state, action) {
+            if (action.payload) {
+                const {bids} = action.payload;
+                state.ownBids = bids;
+                state.ownBidsLastFetchedAmount = bids.length;
+            } else {
+                state.ownBids = null;
+                state.ownBidsLastFetchedAmount = null;
+            }
+        },
+        ownBidsExtended(state, action) {
+            const {bids} = action.payload;
+            state.ownBids = (state.ownBids || []).concat(bids);
+            state.ownBidsLastFetchedAmount = bids.length;
+        },
+        bidWithdrawn(state, action) {
+            const bid = state.ownBids.filter(x => x.id === action.payload)[0];
+            bid.can_withdraw = false;
         }
     }
 });
@@ -43,6 +66,11 @@ export default contentSlice.reducer;
 export const {
     allLotsUpdated,
     allLotsExtended,
+
     ownLotsUpdated,
-    ownLotsExtended
+    ownLotsExtended,
+
+    ownBidsUpdated,
+    ownBidsExtended,
+    bidWithdrawn
 } = contentSlice.actions;

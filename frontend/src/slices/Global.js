@@ -8,7 +8,11 @@ const globalSlice = createSlice({
         online: 0,
 
         screenSpinner: false,
-        modal: null
+        modal: null,
+
+        alertVariant: null,
+        alertSeverity: null,
+        alertText: null
     },
     reducers: {
         accessTokenChanged(state, action) {
@@ -26,6 +30,18 @@ const globalSlice = createSlice({
         },
         modalChanged(state, action) {
             state.modal = action.payload;
+        },
+
+        alertChanged(state, action) {
+            if (action.payload) {
+                state.alertVariant = action.payload.alertVariant;
+                state.alertSeverity = action.payload.alertSeverity;
+                state.alertText = action.payload.alertText;
+            } else {
+                state.alertVariant = null;
+                state.alertSeverity = null;
+                state.alertText = null;
+            }
         }
     }
 });
@@ -37,5 +53,7 @@ export const {
     onlineChanged,
 
     screenSpinnerChanged,
-    modalChanged
+    modalChanged,
+
+    alertChanged
 } = globalSlice.actions;

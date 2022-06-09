@@ -11,7 +11,7 @@ class DefaultModal extends Component {
     componentDidUpdate = () => {
         const form = document.querySelector('.modal__form');
         if (form === null) {
-            return undefined;
+            return;
         }
         form.addEventListener('submit', this.props.onSubmit);
     }

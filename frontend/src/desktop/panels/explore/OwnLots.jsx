@@ -6,7 +6,7 @@ import {ownLotsExtended, ownLotsUpdated} from '../../../slices/Content';
 import LoadingSpinnerPage from '../../components/LoadingSpinnerPage';
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import InfiniteScroll from '../../components/InfiniteScroll';
-import LotsContainer from './components/LotsContainer';
+import ItemsContainer from '../../components/ItemsContainer';
 import LotCard from './components/LotCard';
 import RestAPI from '../../../RestAPI';
 import AuthRequiredPage from '../../components/AuthRequiredPage';
@@ -18,7 +18,7 @@ class OwnLots extends Component {
         let {lots, detail} = await RestAPI.getOwnLots(beforeId);
 
         if (detail === RestAPIErrors.UNAUTHORIZED) {
-            return undefined;
+            return;
         }
         if (detail) {
             lots = []
@@ -86,9 +86,9 @@ class OwnLots extends Component {
                     onRefresh={this.onRefresh}
                     pullingContent={null}
                 >
-                    <LotsContainer>
+                    <ItemsContainer>
                         {ownLots.map((x, index) => <LotCard lot={x} key={index} />)}
-                    </LotsContainer>
+                    </ItemsContainer>
                 </PullToRefresh>
             </InfiniteScroll>
         )

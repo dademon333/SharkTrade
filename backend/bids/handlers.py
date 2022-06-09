@@ -10,9 +10,13 @@ from common.security.auth import get_user_id, get_user_status
 from lots.modules import raise_if_lot_not_exists, raise_if_lot_is_cancelled
 from lots.schemas import LotNotFoundResponse, LotIsCanceledResponse
 from users.modules import raise_not_enough_money
-from users.schemas import NotEnoughMoneyResponse, NewBalanceResponse, CantBidOnOwnLotResponse
-from .modules import raise_if_exists_bigger_bid, raise_if_bid_not_exists, raise_if_no_access_to_edit_bid, raise_if_cant_withdraw_bid, raise_bid_already_withdrawn, raise_if_bidder_equals_lot_owner
-from .schemas import BidsListResponse, ExistsBiggerBidResponse, BidNotFoundResponse, CantWithdrawBidResponse, BidAlreadyWithdrawnResponse
+from users.schemas import NotEnoughMoneyResponse, NewBalanceResponse, \
+    CantBidOnOwnLotResponse
+from .modules import raise_if_exists_bigger_bid, raise_if_bid_not_exists, \
+    raise_if_no_access_to_edit_bid, raise_if_cant_withdraw_bid, \
+    raise_bid_already_withdrawn, raise_if_bidder_equals_lot_owner
+from .schemas import BidsListResponse, ExistsBiggerBidResponse, \
+    BidNotFoundResponse, CantWithdrawBidResponse, BidAlreadyWithdrawnResponse
 
 bids_router = APIRouter()
 

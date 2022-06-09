@@ -1,0 +1,11 @@
+.desktop .items-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    row-gap: 14px;
+    column-gap: 14px;
+
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding-left: 16px;
+}

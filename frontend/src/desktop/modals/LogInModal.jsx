@@ -28,11 +28,11 @@ class LogInModal extends Component {
 
         if (!username) {
             errorField.textContent = 'Введите никнейм';
-            return undefined;
+            return;
         }
         if (!password) {
             errorField.textContent = 'Введите пароль';
-            return undefined;
+            return;
         }
 
         this.props.screenSpinnerChanged(true);

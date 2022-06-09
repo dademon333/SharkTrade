@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import './Template.scss';
 import '../modals/scss/Common.scss';
 import SignUpModal from '../modals/SignUpModal';
+import Alert from '../components/Alert';
 
 
 class Template extends Component {
@@ -21,6 +22,22 @@ class Template extends Component {
                 <LogInModal open={modal === Modals.LOG_IN}/>
                 <SignUpModal open={modal === Modals.SIGN_UP}/>
             </>
+        )
+    }
+
+    renderAlert = () => {
+        const {global: {alertVariant, alertSeverity, alertText}} = this.props;
+
+        if (!alertSeverity) {
+            return;
+        }
+        return (
+            <Alert
+                variant={alertVariant}
+                severity={alertSeverity}
+            >
+                {alertText}
+            </Alert>
         )
     }
 
@@ -56,6 +73,7 @@ class Template extends Component {
                     <CircularProgress color="inherit" />
                 </Backdrop>
                 {this.renderModals()}
+                {this.renderAlert()}
             </div>
         )
     }

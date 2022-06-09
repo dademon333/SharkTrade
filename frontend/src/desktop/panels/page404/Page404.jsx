@@ -13,7 +13,7 @@ class Page404 extends Component {
         return (
             <Template className="page-404">
                 <img src={persik} alt="persik" className="persik"/>
-                <div className="caption">Тут ничего нет</div>
+                <div className="caption">Здесь ничего нет</div>
                 <LinkButton to="/">Домой</LinkButton>
             </Template>
         )

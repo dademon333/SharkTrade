@@ -10,11 +10,11 @@
         grid-template-columns: 9fr 4fr;
     }
 
-    .lot-card__information {
+    .lot-card__item-information {
         overflow: hidden;
 
         .lot-card__name {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--bright-primary);
         }
 
@@ -37,7 +37,7 @@
         text-align: center;
 
         .lot-card__price {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--bright-primary);
         }
 

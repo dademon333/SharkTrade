@@ -19,7 +19,7 @@ class LotCard extends Component {
         return (
             <ItemCard item={item} link={`/lot/${id}`} className="lot-card">
                  <div className={'lot-card__footer' + (isCancelled ? '' : ' lot-card__footer--separated')}>
-                     <div className="lot-card__information">
+                     <div className="lot-card__item-information">
                          <div className="lot-card__name truncatable">
                              {name}
                          </div>

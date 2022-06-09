@@ -1,14 +1,13 @@
 .desktop .explore {
     .MuiTabPanel-root {
-        height: calc(100% - 56px);
-        margin-top: 16px;
+        height: calc(100% - 40px);
     }
 
-    .lots-container {
-        display: flex;
-        flex-wrap: wrap;
+    .main-content--splitted {
+        margin-left: unset;
+    }
 
-        row-gap: 16px;
-        column-gap: 16px;
+    .MuiTabs-root {
+        padding-left: 16px;
     }
 }
