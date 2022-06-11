@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../scss/LotCard.scss';
 import TextFunctions from '../../../../TextFunctions';
-import ItemCard from '../../../components/ItemCard';
+import BaseCard from '../../../components/BaseCard';
 
 
 class LotCard extends Component {
@@ -17,7 +17,7 @@ class LotCard extends Component {
             item: {name, description}
         } = this.props.lot;
         return (
-            <ItemCard item={item} link={`/lot/${id}`} className="lot-card">
+            <BaseCard item={item} link={`/lot/${id}`} className="lot-card">
                  <div className={'lot-card__footer' + (isCancelled ? '' : ' lot-card__footer--separated')}>
                      <div className="lot-card__item-information">
                          <div className="lot-card__name truncatable">
@@ -38,7 +38,7 @@ class LotCard extends Component {
                          </div>
                      )}
                  </div>
-            </ItemCard>
+            </BaseCard>
         )
     }
 }

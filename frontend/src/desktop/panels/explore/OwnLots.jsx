@@ -4,13 +4,12 @@ import {connect} from 'react-redux';
 import WonderPersikPage from '../../components/WonderPersikPage';
 import {ownLotsExtended, ownLotsUpdated} from '../../../slices/Content';
 import LoadingSpinnerPage from '../../components/LoadingSpinnerPage';
-import PullToRefresh from 'react-simple-pull-to-refresh';
-import InfiniteScroll from '../../components/InfiniteScroll';
 import ItemsContainer from '../../components/ItemsContainer';
 import LotCard from './components/LotCard';
 import RestAPI from '../../../RestAPI';
 import AuthRequiredPage from '../../components/AuthRequiredPage';
 import RestAPIErrors from '../../../constants/RestAPIErrors';
+import InfiniteScroll from '../../components/InfiniteScroll';
 
 
 class OwnLots extends Component {
@@ -52,46 +51,40 @@ class OwnLots extends Component {
         }
     }
 
-    render = () => {
-        const {ownLots, ownLotsLastFetchedAmount} = this.props.content;
-        const {id} = this.props.user;
-
-        if (!id) {
-            return <AuthRequiredPage />
-        }
-
-        if (ownLots === null) {
-            return <LoadingSpinnerPage />
-        }
-
-        if (ownLots.length === 0) {
-            return (
-                <PullToRefresh
-                    onRefresh={this.onRefresh}
-                    pullingContent={null}
-                >
-                    <WonderPersikPage>
-                        Вы еще ничего не продавали
-                    </WonderPersikPage>
-                </PullToRefresh>
-            )
-        }
-
+    withInfiniteScroll = (content) => {
+        const {ownLotsLastFetchedAmount} = this.props.content;
         return (
             <InfiniteScroll
                 loadMore={this.loadMore}
                 hasMore={ownLotsLastFetchedAmount > 0}
+                onRefresh={this.onRefresh}
             >
-                <PullToRefresh
-                    onRefresh={this.onRefresh}
-                    pullingContent={null}
-                >
-                    <ItemsContainer>
-                        {ownLots.map((x, index) => <LotCard lot={x} key={index} />)}
-                    </ItemsContainer>
-                </PullToRefresh>
+                {content}
             </InfiniteScroll>
         )
+    }
+
+    render = () => {
+        const {ownLots} = this.props.content;
+        const {id} = this.props.user;
+
+        if (!id) {
+            return this.withInfiniteScroll(<AuthRequiredPage />);
+        }
+
+        if (ownLots === null) {
+            return this.withInfiniteScroll(<LoadingSpinnerPage />);
+        }
+
+        if (ownLots.length === 0) {
+            return this.withInfiniteScroll(<WonderPersikPage>Вы еще ничего не продавали</WonderPersikPage>);
+        }
+
+        return this.withInfiniteScroll(
+            <ItemsContainer>
+                {ownLots.map((x, index) => <LotCard lot={x} key={index} />)}
+            </ItemsContainer>
+        );
     }
 }
 

@@ -1,33 +1,37 @@
 import {Component} from 'react';
+import PullToRefresh from 'react-simple-pull-to-refresh';
 import OriginalInfiniteScroll from 'react-infinite-scroller';
-import PropTypes from 'prop-types';
 
 import './scss/InfiniteScroll.scss';
+import PropTypes from 'prop-types';
 
 
 class InfiniteScroll extends Component {
     render = () => {
-        const {loadMore, hasMore, children} = this.props;
+        const {children, loadMore, hasMore, onRefresh} = this.props;
 
         return (
-            <div className="infinite-scroll__relative-wrapper">
-                <div className="infinite-scroll__absolute-wrapper">
-                    <OriginalInfiniteScroll
-                        useWindow={false}
-                        loadMore={loadMore}
-                        hasMore={hasMore}
-                    >
-                        {children}
-                    </OriginalInfiniteScroll>
-                </div>
-            </div>
+            <OriginalInfiniteScroll
+                loadMore={loadMore}
+                hasMore={hasMore}
+                className="infinite-scroll"
+            >
+                <PullToRefresh
+                    onRefresh={onRefresh}
+                    pullingContent={null}
+                >
+                    {children}
+                </PullToRefresh>
+            </OriginalInfiniteScroll>
         )
     }
 }
 
+
 InfiniteScroll.propTypes = {
     loadMore: PropTypes.func.isRequired,
-    hasMore: PropTypes.bool.isRequired
+    hasMore: PropTypes.bool.isRequired,
+    onRefresh: PropTypes.func.isRequired
 }
 
 export default InfiniteScroll;

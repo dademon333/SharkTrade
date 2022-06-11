@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 
 import RestAPI from '../../../../RestAPI';
-import ItemCard from '../../../components/ItemCard';
+import BaseCard from '../../../components/BaseCard';
 import TextFunctions from '../../../../TextFunctions';
 import OutlineButton from '../../../components/OutlineButton';
 import {alertChanged} from '../../../../slices/Global';
@@ -68,7 +68,7 @@ class BidCard extends Component {
 
         return (
             <div className="bid-card__wrapper">
-                <ItemCard item={item} link={`/lot/${lotId}`} className="bid-card">
+                <BaseCard item={item} link={`/lot/${lotId}`} className="bid-card">
                     <div className="bid-card__footer">
                         <div className="bid-card__item-information">
                             <div className="bid-card__name truncatable">{name}</div>
@@ -78,7 +78,7 @@ class BidCard extends Component {
                             {this.getIcon(status)}
                         </div>
                     </div>
-                </ItemCard>
+                </BaseCard>
                 {canWithdraw && (
                     <OutlineButton
                         onClick={async () => await this.onWithdraw(bidId, amount)}

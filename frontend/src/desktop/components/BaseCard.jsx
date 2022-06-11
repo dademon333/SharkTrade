@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import {Component} from 'react';
 import {Link} from 'react-router-dom';
 
-import './scss/ItemCard.scss';
+import './scss/BaseCard.scss';
 
 
-class ItemCard extends Component {
+class BaseCard extends Component {
     render = () => {
         const {
             link,
@@ -15,8 +15,8 @@ class ItemCard extends Component {
         } = this.props;
 
         return (
-            <Link to={link} className={`item-card ${className}`}>
-                <div className={`item-card ${className}`}>
+            <Link to={link} className={`base-card ` + className || ''}>
+                <div className={`base-card ` + className || ''}>
                     <img src={photoUrl} alt="img"/>
                     {children}
                 </div>
@@ -26,10 +26,10 @@ class ItemCard extends Component {
 }
 
 
-ItemCard.propTypes = {
-    link: PropTypes.string,
+BaseCard.propTypes = {
+    link: PropTypes.string.isRequired,
     className: PropTypes.string,
     item: PropTypes.object.isRequired
 }
 
-export default ItemCard;
+export default BaseCard;

@@ -1,5 +1,4 @@
 import {Component} from 'react';
-import PullToRefresh from 'react-simple-pull-to-refresh';
 import {connect} from 'react-redux';
 
 import LoadingSpinnerPage from '../../components/LoadingSpinnerPage';
@@ -39,41 +38,41 @@ class AllLots extends Component {
         }
     }
 
-    render = () => {
-        const {allLots, allLotsLastFetchedAmount} = this.props.content;
-
-        if (allLots === null) {
-            return <LoadingSpinnerPage />
+    componentDidUpdate = async () => {
+        if (this.props.content.allLots === null) {
+            await this.loadLots(null);
         }
+    }
 
-        if (allLots.length === 0) {
-            return (
-                <PullToRefresh
-                    onRefresh={this.onRefresh}
-                    pullingContent={null}
-                >
-                    <WonderPersikPage>
-                        Сейчас нет активных лотов
-                    </WonderPersikPage>
-                </PullToRefresh>
-            )
-        }
-
+    withInfiniteScroll = (content) => {
+        const {allLotsLastFetchedAmount} = this.props.content;
         return (
             <InfiniteScroll
                 loadMore={this.loadMore}
                 hasMore={allLotsLastFetchedAmount > 0}
+                onRefresh={this.onRefresh}
             >
-                <PullToRefresh
-                    onRefresh={this.onRefresh}
-                    pullingContent={null}
-                >
-                    <ItemsContainer>
-                        {allLots.map((x, index) => <LotCard lot={x} key={index} />)}
-                    </ItemsContainer>
-                </PullToRefresh>
+                {content}
             </InfiniteScroll>
         )
+    }
+
+    render = () => {
+        const {allLots} = this.props.content;
+
+        if (allLots === null) {
+            return this.withInfiniteScroll(<LoadingSpinnerPage />);
+        }
+
+        if (allLots.length === 0) {
+            return this.withInfiniteScroll(<WonderPersikPage>Сейчас нет активных лотов</WonderPersikPage>);
+        }
+
+        return this.withInfiniteScroll(
+            <ItemsContainer>
+                {allLots.map((x, index) => <LotCard lot={x} key={index} />)}
+            </ItemsContainer>
+        );
     }
 }
 

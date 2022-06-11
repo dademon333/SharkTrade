@@ -8,7 +8,7 @@ import LocalStorage from '../../../LocalStorage';
 import RestAPI from '../../../RestAPI';
 import {userDataChanged} from '../../../slices/User';
 import SystemFunctions from '../../../SystemFunctions';
-import {ownLotsUpdated} from '../../../slices/Content';
+import {allContentCleared, ownLotsUpdated} from '../../../slices/Content';
 import OutlineButton from '../../components/OutlineButton';
 
 
@@ -19,7 +19,7 @@ class AuthPanel extends Component {
         await SystemFunctions.connectBackend();
         this.props.userDataChanged(null);
         this.props.accessTokenChanged(null);
-        this.props.ownLotsUpdated(null);
+        this.props.allContentCleared();
     }
 
     render = () => {
@@ -62,7 +62,8 @@ const mapDispatchToProps = {
     modalChanged,
     accessTokenChanged,
     userDataChanged,
-    ownLotsUpdated
+    ownLotsUpdated,
+    allContentCleared
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

@@ -135,6 +135,15 @@ class RestAPI {
             {method: 'POST'}
         )
     }
+
+    static async getOwnItems(beforeId) {
+        beforeId = beforeId ? `before_id=${beforeId}` : '';
+
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/items/my?${beforeId}&limit=16`,
+            {method: 'GET'}
+        )
+    }
 }
 
 export default RestAPI;
