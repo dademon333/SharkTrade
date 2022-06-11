@@ -5,7 +5,8 @@ from starlette.websockets import WebSocket
 
 from common.security.auth import get_user_id_soft
 from .manager import WebsocketsManager
-from .schemas import WSIncomeMessageType, WSOutcomeMessage, WSOutcomeMessageType
+from .schemas import WSIncomeMessageType, WSOutcomeMessage, \
+    WSOutcomeMessageType
 
 
 async def handle_message(

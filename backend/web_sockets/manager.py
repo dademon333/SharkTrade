@@ -100,7 +100,10 @@ class WebsocketsManager:
         )
 
     @classmethod
-    async def broadcast_local_connection(cls, message: WSOutcomeMessage) -> None:
+    async def broadcast_local_connection(
+            cls,
+            message: WSOutcomeMessage
+    ) -> None:
         connections = list(cls._authorized_connections.values())
         connections += list(cls._unauthorized_connections.values())
         connections = sum(connections, [])  # Zip 2D array to 1D

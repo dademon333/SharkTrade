@@ -21,19 +21,31 @@ engine = create_async_engine(
     Tokens.SQLALCHEMY_POSTGRESQL_URL,
     future=True,
     echo=Config.DEBUG,
-    json_serializer=lambda obj: json.dumps(obj, default=json_serializer, ensure_ascii=False),
-    json_deserializer=lambda obj: json.loads(obj, object_pairs_hook=json_deserializer)
+    json_serializer=lambda obj: json.dumps(
+        obj, default=json_serializer, ensure_ascii=False
+    ),
+    json_deserializer=lambda obj: json.loads(
+        obj, object_pairs_hook=json_deserializer
+    )
 )
-session_factory = sessionmaker(bind=engine, class_=AsyncSession)
 metadata = MetaData(bind=engine, naming_convention=naming_convention)
 
 Base = declarative_base(metadata=metadata)
 
 
+def session_factory(expire_on_commit: bool = True) -> AsyncSession:
+    return sessionmaker(
+        bind=engine,
+        class_=AsyncSession,
+        expire_on_commit=expire_on_commit
+    )()
+
+
 def get_enum_values(enum):
     """Returns a list of enum values.
 
-    Problem: SQLAlchemy uses names of enum's values to store in database instead of it's values
+    Problem: SQLAlchemy uses names of enum's values to store in database
+    instead of it's values
     e.g.:
     class UserStatus(enum.Enum):
         USER = 'user'

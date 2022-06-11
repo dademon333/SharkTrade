@@ -11,12 +11,14 @@ from common.redis import get_redis_cursor
 from rabbitmq.globals import RabbitMQGlobals
 from rabbitmq.modules import get_rabbitmq_connection, get_rabbitmq_channel, \
     declare_broadcast_exchange, declare_global_daemons_exchange
-from web_sockets.schemas import WorkerOnlineReport, WSOutcomeMessageType, WSOutcomeMessage
+from web_sockets.schemas import WorkerOnlineReport, WSOutcomeMessageType, \
+    WSOutcomeMessage
 
 
 class OnlineUpdater:
     """Listens reports from app containers about their current online
-    (calculated by counting connected websockets) and refreshes summary current online.
+    (calculated by counting connected websockets)
+    and refreshes summary current online.
 
     """
 

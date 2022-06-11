@@ -54,3 +54,17 @@ def test_lost_bid():
 
     result = can_withdraw_bid(bids[0])
     assert result is True
+
+
+def test_force_cancelled_lot():
+    lot = Lot(win_bid_id=None, is_cancelled=True)
+    bids = [
+        Bid(id=1, amount=1000, lot=lot),
+        Bid(id=2, amount=2000, lot=lot),
+        Bid(id=3, amount=3000, lot=lot)
+    ]
+    lot.bids = bids
+
+    for bid in bids:
+        result = can_withdraw_bid(bid)
+        assert result is True

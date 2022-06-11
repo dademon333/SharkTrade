@@ -56,7 +56,6 @@ class WebsocketManager {
         socket.addEventListener('message', (event) => this._handleMessage(event.data));
         socket.onopen = this._onOpen;
         socket.onclose = this._onClose;
-
         return socket;
     }
 

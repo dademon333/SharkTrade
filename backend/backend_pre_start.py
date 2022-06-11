@@ -3,8 +3,8 @@ import threading
 
 from aio_pika import RobustChannel
 
-from daemons.local.online_updater import online_updater
-from daemons.local.websockets_synchronizer import websockets_synchronizer
+from daemons.local_daemons.online_updater import online_updater
+from daemons.local_daemons.websockets_synchronizer import websockets_synchronizer
 from rabbitmq.globals import RabbitMQGlobals
 from rabbitmq.modules import get_rabbitmq_connection, \
     declare_direct_messages_exchange, declare_broadcast_exchange, \

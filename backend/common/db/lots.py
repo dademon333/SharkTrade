@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, ForeignKey, Boolean, DateTime, func
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship, backref
 
+from .bids import Bid
 from .base import Base
 
 
@@ -19,7 +20,12 @@ class Lot(Base):
         ForeignKey('items.id', onupdate='CASCADE', ondelete='SET NULL'),
         index=True
     )
-    is_cancelled = Column(Boolean, nullable=False, index=True, server_default='false')
+    is_cancelled = Column(
+        Boolean,
+        nullable=False,
+        index=True,
+        server_default='false'
+    )
     win_bid_id = Column(Integer, index=True)
     created_at = Column(DateTime, nullable=False, server_default=func.now())
     end_time = Column(DateTime, nullable=False)
@@ -33,7 +39,7 @@ class Lot(Base):
     item = relationship('Item', lazy='joined', uselist=False)
 
     @hybrid_property
-    def win_bid(self):
+    def win_bid(self) -> Bid | None:
         if self.win_bid_id is None:
             return None
 

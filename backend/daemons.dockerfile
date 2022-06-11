@@ -10,4 +10,4 @@ RUN apk add --no-cache postgresql-client
 
 COPY . .
 
-ENTRYPOINT ["python3", "-m", "daemons.global.run_workers"]
+ENTRYPOINT ["python3", "-m", "daemons.global_daemons.run_workers"]

@@ -105,6 +105,7 @@ services:
             - "15673:15672"
         volumes:
             - rabbitmq:/var/lib/rabbitmq
+            - ./docker_files/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
         environment:
             RABBITMQ_DEFAULT_USER: $RABBITMQ_USERNAME
             RABBITMQ_DEFAULT_PASS: $RABBITMQ_PASSWORD

@@ -11,7 +11,10 @@ from tokens import Tokens
 
 
 class DatabaseBackuper:
-    """Automatically creates db backups every day in 00:00:10 and removes old."""
+    """Automatically creates db backups every day
+    in 00:00:10 and removes old.
+
+    """
 
     @classmethod
     def init(cls):
@@ -27,7 +30,10 @@ class DatabaseBackuper:
     @classmethod
     def create_backup(cls) -> None:
         today = datetime.now().strftime('%Y-%m-%d_%H:%M:%S')
-        dump_location = Path(Config.BACKUPS_ROOT, f'{Tokens.POSTGRESQL_DATABASE}_{today}.sql')
+        dump_location = Path(
+            Config.BACKUPS_ROOT,
+            f'{Tokens.POSTGRESQL_DATABASE}_{today}.sql'
+        )
         subprocess.call(
             f'pg_dump'
             f' {Tokens.DB_BACKUPER_POSTGRESQL_URL}'
@@ -49,7 +55,9 @@ class DatabaseBackuper:
         for file_name in backups:
             try:
                 created_at = datetime.strptime(
-                    file_name.replace(f'{Tokens.POSTGRESQL_DATABASE}_', '').replace('.sql', ''),
+                    file_name
+                    .replace(f'{Tokens.POSTGRESQL_DATABASE}_', '')
+                    .replace('.sql', ''),
                     '%Y-%m-%d_%H:%M:%S'
                 )
             except:

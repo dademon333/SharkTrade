@@ -45,6 +45,7 @@ class ItemUpdateForm(ItemBase):
 
 
 class ItemUpdate(ItemUpdateForm):
+    owner_id: int | None = None
     is_locked: bool | None = None
 
 

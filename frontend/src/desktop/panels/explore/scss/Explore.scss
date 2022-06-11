@@ -1,6 +1,6 @@
 .desktop .explore {
     .MuiTabPanel-root {
-        height: calc(100% - 56px);
+        height: calc(100% - 40px);
     }
 
     .main-content--splitted {
@@ -11,9 +11,9 @@
         padding-left: 16px;
     }
 
-    .infinite-scroll__relative-wrapper {
-        margin-top: 16px;
-        margin-bottom: 16px;
+    .ptr__children {
+        padding-top: 16px;
+        padding-bottom: 16px;
         padding-left: 16px;
     }
 
