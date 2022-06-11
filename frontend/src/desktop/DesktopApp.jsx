@@ -2,11 +2,11 @@ import {Component} from 'react';
 import {connect} from 'react-redux';
 import {Routes, Route, BrowserRouter as Router} from 'react-router-dom';
 
-import IndexPage from './panels/index/IndexPage';
-import Page404 from './panels/page404/Page404';
-import Explore from './panels/explore/Explore';
-import Inventory from './panels/indentory/Inventory';
-import Profile from './panels/profile/Profile';
+import IndexPage from './pages/index/IndexPage';
+import Page404 from './pages/page404/Page404';
+import Explore from './pages/explore/Explore';
+import Inventory from './pages/indentory/Inventory';
+import Profile from './pages/profile/Profile';
 
 
 class DesktopApp extends Component {
@@ -18,6 +18,7 @@ class DesktopApp extends Component {
                     <Route path="/explore" element={<Explore />}/>
                     <Route path="/inventory" element={<Inventory />}/>
                     <Route path="/profile" element={<Profile />}/>
+                    <Route path="/lot/:id" element={<Profile />}/>
                     <Route path="*" element={<Page404 />}/>
                 </Routes>
             </Router>
