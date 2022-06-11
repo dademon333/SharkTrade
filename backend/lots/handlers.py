@@ -14,7 +14,7 @@ from items.modules import raise_if_item_not_exists, \
     raise_if_no_access_to_edit_item, raise_item_is_locked
 from items.schemas import ItemNotFoundResponse, ItemIsLockedResponse
 from .modules import raise_if_lot_not_exists, raise_if_no_access_to_edit_lot, \
-    raise_if_lot_is_canceled
+    raise_if_lot_is_cancelled
 from .schemas import LotsListResponse, LotNotFoundResponse, LotIsCanceledResponse
 
 lots_router = APIRouter()
@@ -26,14 +26,14 @@ lots_router = APIRouter()
 )
 async def get_active_lots(
         limit: int = Query(25, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        before_id: int | None = Query(None, ge=0),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает активные лоты."""
-    lots = await crud.lots.get_active(db, limit, offset)
-    active_count = await crud.lots.get_active_count(db)
+    """Возвращает активные лоты в антихронологическом порядке."""
+    lots = await crud.lots.get_active(db, limit, before_id)
+    active_amount = await crud.lots.get_active_count(db)
     return LotsListResponse(
-        total_count=active_count,
+        total_amount=active_amount,
         lots=[LotInfo.from_orm(x) for x in lots]
     )
 
@@ -45,15 +45,15 @@ async def get_active_lots(
 )
 async def get_own_lots(
         limit: int = Query(25, ge=1, le=1000),
-        offset: int = Query(0, ge=0),
+        before_id: int | None = Query(None, ge=0),
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает лоты текущего пользователя."""
-    lots = await crud.lots.get_by_owner_id(db, user_id, limit, offset)
-    active_count = await crud.lots.get_active_count(db)
+    """Возвращает лоты текущего пользователя в антихронологическом порядке."""
+    lots = await crud.lots.get_by_owner_id(db, user_id, limit, before_id)
+    active_count = await crud.lots.get_user_lots_count(db, user_id)
     return LotsListResponse(
-        total_count=active_count,
+        total_amount=active_count,
         lots=[LotInfoExtended.from_orm(x) for x in lots]
     )
 
@@ -131,9 +131,9 @@ async def remove_lot(
     lot = await crud.lots.get_by_id(db, lot_id)
     raise_if_lot_not_exists(lot)
     raise_if_no_access_to_edit_lot(lot, user_id, user_status)
-    raise_if_lot_is_canceled(lot)
+    raise_if_lot_is_cancelled(lot)
 
-    await crud.lots.update(db, lot.id, LotUpdate(is_canceled=True))
+    await crud.lots.update(db, lot.id, LotUpdate(is_cancelled=True))
     await crud.items.unlock(db, lot.item_id)
 
     return OkResponse()

@@ -2,16 +2,16 @@ import {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import './scss/LinkButton.scss';
+import OutlineButton from './OutlineButton';
 
 
 class LinkButton extends Component {
     render = () => {
         return (
             <Link to={this.props.to}>
-                <button className="link-button">
+                <OutlineButton>
                     {this.props.children}
-                </button>
+                </OutlineButton>
             </Link>
         )
     }

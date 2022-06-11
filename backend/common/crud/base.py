@@ -1,5 +1,6 @@
 from typing import Generic, TypeVar, Type
 
+import sqlalchemy
 from pydantic import BaseModel
 from sqlalchemy import insert, delete, update, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -48,13 +49,18 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             self,
             db: AsyncSession,
             limit: int = 100,
-            offset: int = 0
+            after_id: int | None = None
     ) -> list[ModelType]:
+        where_clause = sqlalchemy.true()
+
+        if after_id is not None:
+            where_clause &= self.model.id > after_id
+
         result = await db.scalars(
             select(self.model)
+            .where(where_clause)
             .order_by(self.model.id)
             .limit(limit)
-            .offset(offset)
         )
         return result.unique().all()
 

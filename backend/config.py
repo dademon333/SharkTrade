@@ -1,6 +1,12 @@
 import os
+import sys
 from distutils.util import strtobool
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+if 'pytest' in sys.argv[0]:
+    load_dotenv('../.env')
 
 
 class Config:

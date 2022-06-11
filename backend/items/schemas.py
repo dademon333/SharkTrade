@@ -4,7 +4,7 @@ from common.schemas.items import ItemInfoExtended
 
 
 class ItemsListResponse(BaseModel):
-    total_count: int
+    total_amount: int
     items: list[ItemInfoExtended]
 
 

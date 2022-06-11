@@ -5,7 +5,8 @@ from .items import items
 from .base import CRUDBase
 from ..db import Lot
 from ..schemas.lots import LotCreate, LotUpdate
-from ..sqlalchemy.transaction import set_transaction_isolation_level, IsolationLevel
+from ..sqlalchemy.transaction import set_transaction_isolation_level, \
+    IsolationLevel
 
 
 class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
@@ -13,22 +14,25 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
     async def get_active(
             db: AsyncSession,
             limit: int = 25,
-            offset: int = 0
+            before_id: int | None = None
     ) -> list[Lot]:
-        lots = await db.scalars(
+        where_clause = Lot.is_cancelled == False  # noqa
+        if before_id is not None:
+            where_clause &= (Lot.id < before_id)
+
+        active_lots = await db.scalars(
             select(Lot)
-            .where(Lot.is_canceled == False)  # noqa
-            .order_by(Lot.id)
+            .where(where_clause)
+            .order_by(Lot.id.desc())  # noqa
             .limit(limit)
-            .offset(offset)
         )
-        return lots.unique().all()
+        return active_lots.unique().all()
 
     @staticmethod
     async def get_active_count(db: AsyncSession) -> int:
         count = await db.scalars(
             select(func.count(Lot.id))
-            .where(Lot.is_canceled == False)  # noqa
+            .where(Lot.is_cancelled == False)  # noqa
         )
         return count.first()
 
@@ -37,16 +41,19 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
             db: AsyncSession,
             owner_id: int,
             limit: int = 25,
-            offset: int = 0
+            before_id: int | None = None
     ) -> list[Lot]:
-        items = await db.scalars(
+        where_clause = Lot.owner_id == owner_id
+        if before_id is not None:
+            where_clause &= (Lot.id < before_id)
+
+        user_lots = await db.scalars(
             select(Lot)
-            .where(Lot.owner_id == owner_id)
-            .order_by(Lot.id)
+            .where(where_clause)
+            .order_by(Lot.id.desc())  # noqa
             .limit(limit)
-            .offset(offset)
         )
-        return items.unique().all()
+        return user_lots.unique().all()
 
     @staticmethod
     async def get_user_lots_count(
@@ -58,6 +65,19 @@ class CRUDLots(CRUDBase[Lot, LotCreate, LotUpdate]):
             .where(Lot.owner_id == owner_id)
         )
         return count.first()
+
+    @staticmethod
+    async def get_ready_for_finish(
+            db: AsyncSession
+    ) -> list[Lot]:
+        ready_lots = await db.scalars(
+            select(Lot)
+            .where(
+                (Lot.end_time <= func.now())
+                & (Lot.is_cancelled == False)  # noqa
+            )
+        )
+        return ready_lots.unique().all()
 
     async def create(
             self,

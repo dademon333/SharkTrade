@@ -12,14 +12,17 @@ class CRUDItems(CRUDBase[Item, ItemCreate, ItemUpdate]):
             db: AsyncSession,
             owner_id: int,
             limit: int = 25,
-            offset: int = 0
+            before_id: int | None = None
     ) -> list[Item]:
+        where_clause = Item.owner_id == owner_id
+        if before_id is not None:
+            where_clause &= (Item.id < before_id)
+
         items = await db.scalars(
             select(Item)
-            .where(Item.owner_id == owner_id)
-            .order_by(Item.id)
+            .where(where_clause)
+            .order_by(Item.id.desc())  # noqa
             .limit(limit)
-            .offset(offset)
         )
         return items.unique().all()
 

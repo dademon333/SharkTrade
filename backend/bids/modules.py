@@ -2,19 +2,29 @@ from fastapi import HTTPException, status
 
 from common.db import Bid, Lot, UserStatus
 from common.responses import NotEnoughRightsResponse
+from common.schemas.bids import BidStatus
 from users.schemas import CantBidOnOwnLotResponse
-from .schemas import ExistsBiggerBidResponse, BidNotFoundResponse, CantWithdrawBidResponse, BidAlreadyWithdrawnResponse
+from .schemas import ExistsBiggerBidResponse, BidNotFoundResponse, \
+    CantWithdrawBidResponse, BidAlreadyWithdrawnResponse
 
 
 def can_withdraw_bid(bid: Bid) -> bool:
     lot = bid.lot
     if bid.is_withdrawn:
         return False
-    if lot.is_canceled and bid.id == lot.win_bid_id:
+    if lot.is_cancelled and bid.id == lot.win_bid_id:
         return False
-    if not lot.is_canceled and lot.max_bid == bid.amount:
+    if not lot.is_cancelled and lot.max_bid == bid.amount:
         return False
     return True
+
+
+def get_bid_status(bid: Bid):
+    if bid.id == bid.lot.win_bid_id:
+        return BidStatus.WIN
+    if not bid.lot.is_cancelled and bid.amount == bid.lot.max_bid:
+        return BidStatus.HIGHEST
+    return BidStatus.LOSE
 
 
 def raise_if_bid_not_exists(bid: Bid) -> None:
@@ -58,6 +68,9 @@ def raise_if_bidder_equals_lot_owner(lot: Lot, user_id: int) -> None:
 
 def raise_if_cant_withdraw_bid(bid: Bid) -> None:
     if not can_withdraw_bid(bid):
+        if bid.is_withdrawn:
+            raise_bid_already_withdrawn()
+
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=CantWithdrawBidResponse().detail

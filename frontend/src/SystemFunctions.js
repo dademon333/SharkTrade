@@ -25,12 +25,12 @@ class SystemFunctions {
 
         const {detail, current_online: currentOnline} = await RestAPI.getCurrentOnline();
         if (detail === RestAPIErrors.CONNECTION_ERROR) {
-            return undefined;
+            return;
         }
         this._actions.onlineChanged(currentOnline);
 
         if (accessToken == null) {
-            return undefined;
+            return;
         }
         await this.fetchUser(accessToken);
     }

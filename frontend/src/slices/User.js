@@ -27,11 +27,16 @@ const userSlice = createSlice({
                 state.rubles_balance = null;
                 state.profile_photos = null;
             }
+        },
+        balanceChanged(state, action) {
+            state.rubles_balance = action.payload;
         }
     }
 });
 
 export default userSlice.reducer;
 export const {
-    userDataChanged
+    userDataChanged,
+    balanceChanged
+
 } = userSlice.actions;

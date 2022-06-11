@@ -8,6 +8,8 @@ import LocalStorage from '../../../LocalStorage';
 import RestAPI from '../../../RestAPI';
 import {userDataChanged} from '../../../slices/User';
 import SystemFunctions from '../../../SystemFunctions';
+import {ownLotsUpdated} from '../../../slices/Content';
+import OutlineButton from '../../components/OutlineButton';
 
 
 class AuthPanel extends Component {
@@ -17,18 +19,16 @@ class AuthPanel extends Component {
         await SystemFunctions.connectBackend();
         this.props.userDataChanged(null);
         this.props.accessTokenChanged(null);
+        this.props.ownLotsUpdated(null);
     }
 
     render = () => {
         if (this.props.user.id) {
             return (
                 <div className="auth-panel">
-                    <button
-                        className="auth-panel__button auth-panel__logout-button"
-                        onClick={async () => await this.onLogOut()}
-                    >
+                    <OutlineButton onClick={async () => await this.onLogOut()}>
                         Log out
-                    </button>
+                    </OutlineButton>
                 </div>
             )
         } else {
@@ -61,7 +61,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     modalChanged,
     accessTokenChanged,
-    userDataChanged
+    userDataChanged,
+    ownLotsUpdated
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthPanel);

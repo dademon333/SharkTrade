@@ -27,15 +27,15 @@ class LotUpdateForm(BaseModel):
 
 
 class LotUpdate(BaseModel):
-    is_canceled: bool | None = None
-    win_bid_id: bool | None = None
+    is_cancelled: bool | None = None
+    win_bid_id: int | None = None
 
 
 class LotInfo(BaseModel):
     id: int
     owner_id: int
     item: ItemInfo | None
-    is_canceled: bool
+    is_cancelled: bool
     max_bid: int
     created_at: datetime
     end_time: datetime

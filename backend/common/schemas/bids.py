@@ -1,9 +1,17 @@
 from datetime import datetime
+from enum import Enum
 
 from pydantic import BaseModel
 from pydantic.utils import GetterDict
 
-from common.db import Bid
+from .items import ItemInfo
+from ..db import Bid
+
+
+class BidStatus(str, Enum):
+    WIN = 'win'
+    HIGHEST = 'highest'
+    LOSE = 'lose'
 
 
 class BidCreateForm(BaseModel):
@@ -28,9 +36,20 @@ class BidInfo(BaseModel):
     owner_id: int
     lot_id: int
     amount: int
+    status: BidStatus
+    item: ItemInfo
 
     class Config:
         orm_mode = True
+
+        @classmethod
+        def getter_dict(cls, bid: Bid):
+            from bids.modules import get_bid_status
+            return {
+                **GetterDict(bid),
+                'status': get_bid_status(bid),
+                'item': ItemInfo.from_orm(bid.lot.item)
+            }
 
 
 class BidInfoExtended(BidInfo):
@@ -38,10 +57,15 @@ class BidInfoExtended(BidInfo):
     can_withdraw: bool
     created_at: datetime
 
-    @classmethod
-    def getter_dict(cls, bid: Bid):
-        from bids.modules import can_withdraw_bid
-        return {
-            **GetterDict(bid),
-            'can_withdraw': can_withdraw_bid(bid)
-        }
+    class Config:
+        orm_mode = True
+
+        @classmethod
+        def getter_dict(cls, bid: Bid):
+            from bids.modules import can_withdraw_bid, get_bid_status
+            return {
+                **GetterDict(bid),
+                'item': ItemInfo.from_orm(bid.lot.item),
+                'status': get_bid_status(bid),
+                'can_withdraw': can_withdraw_bid(bid)
+            }

@@ -4,7 +4,7 @@ from common.schemas.bids import BidInfoExtended
 
 
 class BidsListResponse(BaseModel):
-    total_count: int
+    total_amount: int
     bids: list[BidInfoExtended]
 
 
