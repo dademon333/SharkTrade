@@ -73,6 +73,12 @@ button {
 }
 
 
+// Disable page shifting by scrollbar
+html {
+    scrollbar-gutter: stable;
+}
+
+
 // override rsuite styles
 a, a:hover, a:focus, a:active {
     color: unset;
@@ -80,7 +86,7 @@ a, a:hover, a:focus, a:active {
 }
 
 
-// Override default browser autofill stiles by setting up transition time
+// Override default browser autofill styles by setting up transition time
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
     transition:
