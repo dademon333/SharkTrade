@@ -1,8 +1,7 @@
 import {Component} from 'react';
 
 import Template from '../../template/Template';
-// import persik from '../../img/persik_wonder.png';
-import persik from '../../../img/persik_resent.png';
+import persik from '../../../img/persik_resent__scaled.png';
 
 import './Panel404.scss';
 import LinkButton from '../../components/LinkButton';

@@ -1,21 +1,18 @@
 import {Component} from 'react';
-import {connect} from 'react-redux';
+import persik from '../img/persik_wonder__clown.png';
+
+import './MobileApp.scss';
 
 
 class MobileApp extends Component {
     render = () => {
         return (
-            <div>Mobile app</div>
+            <main>
+                <img src={persik} alt="persik" className="persik"/>
+                <div className="caption">Мобильная версия в разработке, заходите с компутера</div>
+            </main>
         )
     }
 }
 
-
-const mapStateToProps = (state) => ({
-})
-
-const mapDispatchToProps = {
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MobileApp);
+export default MobileApp;

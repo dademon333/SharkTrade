@@ -1,7 +1,7 @@
 import {Component} from 'react';
 
 import './scss/WonderPersikPage.scss';
-import persik from '../../img/persik_wonder.png';
+import persik from '../../img/persik_wonder__scaled.png';
 
 
 class WonderPersikPage extends Component {
