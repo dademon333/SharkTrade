@@ -13,7 +13,7 @@ import InfiniteScroll from '../../components/InfiniteScroll';
 import ItemCard from './ItemCard';
 
 
-class Inventory extends Component {
+class Storage extends Component {
     loadItems = async (beforeId) => {
         let {items, detail} = await RestAPI.getOwnItems(beforeId);
 
@@ -55,7 +55,7 @@ class Inventory extends Component {
     withTemplate = (content) => {
         const {ownItemsLastFetchedAmount} = this.props.content;
         return (
-            <Template navigation={true} className="inventory">
+            <Template navigation={true} className="storage">
                 <InfiniteScroll
                     loadMore={this.loadMore}
                     hasMore={ownItemsLastFetchedAmount > 0}
@@ -103,4 +103,4 @@ const mapDispatchToProps = {
     ownItemsExtended
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Inventory);
+export default connect(mapStateToProps, mapDispatchToProps)(Storage);

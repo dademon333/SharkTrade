@@ -155,6 +155,14 @@ class RestAPI {
         )
     }
 
+    static async getItem(lotId) {
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/items/${lotId}`,
+            {method: 'GET'}
+        )
+    }
+
+
     static async getLot(lotId) {
         return await this._makeRequest(
             Config.SERVER_URL + `/api/lots/${lotId}`,

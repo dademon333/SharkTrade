@@ -16,8 +16,8 @@ export default class RestAPIErrors {
     static BID_ALREADY_WITHDRAWN = 'Bid already withdrawn';
     static BID_NOT_FOUND = 'Bid not found';
 
-    static LOT_NOT_FOUND = 'Lot not found';
-    static LOT_IS_CANCELLED = 'Lot is cancelled';
+    static LOT_NOT_FOUND = 'lot not found';
+    static LOT_IS_CANCELLED = 'lot is cancelled';
     static EXISTS_BIGGER_BID = 'Exists bigger bid';
     static NOT_ENOUGH_MONEY = 'Not enough money';
     static CANT_BID_OWN_LOT = 'Can\'t bid on own lot';

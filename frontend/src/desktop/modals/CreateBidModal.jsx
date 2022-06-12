@@ -8,7 +8,7 @@ import TextFunctions from '../../TextFunctions';
 import RestAPIErrors from '../../constants/RestAPIErrors';
 import RestAPI from '../../RestAPI';
 import {modalChanged, screenSpinnerChanged} from '../../slices/Global';
-import {lotPageLotDataChanged} from '../../slices/Content';
+import {allLotsUpdated, lotPageLotDataChanged} from '../../slices/Content';
 
 
 const CreateBidModal = (props) => {
@@ -18,7 +18,8 @@ const CreateBidModal = (props) => {
         user,
         screenSpinnerChanged,
         modalChanged,
-        lotPageLotDataChanged
+        lotPageLotDataChanged,
+        allLotsUpdated
     } = props;
 
     const onSubmit = async (event) => {
@@ -50,7 +51,9 @@ const CreateBidModal = (props) => {
         const response = await RestAPI.createBid(amount, lotId);
         if (!response.detail) {
             const lot = await RestAPI.getLot(lotId);
-            lotPageLotDataChanged(lot);
+            const allLots = await RestAPI.getAllLots(null);
+            lotPageLotDataChanged({lotId, lot});
+            allLotsUpdated(allLots);
             modalChanged(null);
         } else {
             errorField.textContent = RestAPIErrors.TRANSLATIONS[response.detail];
@@ -82,7 +85,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     modalChanged,
     screenSpinnerChanged,
-    lotPageLotDataChanged
+    lotPageLotDataChanged,
+    allLotsUpdated
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateBidModal);

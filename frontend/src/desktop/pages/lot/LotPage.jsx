@@ -36,8 +36,8 @@ const LotPage = (props) => {
 
     useEffect(() => {
         const getLot = async () => {
-            const response = await RestAPI.getLot(lotId);
-            lotPageLotDataChanged(response);
+            const lot = await RestAPI.getLot(lotId);
+            lotPageLotDataChanged({lotId, lot});
         }
 
         if (lot === undefined && TextFunctions.isNatural(lotId)) {
@@ -74,7 +74,7 @@ const LotPage = (props) => {
     return withTemplate(
         <>
             <div className="left-part">
-                <img src={photoUrl} alt="лот" />
+                <img src={photoUrl} alt="фото" />
                 <div className="description frame">
                     <div className="description__header">
                         <Article />

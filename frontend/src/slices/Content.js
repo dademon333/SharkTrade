@@ -16,6 +16,7 @@ const contentSlice = createSlice({
         ownItemsLastFetchedAmount: null,
 
         lotPageLotsData: {},
+        itemPageItemsData: {}
     },
     reducers: {
         allContentCleared(state) {
@@ -32,6 +33,7 @@ const contentSlice = createSlice({
             state.ownItemsLastFetchedAmount = null;
 
             state.lotPageLotsData = {};
+            state.itemPageItemsData = {};
         },
 
         allLotsUpdated(state, action) {
@@ -83,7 +85,12 @@ const contentSlice = createSlice({
         },
 
         lotPageLotDataChanged(state, action) {
-            state.lotPageLotsData[action.payload.id] = action.payload;
+            const {lot, lotId} = action.payload;
+            state.lotPageLotsData[lotId] = lot;
+        },
+        itemPageItemDataChanged(state, action) {
+            const {item, itemId} = action.payload;
+            state.itemPageItemsData[itemId] = item;
         }
     }
 });
@@ -105,5 +112,6 @@ export const {
     ownItemsUpdated,
     ownItemsExtended,
 
-    lotPageLotDataChanged
+    lotPageLotDataChanged,
+    itemPageItemDataChanged,
 } = contentSlice.actions;
