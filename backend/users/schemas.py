@@ -18,7 +18,7 @@ class NewBalanceResponse(BaseModel):
 
 
 class NotEnoughMoneyResponse(BaseModel):
-    detail: str = 'not enough money'
+    detail: str = 'Not enough money'
 
 
 class CantBidOnOwnLotResponse(BaseModel):

@@ -13,7 +13,9 @@ const contentSlice = createSlice({
         ownBidsLastFetchedAmount: null,
 
         ownItems: null,
-        ownItemsLastFetchedAmount: null
+        ownItemsLastFetchedAmount: null,
+
+        lotPageLotsData: {},
     },
     reducers: {
         allContentCleared(state) {
@@ -28,6 +30,8 @@ const contentSlice = createSlice({
 
             state.ownItems = null;
             state.ownItemsLastFetchedAmount = null;
+
+            state.lotPageLotsData = {};
         },
 
         allLotsUpdated(state, action) {
@@ -76,6 +80,10 @@ const contentSlice = createSlice({
             const {items} = action.payload;
             state.ownItems = (state.ownItems || []).concat(items);
             state.ownItemsLastFetchedAmount = items.length;
+        },
+
+        lotPageLotDataChanged(state, action) {
+            state.lotPageLotsData[action.payload.id] = action.payload;
         }
     }
 });
@@ -95,5 +103,7 @@ export const {
     bidWithdrawn,
 
     ownItemsUpdated,
-    ownItemsExtended
+    ownItemsExtended,
+
+    lotPageLotDataChanged
 } = contentSlice.actions;

@@ -7,6 +7,7 @@ import Page404 from './pages/page404/Page404';
 import Explore from './pages/explore/Explore';
 import Inventory from './pages/indentory/Inventory';
 import Profile from './pages/profile/Profile';
+import LotPage from './pages/Lot/LotPage';
 
 
 class DesktopApp extends Component {
@@ -18,7 +19,7 @@ class DesktopApp extends Component {
                     <Route path="/explore" element={<Explore />}/>
                     <Route path="/inventory" element={<Inventory />}/>
                     <Route path="/profile" element={<Profile />}/>
-                    <Route path="/lot/:id" element={<Profile />}/>
+                    <Route path="/lot/:id" element={<LotPage />}/>
                     <Route path="*" element={<Page404 />}/>
                 </Routes>
             </Router>

@@ -36,26 +36,19 @@ class BidInfo(BaseModel):
     owner_id: int
     lot_id: int
     amount: int
-    status: BidStatus
-    item: ItemInfo
+    created_at: datetime
 
     class Config:
         orm_mode = True
-
-        @classmethod
-        def getter_dict(cls, bid: Bid):
-            from bids.modules import get_bid_status
-            return {
-                **GetterDict(bid),
-                'status': get_bid_status(bid),
-                'item': ItemInfo.from_orm(bid.lot.item)
-            }
 
 
 class BidInfoExtended(BidInfo):
     is_withdrawn: bool
     can_withdraw: bool
     created_at: datetime
+
+    status: BidStatus
+    item: ItemInfo
 
     class Config:
         orm_mode = True

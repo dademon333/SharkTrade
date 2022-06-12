@@ -129,6 +129,16 @@ class RestAPI {
         )
     }
 
+    static async createBid(amount, lotId) {
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/bids/`,
+            {
+                method: 'POST',
+                json: {amount, lot_id: lotId}
+            }
+        )
+    }
+
     static async withdrawBid(bidId) {
         return await this._makeRequest(
             Config.SERVER_URL + `/api/bids/withdraw/${bidId}`,
@@ -141,6 +151,13 @@ class RestAPI {
 
         return await this._makeRequest(
             Config.SERVER_URL + `/api/items/my?${beforeId}&limit=16`,
+            {method: 'GET'}
+        )
+    }
+
+    static async getLot(lotId) {
+        return await this._makeRequest(
+            Config.SERVER_URL + `/api/lots/${lotId}`,
             {method: 'GET'}
         )
     }

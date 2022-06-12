@@ -1,21 +1,20 @@
-from typing import Union
-
 from fastapi import APIRouter, Query, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from common import crud
 from common.db import get_db, UserStatus
-from common.responses import UnauthorizedResponse, NotEnoughRightsResponse, OkResponse
+from common.responses import UnauthorizedResponse, NotEnoughRightsResponse, \
+    OkResponse
 from common.schemas.lots import LotInfo, LotInfoExtended, LotCreateForm, \
     LotCreate, LotUpdate
-from common.security.auth import get_user_id, get_user_id_soft, \
-    get_user_status
+from common.security.auth import get_user_id, get_user_status
 from items.modules import raise_if_item_not_exists, \
     raise_if_no_access_to_edit_item, raise_item_is_locked
 from items.schemas import ItemNotFoundResponse, ItemIsLockedResponse
 from .modules import raise_if_lot_not_exists, raise_if_no_access_to_edit_lot, \
     raise_if_lot_is_cancelled
-from .schemas import LotsListResponse, LotNotFoundResponse, LotIsCanceledResponse
+from .schemas import LotsListResponse, LotNotFoundResponse, \
+    LotIsCanceledResponse
 
 lots_router = APIRouter()
 
@@ -54,33 +53,28 @@ async def get_own_lots(
     active_count = await crud.lots.get_user_lots_count(db, user_id)
     return LotsListResponse(
         total_amount=active_count,
-        lots=[LotInfoExtended.from_orm(x) for x in lots]
+        lots=[LotInfo.from_orm(x) for x in lots]
     )
 
 
 @lots_router.get(
     '/{lot_id}',
-    response_model=Union[LotInfo, LotInfoExtended],
+    response_model=LotInfoExtended,
     responses={404: {'model': LotNotFoundResponse}}
 )
 async def get_lot(
         lot_id: int,
-        user_id: int = Depends(get_user_id_soft),
         db: AsyncSession = Depends(get_db)
 ):
     """Возвращает информацию о лоте по идентификатору."""
     lot = await crud.lots.get_by_id(db, lot_id)
     raise_if_lot_not_exists(lot)
-
-    if user_id != lot.owner_id:
-        return LotInfo.from_orm(lot)
-    else:
-        return LotInfoExtended.from_orm(lot)
+    return LotInfoExtended.from_orm(lot)
 
 
 @lots_router.post(
     '/',
-    response_model=LotInfoExtended,
+    response_model=LotInfo,
     responses={
         400: {'model': ItemIsLockedResponse},
         401: {'model': UnauthorizedResponse},
@@ -108,7 +102,7 @@ async def create_lot(
         raise_item_is_locked()
         return
 
-    return LotInfoExtended.from_orm(lot)
+    return LotInfo.from_orm(lot)
 
 
 @lots_router.delete(

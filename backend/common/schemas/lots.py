@@ -12,7 +12,7 @@ class LotCreateForm(BaseModel):
     end_time: datetime
 
     @validator('end_time')
-    def end_time_greater_now(cls, value):
+    def end_time_greater_now(cls, value: datetime) -> datetime:
         if value <= datetime.now():
             raise ValueError(END_TIME_MUST_BE_GREATER_NOW)
         return value
@@ -45,4 +45,4 @@ class LotInfo(BaseModel):
 
 
 class LotInfoExtended(LotInfo):
-    win_bid: BidInfo | None
+    bids: list[BidInfo]

@@ -1,0 +1,17 @@
+.desktop .lot-page .bid-card {
+    height: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr;
+
+    border-bottom: 2px solid var(--bright-secondary);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    > * {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

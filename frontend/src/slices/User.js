@@ -7,8 +7,8 @@ const userSlice = createSlice({
         username: null,
         email: null,
         status: null,
-        rubles_balance: null,
-        profile_photos: null,
+        rublesBalance: null,
+        profilePhotos: null,
     },
     reducers: {
         userDataChanged(state, action) {
@@ -17,19 +17,21 @@ const userSlice = createSlice({
                 state.username = action.payload.username;
                 state.email = action.payload.email;
                 state.status = action.payload.status;
-                state.rubles_balance = action.payload.rubles_balance;
-                state.profile_photos = action.payload.profile_photos;
+                // noinspection JSUnresolvedVariable
+                state.rublesBalance = action.payload.rubles_balance;
+                // noinspection JSUnresolvedVariable
+                state.profilePhotos = action.payload.profile_photos;
             } else {
                 state.id = null;
                 state.username = null;
                 state.email = null;
                 state.status = null;
-                state.rubles_balance = null;
-                state.profile_photos = null;
+                state.rublesBalance = null;
+                state.profilePhotos = null;
             }
         },
         balanceChanged(state, action) {
-            state.rubles_balance = action.payload;
+            state.rublesBalance = action.payload;
         }
     }
 });
