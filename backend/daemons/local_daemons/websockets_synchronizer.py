@@ -1,12 +1,15 @@
 import asyncio
 import json
 
-from rabbitmq.modules import get_rabbitmq_connection, get_rabbitmq_channel, declare_ws_message_queue
+from rabbitmq.modules import get_rabbitmq_connection, \
+    get_rabbitmq_channel, declare_ws_message_queue
 from web_sockets.manager import WebsocketsManager
 from web_sockets.schemas import WSOutcomeMessage
 
 
 async def websockets_synchronizer():
+    # Read detailed description in web_sockets > README
+
     connection = await get_rabbitmq_connection()
     channel = await get_rabbitmq_channel(connection)
     queue = await declare_ws_message_queue(channel)

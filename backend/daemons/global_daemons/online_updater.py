@@ -20,6 +20,8 @@ class OnlineUpdater:
     (calculated by counting connected websockets)
     and refreshes summary current online.
 
+    Read detailed description in web_sockets > README
+
     """
 
     def __init__(self):

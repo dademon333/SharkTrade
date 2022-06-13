@@ -4,6 +4,8 @@ from aio_pika import RobustConnection, RobustExchange, RobustQueue
 
 
 class RabbitMQGlobals:
+    # Read detailed description in web_sockets > README
+
     WS_BROADCAST_EXCHANGE_NAME = 'ws_broadcast'
     WS_DIRECT_MESSAGES_EXCHANGE_NAME = 'ws_direct_messages'
     GLOBAL_DAEMONS_EXCHANGE_NAME = 'global_daemons'
