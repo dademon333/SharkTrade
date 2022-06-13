@@ -1,2 +1,6 @@
 .idea
 .env
+
+# Ssl certificates
+docker_files/*crt
+docker_files/*key
