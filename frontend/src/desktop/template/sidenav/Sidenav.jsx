@@ -17,7 +17,7 @@ class Sidenav extends Component {
                     icon={<Icon16SearchOutline {...iconSize}/>}
                 />
                 <SidenavButton
-                    to='/inventory'
+                    to='/storage'
                     text='Склад'
                     icon={<Icon20CubeBoxOutline {...iconSize}/>}
                 />

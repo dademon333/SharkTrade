@@ -1,0 +1,53 @@
+                                                                      ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄⌐
+                                                                       `` ╙.▀▀▀▀████▀▀"
+                       j█▌,                                                 ╒█▀'
+                      ,▒███████████▄▄╖, ,                                   █▓▌
+                      ]   ███▀∞,▀▄  `▀▀██▓                                 ██▓
+                          ▐█▌   '█▄"═▄▐█▌                                 ▐█▓
+                           ██,   ▐ \ ╓▒░▒▒▒▒▒▒╖╖╖╖╖╖╖╖╖╖╖▄▄⌐╓╓╓╓,,,,,,   ▐▀▀▌
+                            ▀███▄╓- ▐░▒           ```"▀▀""╙╙╙╙╜╜╜╜╜╜▒ÑÑÑ▄▄░╜
+                                ▀▐  ╢▀░╖                                ╢▒░"N
+                                 █ ╢▒▒▀▄▒╖                             ║▒▒╢║ ╙,
+                      ▄r        █▓██▌`╢▒░▀▒╖                          ╓▒▒╜ ╙▒╖█▄    ▄                ,
+                      ▐,      ,█▓███   `╢▒▒█▒╖                        ▒▒╢    ╢╢▀█,  ▐µ              ╓▀
+                      ▓▓      ▀▓██▀▌  ▄▄ `╢█▒▒▒╖                     ╢▒▒      ╙▒▒▀═ ╘▓▌           ,▓▓
+       ▄              ▓▓      ▄███▀ ▄Æ`    ▀▒▒▒▒▒╖                  ║▒▒`        ║║   ▐▓▄         ╓▓▓
+       ▀R▄,           ▓ ▌    ▄███▀▄▓▓`       `▒▒▒▒▒╖               ╓▒▒╜          ╙▒╖  ▌╙▄       Æ ▓
+         ╙▓▓▄,        ▌ ▐   ▄████"▓            `▀▓▄▒▒╖            ╓▒▒▒╒▄           ╢╢ ▓  ▓    g╜ ▐
+            ▀▄"Mw     ▌ⁿⁿ▌ ████▀ ▓               ╙▒▀▀▄▄╖  φ@@@    ▒▒▒    ▀▓▓▄µ      ╙▒╫▓"╙▌  Æ`"$▌              ▄
+              &,,▓▀▄  ▓  ▓████▀▓▀                  ╙╢▒░▀▀N ▐██   ╢▒▒`       "▀▄`"ⁿR▄, ╢▒  ▐µ▓  ╔`     ,,,▄▄▓▓▓"`▀
+                ▀▄  "N▓  ████▓▀                      ╙╢▒▒▒▒╖██▌ ║▒▒╜           `ⁿw▓  `╙Ñ▒╥,▓  ▄▄╥Mⁿ╙▌  ,æ╜`
+                  'N, ▓█████▓wmm∞8M═∞mm▄▄▄▄▄╓╓▄        ╙╢▒▒▒░██▌▒▒▒,``````````"""""▀▀ÑÇ"▐▒▒███▌  ,╓æ▓╜
+      ,,,,╓mMⁿ"▓`'   ███████   ,,▐▄wmMⁿ""'`              ]▒▒▒███▒▒ ▀█Ç          ,╓╓╖╖ß▒▒░▒▐█▓█▀▀▓▄
+  █╜"▀▀▀▀▀²Mª∞m▓∞M═ⁿ▓▀▀████'╙▓,                         ╒███▒▒████▀▀▀▀H╖║║╢▒╨▒▒╝╙╙╫` ,▄▓▒███▀▀▄,   ╙▓w
+                  ╔╜  æ▓  ▓N,  ╙▄                       ▐█▌▀██████▄▒`█▌  ▄▄▓▓▓mMⁿⁿ""   ▓ ▓╢▓  ▐  ╙N▓,  ╙w
+                ╓▓, ▄╜ ▓  ▓  ╙wÆ 'N                      ██  ███████▄██" "`        ,,▄▓"`▓  ▓  ▓      ""ⁿ▓▓▄▄
+               Æ  ▄▀   ▐,,▓     ╙W,╙W                     ▀████▐████▀      ,w∞*""`   ▌ ▐▓   ╘▓" ▌          `""R▄
+             ,▓╓M`     ╘L ▐        `▀▓▓╖                    '▀▀████═*""``           ▓ ▄╜     ╙▄ ▓
+           ,▓▓▀         ▓ ▓           ╙▀N,                       ██                ▄▓▀         &▓
+          ,▓▀            ▓▓              ▀                       ▐██,             ▓▓▀           ▓▓
+         ▀▀              ▓▓                                      `▀▀'            ,▓             ╙▓
+                         ╙▌                                                     '▀                █
+
+
+I had to explain this mechanism.
+
+
+Websockets:
+1. Client connects to server
+2. Server accepts connection and saves it in WebsocketsManager
+3. If user is authorized, then browser sends message via websocket with access_token and type 'auth'
+4. Server validates it and sends response message with auth result.
+If auth was successful, WebsocketsManager move connection from unauthorized group to authorized.
+Also it bind local messages queue with this user_id. Just saying "If any messages for this user,
+he connected to this app instance, push messages here"
+User can open several browser tabs and much connections to different servers. In this case
+several queues will be associated with this user, they all will receive messages and send to user.
+Communication between servers occurs through RabbitMQ direct exchange.
+
+
+Online counting:
+Once a second each server sends list of own websockets connections (user ids and ips) to global daemon.
+Once a three seconds global daemon counts unique identifiers and, if amount changed,
+update current_online in redis and broadcast servers with new value.
+They broadcast users to update counter on page.

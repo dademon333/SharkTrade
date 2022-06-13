@@ -1,0 +1,34 @@
+.desktop .index-page main {
+    .content-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .persik {
+        width: 384px;
+    }
+
+    .about {
+        margin-left: 16px;
+
+        .about__header {
+            font-size: 45px;
+            line-height: 53px;
+            font-weight: 600;
+        }
+
+        .about__caption {
+            margin-top: 16px;
+
+            font-size: 24px;
+            line-height: 32px;
+            font-weight: 400;
+        }
+
+        .outline-button {
+            margin-top: 20px;
+        }
+    }
+}

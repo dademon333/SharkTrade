@@ -16,6 +16,11 @@ export default class RestAPIErrors {
     static BID_ALREADY_WITHDRAWN = 'Bid already withdrawn';
     static BID_NOT_FOUND = 'Bid not found';
 
+    static LOT_NOT_FOUND = 'lot not found';
+    static LOT_IS_CANCELLED = 'lot is cancelled';
+    static EXISTS_BIGGER_BID = 'Exists bigger bid';
+    static NOT_ENOUGH_MONEY = 'Not enough money';
+    static CANT_BID_OWN_LOT = 'Can\'t bid on own lot';
 
     static TRANSLATIONS = {
         [this.SERVER_ERROR]: 'Произошла ошибка на стороне сервера',
@@ -35,6 +40,12 @@ export default class RestAPIErrors {
 
         [this.CANT_WITHDRAW_BID]: 'Невозможно вернуть эту ставку',
         [this.BID_ALREADY_WITHDRAWN]: 'Вы уже вернули эту ставку',
-        [this.BID_NOT_FOUND]: 'Ставка не найдена'
+        [this.BID_NOT_FOUND]: 'Ставка не найдена',
+
+        [this.LOT_NOT_FOUND]: 'Лот не найден',
+        [this.LOT_IS_CANCELLED]: 'Этот аукцион уже завершен',
+        [this.EXISTS_BIGGER_BID]: 'Есть ставка выше',
+        [this.NOT_ENOUGH_MONEY]: 'Недостаточно денег',
+        [this.CANT_BID_OWN_LOT]: 'Это ваш лот'
     }
 }

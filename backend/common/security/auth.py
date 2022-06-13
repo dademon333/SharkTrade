@@ -8,12 +8,12 @@ from ..db import get_db, UserStatus
 from ..db.users import user_status_weights
 from ..redis import get_redis_cursor
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'/login')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f'/login', auto_error=False)
 
 
 async def get_user_id_soft(
         redis_cursor: Redis = Depends(get_redis_cursor),
-        access_token: str = Depends(oauth2_scheme)
+        access_token: str | None = Depends(oauth2_scheme)
 ) -> int | None:
     """Returns user id by 'Authorization' header.
 
@@ -22,7 +22,10 @@ async def get_user_id_soft(
     if access_token is None:
         return None
 
-    user_id = await crud.user_tokens.get_user_id_by_token(access_token, redis_cursor)
+    user_id = await crud.user_tokens.get_user_id_by_token(
+        access_token,
+        redis_cursor
+    )
     if user_id is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     return user_id
@@ -54,7 +57,10 @@ def can_access(
         user_status: UserStatus | None,
         min_status: UserStatus
 ) -> bool:
-    """Returns True, if user status is greater or equal than min_status, else - False."""
+    """Returns True, if user status is greater or equal
+    than min_status, else - False.
+
+    """
     return user_status_weights[user_status] >= user_status_weights[min_status]
 
 

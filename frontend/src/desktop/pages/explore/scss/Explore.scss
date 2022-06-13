@@ -1,0 +1,10 @@
+.desktop .explore {
+    .MuiTabs-root {
+        padding-left: 16px;
+    }
+
+    .MuiTabPanel-root {
+        height: calc(100% - 40px);
+        min-height: calc(100% - 40px);
+    }
+}

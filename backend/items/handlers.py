@@ -29,7 +29,10 @@ async def get_own_items(
         user_id: int = Depends(get_user_id),
         db: AsyncSession = Depends(get_db)
 ):
-    """Возвращает предметы, принадлежащие пользователю, в антихронологическом порядке."""
+    """Возвращает предметы, принадлежащие пользователю,
+    в антихронологическом порядке.
+
+    """
     items = await crud.items.get_by_owner_id(db, user_id, limit, before_id)
     amount = await crud.items.get_user_items_count(db, user_id)
     return ItemsListResponse(

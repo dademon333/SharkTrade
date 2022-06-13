@@ -1,4 +1,8 @@
 class TextFunctions {
+    static zeroStart(value, amount) {
+        return value.toString().padStart(amount, '0')
+    }
+
     static formatNumber(number) {
         let originalNumber = `${number}`;
         if (typeof number == 'string') {
@@ -111,6 +115,18 @@ class TextFunctions {
             return this._formatMinutes(seconds);
         }
         return this._formatSeconds(seconds);
+    }
+
+    static parseDateTime(value) {
+        const [date, time] = value.split('T');
+        const [year, month, day] = date.split('-');
+        const [hours, minutes, seconds] = time.split(':');
+        return {year, month, day, hours, minutes, seconds};
+    }
+
+    static formatDateTime(date) {
+        const {year, month, day, hours, minutes} = this.parseDateTime(date);
+        return `${day}.${month}.${year}, ${hours}:${minutes}`
     }
 }
 

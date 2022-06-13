@@ -1,17 +1,18 @@
 import {Component} from 'react';
 import Header from './header/Header';
 import {Backdrop, CircularProgress} from '@mui/material';
+import {connect} from 'react-redux';
 
 import Sidenav from './sidenav/Sidenav';
 import Modals from '../../constants/Modals';
 import LogInModal from '../modals/LogInModal';
+import CreateBidModal from '../modals/CreateBidModal';
+import SignUpModal from '../modals/SignUpModal';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import Alert from '../components/Alert';
 
 import './Template.scss';
 import '../modals/scss/Common.scss';
-import SignUpModal from '../modals/SignUpModal';
-import Alert from '../components/Alert';
 
 
 class Template extends Component {
@@ -21,6 +22,7 @@ class Template extends Component {
             <>
                 <LogInModal open={modal === Modals.LOG_IN}/>
                 <SignUpModal open={modal === Modals.SIGN_UP}/>
+                <CreateBidModal open={modal === Modals.CREATE_BID}/>
             </>
         )
     }
@@ -61,7 +63,7 @@ class Template extends Component {
 
     render = () => {
         return (
-            <div className={`template ${this.props.className}`}>
+            <div className={'template ' + this.props.className || ''}>
                 <Header />
                 <main>
                     {this.renderMain()}

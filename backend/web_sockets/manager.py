@@ -9,6 +9,8 @@ from .schemas import WSOutcomeMessage, WorkerOnlineReport
 
 
 class WebsocketsManager:
+    # Read detailed description in web_sockets > README
+
     # user_id: [websockets]
     _authorized_connections: dict[int, list[WebSocket]] = {}
     # ip: [websockets]

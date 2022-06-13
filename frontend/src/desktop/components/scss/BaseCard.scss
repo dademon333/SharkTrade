@@ -1,0 +1,23 @@
+.desktop .base-card {
+    height: 300px;
+    width: 224px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 10px;
+    background-color: var(--dark-secondary);
+
+    transition: box-shadow .3s;
+
+    img {
+        min-height: 224px;
+        max-height: 224px;
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    &:hover {
+        box-shadow: 0 0 8px 0px var(--bright-quaternary);
+    }
+}

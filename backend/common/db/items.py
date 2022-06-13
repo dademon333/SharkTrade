@@ -26,5 +26,10 @@ class Item(Base):
     is_locked = Column(Boolean, nullable=False, server_default='false')
     created_at = Column(DateTime, nullable=False, server_default=func.now())
 
-    media = relationship('Media', lazy='joined', foreign_keys=[photo_id], uselist=False)
+    media = relationship(
+        'Media',
+        lazy='joined',
+        foreign_keys=[photo_id],
+        uselist=False
+    )
     media_uuid = association_proxy('media', 'uuid')

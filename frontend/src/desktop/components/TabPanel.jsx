@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import MUITabPanel from '@mui/lab/TabPanel';
 
+import './scss/TabPanel.scss';
+
 
 class TabPanel extends Component {
     render = () => {

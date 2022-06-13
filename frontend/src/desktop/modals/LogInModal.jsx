@@ -1,5 +1,6 @@
-import {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Component} from 'react';
+import {connect} from 'react-redux';
 
 import DefaultModal from './DefaultModal';
 import ModalInput from './components/ModalInput';
@@ -8,7 +9,6 @@ import RestAPI from '../../RestAPI';
 import RestAPIErrors from '../../constants/RestAPIErrors';
 import SystemFunctions from '../../SystemFunctions';
 import {modalChanged, screenSpinnerChanged} from '../../slices/Global';
-import {connect} from 'react-redux';
 import LocalStorage from '../../LocalStorage';
 
 
