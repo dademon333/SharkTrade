@@ -93,6 +93,7 @@ services:
             - ./docker_files/nginx.conf:/etc/nginx/nginx.conf:ro
             - ./docker_files/certificate.chained.crt:/etc/nginx/ssl/certificate.chained.crt:ro
             - ./docker_files/ssl.key:/etc/nginx/ssl/ssl.key:ro
+            - ./docker_files/logo.ico:/etc/nginx/favicon.ico:ro
             - frontend:/usr/src/app/frontend:ro
             - media:/user_media
         depends_on:

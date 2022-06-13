@@ -44,19 +44,18 @@
 (чтобы не спамили логами sql запросов)
   * `SERVER_URL` - адрес сервера, например: https://example.com
 
-2. В папку docker_files закидываем ssl сертификат и его ключ под названиями `certificate.chained.crt` и `ssl.key`
-3. Устанавливаем docker, docker-compose, python (желательно 3.10), с помощью pip прикручиваем alembic
-4. Собираем образы и запускаем postgres:  
+2. Устанавливаем docker, docker-compose, python (желательно 3.10), с помощью pip прикручиваем alembic
+3. Собираем образы и запускаем postgres:  
 `docker-compose build && docker-compose up -d postgres`
-5. Переходим в папку backend и загружаем чистую базу данных из миграций:  
+4. Переходим в папку backend и загружаем чистую базу данных из миграций:  
 `cd backend && alembic upgrade head`  
 (ну или из дампа, если имеется)
-6. Возвращаемся в корневой каталог и запускаем все остальные сервисы:  
+5. Возвращаемся в корневой каталог и запускаем все остальные сервисы:  
 `docker-compose up -d`
 
    
 ## Режим разработки
-Тут всё аналогично секции Deploy, но используем docker-compose.dev.yaml и не требуется ssl сертификат
+Тут всё аналогично секции Deploy, но используем docker-compose.dev.yaml
 
 
 ## Обновление на сервере
