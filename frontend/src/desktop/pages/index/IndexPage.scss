@@ -2,6 +2,8 @@
     .content-container {
         display: grid;
         grid-template-columns: 1fr 2fr;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .persik {
