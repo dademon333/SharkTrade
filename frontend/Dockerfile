@@ -1,6 +1,6 @@
 FROM node:18-alpine
 
-WORKDIR /usr/src/app/frontend/
+WORKDIR /frontend/
 
 COPY package.json .
 RUN npm install --only=prod --force
