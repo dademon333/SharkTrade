@@ -6,7 +6,9 @@ volumes:
 
 services:
     app:
-        build: ./backend
+        build:
+            context: ./backend
+            dockerfile: dev.dockerfile
         environment:
             POSTGRESQL_USER: $POSTGRESQL_USER
             POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
