@@ -57,12 +57,11 @@ class TextFunctions {
         amount = parseInt(amount);
 
         const remainder10 = amount % 10;
-        const remainder100 = (amount / 10) % 10;
-        const numbers = [2, 3, 4];
+        const remainder100 = Math.floor(amount / 10) % 10;
 
         if (remainder10 === 1 && remainder100 !== 1)
             return nominative;
-        else if (numbers.includes(remainder10) && remainder100 !== 1)
+        else if ([2, 3, 4].includes(remainder10) && remainder100 !== 1)
             return genitiveOne;
         else
             return genitiveMuch;
@@ -118,10 +117,15 @@ class TextFunctions {
     }
 
     static parseDateTime(value) {
-        const [date, time] = value.split('T');
-        const [year, month, day] = date.split('-');
-        const [hours, minutes, seconds] = time.split(':');
-        return {year, month, day, hours, minutes, seconds};
+        value = new Date(value);
+        return {
+            year: value.getUTCFullYear(),
+            month: value.getUTCMonth() + 1,
+            day: value.getUTCDate(),
+            hours: value.getUTCHours(),
+            minutes: value.getUTCMinutes(),
+            seconds: value.getUTCSeconds()
+        };
     }
 
     static formatDateTime(date) {
