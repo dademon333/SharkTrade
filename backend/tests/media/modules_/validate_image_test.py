@@ -9,7 +9,7 @@ def _read_file(name: str) -> bytes:
         Config.PROJECT_ROOT,
         'tests',
         'media',
-        'modules',
+        'modules_',
         name
     )
     return path.read_bytes()
