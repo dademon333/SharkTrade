@@ -1,7 +1,7 @@
 export default class RestAPIErrors {
     static SERVER_ERROR = 'Internal Server Error';
     static CONNECTION_ERROR = 'Cant connect to server';
-    static UNAUTHORIZED = 'Not authenticated';
+    static UNAUTHORIZED = 'Unauthorized';
     static UNKNOWN_ERROR = 'Unknown error';
     static NOT_ENOUGH_RIGHTS = 'Not enough rights';
 

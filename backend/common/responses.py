@@ -6,7 +6,7 @@ class OkResponse(BaseModel):
 
 
 class UnauthorizedResponse(BaseModel):
-    detail: str = 'Not authenticated'
+    detail: str = 'Unauthorized'
 
 
 class AdminStatusRequiredResponse(BaseModel):

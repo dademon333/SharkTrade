@@ -1,11 +1,13 @@
+from typing import Callable
+
 import pytest
 
 from common.db import Bid, Lot
 
 
 @pytest.fixture()
-def bids_factory():
-    def _bids_factory(lot: Lot | None = None):
+def bids_factory() -> Callable[..., list[Bid]]:
+    def _bids_factory(lot: Lot | None = None) -> list[Bid]:
         if lot is None:
             lot = Lot()
         bids = [
