@@ -9,45 +9,22 @@ def test_one_bid():
     assert get_bid_status(bid) == BidStatus.WIN
 
 
-def test_win_bid():
+def test_win_bid(bids_factory):
     lot = Lot(win_bid_id=3)
-    bids = [
-        Bid(id=1, amount=1000, lot=lot),
-        Bid(id=2, amount=2000, lot=lot),
-        Bid(id=3, amount=3000, lot=lot)
-    ]
-    lot.bids = bids
+    bids = bids_factory(lot)
     assert get_bid_status(bids[2]) == BidStatus.WIN
 
 
-def test_highest_bid():
-    lot = Lot()
-    bids = [
-        Bid(id=1, amount=1000, lot=lot),
-        Bid(id=2, amount=2000, lot=lot),
-        Bid(id=3, amount=3000, lot=lot)
-    ]
-    lot.bids = bids
+def test_highest_bid(bids_factory):
+    bids = bids_factory()
     assert get_bid_status(bids[2]) == BidStatus.HIGHEST
 
 
-def test_not_highest_bid():
-    lot = Lot()
-    bids = [
-        Bid(id=1, amount=1000, lot=lot),
-        Bid(id=2, amount=2000, lot=lot),
-        Bid(id=3, amount=3000, lot=lot)
-    ]
-    lot.bids = bids
+def test_not_highest_bid(bids_factory):
+    bids = bids_factory()
     assert get_bid_status(bids[1]) == BidStatus.LOSE
 
 
-def test_lowest_bid():
-    lot = Lot()
-    bids = [
-        Bid(id=1, amount=1000, lot=lot),
-        Bid(id=2, amount=2000, lot=lot),
-        Bid(id=3, amount=3000, lot=lot)
-    ]
-    lot.bids = bids
+def test_lowest_bid(bids_factory):
+    bids = bids_factory()
     assert get_bid_status(bids[0]) == BidStatus.LOSE

@@ -28,7 +28,8 @@ def validate_image(image_data: bytes) -> bool:
     try:
         image = Image.open(io.BytesIO(image_data))
         image.verify()
-        image = Image.open(io.BytesIO(image_data))  # .verify() has side-effects, we have to reload data
+        # .verify() has side-effects, we have to reload data
+        image = Image.open(io.BytesIO(image_data))
         image.transpose(Image.FLIP_LEFT_RIGHT)
         return True
     except:

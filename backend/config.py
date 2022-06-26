@@ -1,6 +1,5 @@
 import os
 import sys
-from distutils.util import strtobool
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -10,7 +9,7 @@ if 'pytest' in sys.argv[0]:
 
 
 class Config:
-    DEBUG = strtobool(os.getenv('DEBUG'))
+    DEBUG = os.getenv('DEBUG') == 'True'
 
     PROJECT_ROOT = Path(__file__).parent
     FRONT_ROOT = '/frontend/build'
