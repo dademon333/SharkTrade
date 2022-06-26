@@ -4,11 +4,11 @@
 
 ---
 
-![Главная](img/main.png)
-![Все лоты](img/all_lots.png)
-![Мои лоты](img/own_lots.png)
-![Страница лота](img/lot_page.png)
-![404 страница](img/404_page.png)
+![Главная](screenshots/main.png)
+![Все лоты](screenshots/all_lots.png)
+![Мои лоты](screenshots/own_lots.png)
+![Страница лота](screenshots/lot_page.png)
+![404 страница](screenshots/404_page.png)
 
 
 
