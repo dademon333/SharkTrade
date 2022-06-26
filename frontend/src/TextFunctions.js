@@ -117,19 +117,28 @@ class TextFunctions {
     }
 
     static parseDateTime(value) {
-        value = new Date(value);
+        const [date, time] = value.split('T');
+        const [year, month, day] = date.split('-');
+        const [hours, minutes, seconds] = time.split(':');
         return {
-            year: value.getUTCFullYear(),
-            month: value.getUTCMonth() + 1,
-            day: value.getUTCDate(),
-            hours: value.getUTCHours(),
-            minutes: value.getUTCMinutes(),
-            seconds: value.getUTCSeconds()
+            year: parseInt(year),
+            month: parseInt(month),
+            day: parseInt(day),
+            hours: parseInt(hours),
+            minutes: parseInt(minutes),
+            seconds: parseInt(seconds)
         };
     }
 
     static formatDateTime(date) {
-        const {year, month, day, hours, minutes} = this.parseDateTime(date);
+        const parsed = this.parseDateTime(date);
+
+        const year = this.zeroStart(parsed.year, 4);
+        const month = this.zeroStart(parsed.month, 2);
+        const day = this.zeroStart(parsed.day, 2);
+        const hours = this.zeroStart(parsed.hours, 2);
+        const minutes = this.zeroStart(parsed.minutes, 2);
+
         return `${day}.${month}.${year}, ${hours}:${minutes}`
     }
 }
