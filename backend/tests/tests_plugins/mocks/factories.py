@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Callable
 
 import pytest
 from pytest_mock import MockerFixture
@@ -50,13 +50,7 @@ def mock_factory(
     So, in this case common.crud.users.get will return default_user .
     """
     def _callable(path: str) -> Callable[..., None]:
-        def _factory(
-                new: Any = None,
-                return_value: Any = None,
-        ) -> None:
-            if new is not None:
-                mocker.patch(path, new)
-            else:
-                mocker.patch(path, return_value=return_value)
+        def _factory(*args, **kwargs):
+            mocker.patch(path, *args, **kwargs)
         return _factory
     return _callable

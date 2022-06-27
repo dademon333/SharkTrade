@@ -1,8 +1,11 @@
+from unittest import mock
+
 import pytest
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 
 from auth.schemas import LoginErrorResponse
+from common import crud
 from common.db import User
 
 
@@ -32,6 +35,11 @@ def test_ok(
     assert response.status_code == 200
     assert response.json()['access_token'] == default_user_token
     assert response.json()['token_type'] == 'bearer'
+    # noinspection PyUnresolvedReferences
+    crud.user_tokens.create.assert_called_once_with(
+        default_user.id,
+        mock.ANY
+    )
 
 
 @pytest.mark.usefixtures(
