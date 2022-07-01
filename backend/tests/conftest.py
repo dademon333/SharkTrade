@@ -4,12 +4,12 @@ from fastapi.testclient import TestClient
 from main import app
 
 pytest_plugins = [
-    'tests.tests_plugins.users',
-    'tests.tests_plugins.tests_factories',
+    'tests_plugins.users',
+    'tests_plugins.tests_factories',
 
-    'tests.tests_plugins.mocks.factories',
-    'tests.tests_plugins.mocks.crud.users',
-    'tests.tests_plugins.mocks.crud.user_tokens',
+    'tests_plugins.mocks.factories',
+    'tests_plugins.mocks.crud.users',
+    'tests_plugins.mocks.crud.user_tokens',
 ]
 
 
