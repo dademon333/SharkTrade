@@ -127,7 +127,7 @@ services:
             RABBITMQ_DEFAULT_PASS: $RABBITMQ_PASSWORD
         healthcheck:
           test: ["CMD", "nc", "-z", "localhost", "5672"]
-          interval: 3s
-          timeout: 5s
-          retries: 4
+          interval: 1s
+          timeout: 3s
+          retries: 10
           start_period: 1s

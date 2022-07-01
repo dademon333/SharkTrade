@@ -1,15 +1,11 @@
 from pathlib import Path
 
-from config import Config
 from media.modules import validate_image
 
 
 def _read_file(name: str) -> bytes:
     path = Path(
-        Config.PROJECT_ROOT,
-        'tests',
-        'media',
-        'modules',
+        Path(__file__).parent,
         name
     )
     return path.read_bytes()
