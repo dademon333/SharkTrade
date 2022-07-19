@@ -12,7 +12,7 @@ class Config:
     DEBUG = os.getenv('DEBUG') == 'True'
 
     PROJECT_ROOT = Path(__file__).parent
-    FRONT_ROOT = '/frontend/build'
+    FRONT_ROOT = '/frontend'
     MEDIA_ROOT = '/user_media'
     BACKUPS_ROOT = '/var/lib/postgres_backups'
 

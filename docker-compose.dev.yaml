@@ -8,7 +8,6 @@ services:
     app:
         build:
             context: ./backend
-            dockerfile: dev.dockerfile
         environment:
             POSTGRESQL_USER: $POSTGRESQL_USER
             POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
