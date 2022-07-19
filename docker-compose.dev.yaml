@@ -114,5 +114,5 @@ services:
           test: ["CMD", "nc", "-z", "localhost", "5672"]
           interval: 1s
           timeout: 3s
-          retries: 10
+          retries: 15
           start_period: 1s
