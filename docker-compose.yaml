@@ -3,20 +3,13 @@ volumes:
     postgres:
     rabbitmq:
     media:
+    frontend:
 
 
 services:
-    frontend:
-        build:
-            context: ./frontend
-            args:
-                REACT_APP_SERVER_URL: $SERVER_URL
-
     app:
         build:
             context: ./backend
-            args:
-                COMPOSE_PROJECT_NAME: $COMPOSE_PROJECT_NAME
         environment:
             POSTGRESQL_USER: $POSTGRESQL_USER
             POSTGRESQL_PASSWORD: $POSTGRESQL_PASSWORD
@@ -36,6 +29,7 @@ services:
             SQLALCHEMY_WARN_20: 1
         volumes:
             - media:/user_media
+            - frontend:/frontend
         deploy:
             replicas: $APP_REPLICAS
         depends_on:
@@ -92,8 +86,6 @@ services:
         build:
             context: ./docker_files
             dockerfile: nginx.dockerfile
-            args:
-                COMPOSE_PROJECT_NAME: $COMPOSE_PROJECT_NAME
         ports:
             - "80:80"
             - "443:443"
@@ -102,6 +94,7 @@ services:
             - ./docker_files/certificate.chained.crt:/etc/nginx/ssl/certificate.chained.crt:ro
             - ./docker_files/ssl.key:/etc/nginx/ssl/ssl.key:ro
             - media:/user_media
+            - frontend:/frontend
         depends_on:
             - app
 
@@ -129,5 +122,13 @@ services:
           test: ["CMD", "nc", "-z", "localhost", "5672"]
           interval: 1s
           timeout: 3s
-          retries: 10
+          retries: 15
           start_period: 1s
+
+    frontend:
+        build:
+            context: ./frontend
+            args:
+                REACT_APP_SERVER_URL: $SERVER_URL
+        volumes:
+            - frontend:/frontend
